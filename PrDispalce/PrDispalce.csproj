@@ -1,0 +1,673 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DD084E47-4C5A-4EFA-838E-E62F080DC17B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrDispalce</RootNamespace>
+    <AssemblyName>PrDispalce</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ESRI.ArcGIS.ADF.Local, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.AnalysisTools, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.AxControls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
+    <Reference Include="ESRI.ArcGIS.CartographyTools, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Controls, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DataManagementTools, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\Desktop10.2\bin\ESRI.ArcGIS.DataManagementTools.dll</HintPath>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DataSourcesGDB, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Display, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geometry, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geoprocessing, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geoprocessor, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.GlobeCore, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Output, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.System, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.SystemUI, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Version, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agent\bbConflictAgent.cs" />
+    <Compile Include="Agent\blConflictAgent.cs" />
+    <Compile Include="Agent\ConflictGroupAgent.cs" />
+    <Compile Include="Agent\GroupAgent.cs" />
+    <Compile Include="Agent\地图要素\PointObject.cs" />
+    <Compile Include="Agent\地图要素\PolygonObject.cs" />
+    <Compile Include="Agent\地图要素\PolylineObject.cs" />
+    <Compile Include="BuildingSim\BuildingMeasures.cs" />
+    <Compile Include="BuildingSim\BuildingSimFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuildingSim\BuildingSimFrm.Designer.cs">
+      <DependentUpon>BuildingSimFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BuildingSim\BuildingPairSim.cs" />
+    <Compile Include="BuildingSim\CuttedPolygons.cs" />
+    <Compile Include="BuildingSim\GraphMatching.cs" />
+    <Compile Include="BuildingSim\PolygonCut.cs" />
+    <Compile Include="BuildingSim\proPolygonCut.cs" />
+    <Compile Include="BuildingSim\PublicUtil.cs" />
+    <Compile Include="BuildingSim\ContextSim.cs" />
+    <Compile Include="FlowMap\BezierCurve.cs" />
+    <Compile Include="FlowMap\cFlowMap.cs" />
+    <Compile Include="FlowMap\FlowDraw.cs" />
+    <Compile Include="FlowMap\FlowMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FlowMap\FlowMap.Designer.cs">
+      <DependentUpon>FlowMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlowMap\FlowMapUtil.cs" />
+    <Compile Include="FlowMap\FlowSup.cs" />
+    <Compile Include="FlowMap\Path.cs" />
+    <Compile Include="FlowMap\PathTrace.cs" />
+    <Compile Include="FlowMap\QuadNode.cs" />
+    <Compile Include="FlowMap\QuadTree.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PatternRecognition\ConcaveNodeSolve.cs" />
+    <Compile Include="PatternRecognition\Cut.cs" />
+    <Compile Include="PatternRecognition\PRForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatternRecognition\PRForm.Designer.cs">
+      <DependentUpon>PRForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PatternRecognition\PRUtil.cs" />
+    <Compile Include="PatternRecognition\BendProcess.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="典型化\ArbitrarilyMesh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="典型化\ArbitrarilyMesh.Designer.cs">
+      <DependentUpon>ArbitrarilyMesh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="典型化\GroupMesh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="典型化\GroupMesh.Designer.cs">
+      <DependentUpon>GroupMesh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="典型化\GroupMeshUtil.cs" />
+    <Compile Include="典型化\Line.cs" />
+    <Compile Include="典型化\LineProcess.cs" />
+    <Compile Include="典型化\LocAndRepNewbuilding.cs" />
+    <Compile Include="典型化\Measures.cs" />
+    <Compile Include="典型化\Pattern.cs" />
+    <Compile Include="典型化\PatternProcess.cs" />
+    <Compile Include="典型化\Point.cs" />
+    <Compile Include="典型化\SimilarityComputation.cs" />
+    <Compile Include="典型化\Symbolization.cs" />
+    <Compile Include="协同移位（整体）\CollaborativeDisplacement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="协同移位（整体）\CollaborativeDisplacement.Designer.cs">
+      <DependentUpon>CollaborativeDisplacement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="协同移位（整体）\ForceComputation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="协同移位（整体）\ForceComputation.Designer.cs">
+      <DependentUpon>ForceComputation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="协同移位（整体）\ProximityBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="协同移位（整体）\ProximityBuilder.Designer.cs">
+      <DependentUpon>ProximityBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="协同移位（整体）\ProximityGraphBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="协同移位（整体）\ProximityGraphBuilder.Designer.cs">
+      <DependentUpon>ProximityGraphBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="协同移位（整体）\StepCollabrativeDisplacement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="协同移位（整体）\StepCollabrativeDisplacement.Designer.cs">
+      <DependentUpon>StepCollabrativeDisplacement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="协同移位（整体）\WholeCollaborativeDisplacement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="协同移位（整体）\WholeCollaborativeDisplacement.Designer.cs">
+      <DependentUpon>WholeCollaborativeDisplacement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="地图要素\Dot.cs" />
+    <Compile Include="地图要素\MapObjectLayer.cs" />
+    <Compile Include="地图要素\MapObjects.cs" />
+    <Compile Include="地图要素\MapReady.cs" />
+    <Compile Include="地图要素\Triangle.cs" />
+    <Compile Include="地图要素\TriDot.cs" />
+    <Compile Include="工具窗体\CenterGet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\CenterGet.Designer.cs">
+      <DependentUpon>CenterGet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\ConflictDetect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\ConflictDetect.Designer.cs">
+      <DependentUpon>ConflictDetect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\ConflictDetect2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\ConflictDetect2.Designer.cs">
+      <DependentUpon>ConflictDetect2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\FeiBuildingDisplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\FeiBuildingDisplaceForm.Designer.cs">
+      <DependentUpon>FeiBuildingDisplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="典型化\MeshSimplify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="典型化\MeshSimplify.Designer.cs">
+      <DependentUpon>MeshSimplify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\MSTCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\MSTCreate.Designer.cs">
+      <DependentUpon>MSTCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\MSTtoPP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\MSTtoPP.Designer.cs">
+      <DependentUpon>MSTtoPP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\pDisplace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\pDisplace.Designer.cs">
+      <DependentUpon>pDisplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\pDisplaceTraditional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\pDisplaceTraditional.Designer.cs">
+      <DependentUpon>pDisplaceTraditional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\PolygonAggregation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\PolygonAggregation.Designer.cs">
+      <DependentUpon>PolygonAggregation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\ProximityCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\ProximityCreate.Designer.cs">
+      <DependentUpon>ProximityCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\ProximityDetect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\ProximityDetect.Designer.cs">
+      <DependentUpon>ProximityDetect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具窗体\VGraphfrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="工具窗体\VGraphfrm.designer.cs">
+      <DependentUpon>VGraphfrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="工具类\BuildingGroupFeatureComputation.cs" />
+    <Compile Include="工具类\Cluster.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\CConflictDetector.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\Collabration.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\CommonTools.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\DisplacementEvaluation.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\Force.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\ForceComputation.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\GeneralizationOperator.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\TargetEdge.cs" />
+    <Compile Include="工具类\CollabrativeDisplacement\VertexForce.cs" />
+    <Compile Include="工具类\ConflictDetect.cs" />
+    <Compile Include="工具类\Displacement.cs" />
+    <Compile Include="工具类\FeatureHandle.cs" />
+    <Compile Include="工具类\FeiDisplace.cs" />
+    <Compile Include="工具类\GeoCalculation.cs" />
+    <Compile Include="工具类\ParameterCompute.cs" />
+    <Compile Include="工具类\patternrecognition\CurPattern.cs" />
+    <Compile Include="工具类\patternrecognition\LinearPattern.cs" />
+    <Compile Include="工具类\ProximityFeatureComputation.cs" />
+    <Compile Include="工具类\SaveNewObjects.cs" />
+    <Compile Include="工具类\Symbolization.cs" />
+    <Compile Include="建筑物群空间特征分析小工具\BuildingFeatureComputation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="建筑物群空间特征分析小工具\BuildingFeatureComputation.Designer.cs">
+      <DependentUpon>BuildingFeatureComputation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="建筑物群空间特征分析小工具\BuildingGet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="建筑物群空间特征分析小工具\BuildingGet.Designer.cs">
+      <DependentUpon>BuildingGet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="建筑物群空间特征分析小工具\BuildingRasterIndex.cs" />
+    <Compile Include="建筑物群空间特征分析小工具\GeneralizationOperatorInfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="建筑物群空间特征分析小工具\GeneralizationOperatorInfer.Designer.cs">
+      <DependentUpon>GeneralizationOperatorInfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="建筑物聚合\BasicStruct.cs" />
+    <Compile Include="建筑物聚合\ConnectAreaUtil.cs" />
+    <Compile Include="建筑物聚合\ConvexPolygonProcess.cs" />
+    <Compile Include="建筑物聚合\PolygonPreprocess.cs" />
+    <Compile Include="建筑物聚合\PolygonSimplify.cs" />
+    <Compile Include="建筑物聚合\ProgressiveAggregation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="建筑物聚合\ProgressiveAggregation.Designer.cs">
+      <DependentUpon>ProgressiveAggregation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="协同移位（整体）\TinUpdate.cs" />
+    <Compile Include="建筑物聚合\TriangleProcess.cs" />
+    <Compile Include="模式识别\LinearPattern.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="模式识别\LinearPattern.Designer.cs">
+      <DependentUpon>LinearPattern.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BuildingSim\BuildingSimFrm.resx">
+      <DependentUpon>BuildingSimFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlowMap\FlowMap.resx">
+      <DependentUpon>FlowMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PatternRecognition\PRForm.resx">
+      <DependentUpon>PRForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="典型化\ArbitrarilyMesh.resx">
+      <DependentUpon>ArbitrarilyMesh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="典型化\GroupMesh.resx">
+      <DependentUpon>GroupMesh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="协同移位（整体）\CollaborativeDisplacement.resx">
+      <DependentUpon>CollaborativeDisplacement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="协同移位（整体）\ForceComputation.resx">
+      <DependentUpon>ForceComputation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="协同移位（整体）\ProximityBuilder.resx">
+      <DependentUpon>ProximityBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="协同移位（整体）\ProximityGraphBuilder.resx">
+      <DependentUpon>ProximityGraphBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="协同移位（整体）\StepCollabrativeDisplacement.resx">
+      <DependentUpon>StepCollabrativeDisplacement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="协同移位（整体）\WholeCollaborativeDisplacement.resx">
+      <DependentUpon>WholeCollaborativeDisplacement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\CenterGet.resx">
+      <DependentUpon>CenterGet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\ConflictDetect.resx">
+      <DependentUpon>ConflictDetect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\ConflictDetect2.resx">
+      <DependentUpon>ConflictDetect2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\FeiBuildingDisplaceForm.resx">
+      <DependentUpon>FeiBuildingDisplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="典型化\MeshSimplify.resx">
+      <DependentUpon>MeshSimplify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\MSTCreate.resx">
+      <DependentUpon>MSTCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\MSTtoPP.resx">
+      <DependentUpon>MSTtoPP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\pDisplace.resx">
+      <DependentUpon>pDisplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\pDisplaceTraditional.resx">
+      <DependentUpon>pDisplaceTraditional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\PolygonAggregation.resx">
+      <DependentUpon>PolygonAggregation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\ProximityCreate.resx">
+      <DependentUpon>ProximityCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\ProximityDetect.resx">
+      <DependentUpon>ProximityDetect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="工具窗体\VGraphfrm.resx">
+      <DependentUpon>VGraphfrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="建筑物群空间特征分析小工具\BuildingFeatureComputation.resx">
+      <DependentUpon>BuildingFeatureComputation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="建筑物群空间特征分析小工具\BuildingGet.resx">
+      <DependentUpon>BuildingGet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="建筑物群空间特征分析小工具\GeneralizationOperatorInfer.resx">
+      <DependentUpon>GeneralizationOperatorInfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="建筑物聚合\ProgressiveAggregation.resx">
+      <DependentUpon>ProgressiveAggregation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="模式识别\LinearPattern.resx">
+      <DependentUpon>LinearPattern.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuxStructureLib\AuxStructureLib.csproj">
+      <Project>{7753C0F5-7C46-42CC-A19B-017650CD778B}</Project>
+      <Name>AuxStructureLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="esri3DAnalyst">
+      <Guid>{639FE90A-CC9A-48C6-AC1D-105FE50915B5}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriAnimation">
+      <Guid>{643D491A-D5BD-4788-B610-A0F53CBA0940}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriCarto">
+      <Guid>{45AC68FF-DEFF-4884-B3A9-7D882EDCAEF1}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriControls">
+      <Guid>{033364CA-47F9-4251-98A5-C88CD8D3C808}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriDataSourcesFile">
+      <Guid>{1CE6AC65-43F5-4529-8FC0-D7ED298E4F1A}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriDataSourcesNetCDF">
+      <Guid>{28ED84CD-FB06-41A0-9A55-E196441D169A}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriDataSourcesRaster">
+      <Guid>{8F0541A3-D5BE-4B3F-A8D9-062D5579E19B}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriDisplay">
+      <Guid>{59FCCD31-434C-4017-BDEF-DB4B7EDC9CE0}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriGeoDatabase">
+      <Guid>{0475BDB1-E5B2-4CA2-9127-B4B1683E70C2}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriGeoDatabaseDistributed">
+      <Guid>{A7C74158-1062-4664-B404-8694D490FCD1}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriGeoDatabaseExtensions">
+      <Guid>{7BA654FE-F55E-4EE5-8CF2-FAEFFBC04A61}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriGeometry">
+      <Guid>{C4B094C2-FF32-4FA1-ABCB-7820F8D6FB68}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriGeoprocessing">
+      <Guid>{C031A050-82C6-4F8F-8836-5692631CFFE6}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriGISClient">
+      <Guid>{746F6817-89BB-4490-9829-83CA25FD505A}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriGlobeCore">
+      <Guid>{00B329B5-265E-11D6-B2B4-00508BCDDE28}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriNetworkAnalyst">
+      <Guid>{9B4F73F7-90C0-11D5-A6C3-0008C7DF88AB}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriOutput">
+      <Guid>{7DB92CEC-CB65-420A-8737-FCD0722FD436}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriServer">
+      <Guid>{18F2FC71-6B30-45B9-B101-037A8B868B66}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriSystem">
+      <Guid>{5E1F7BC3-67C5-4AEE-8EC6-C4B73AAC42ED}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="esriSystemUI">
+      <Guid>{4ECCA6E2-B16B-4ACA-BD17-E74CAE4C150A}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

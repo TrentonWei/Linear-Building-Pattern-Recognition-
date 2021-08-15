@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AuxStructureLib.Skeleton">
+    <Position X="0.5" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAQAgQJMFAAADRQQAAIAgAgAABQBAEAIIAAAAAAAhA=</HashCode>
+      <FileName>Skeleton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.SMap">
+    <Position X="13" Y="0.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>CAAAAEEAgAhFBEgAICQABARQACIAEABAAICAQEAAABA=</HashCode>
+      <FileName>SMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.MapObject">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAggAAAAAAAAAAAQAAAAAAgAAAAAAAAEIA=</HashCode>
+      <FileName>MapObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.PointObject" Collapsed="true">
+    <Position X="6.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAQAAQAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MapObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.PolylineObject" Collapsed="true">
+    <Position X="7.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAACAAAQAAQAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>MapObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.ConNode" Collapsed="true">
+    <Position X="6" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgQAAAAAAAAAAQAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>MapObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.PolygonObject">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAQAAAAEAACAAAwAAQAEAAQAAAAAEAQAAAAE=</HashCode>
+      <FileName>MapObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.Node">
+    <Position X="6.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIgAAAAAAIAAAAAAAAAAAIAAAAAAAAdAA=</HashCode>
+      <FileName>Node.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.TrialPosition">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAgAgAAAAAAAAAAAAQAABAAEAAAAAAAAA=</HashCode>
+      <FileName>TrialPosition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.SMBR" Collapsed="true">
+    <Position X="6" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAgAQAAgAAAA4AQABAAQBAAAAgAAAAAAQAAAAA=</HashCode>
+      <FileName>SMBR.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.DelaunayTin">
+    <Position X="9.75" Y="1" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEBAAgAAEAQAAABAAAEAAAAIAAIAAAQEAABQBAQA=</HashCode>
+      <FileName>DelaunayTin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.Skeleton_Arc">
+    <Position X="8.25" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABAgBAAgAAAAABAAAAAAAAhAAAAAAAAEAQAAAACAARA=</HashCode>
+      <FileName>Skeleton_Arc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuxStructureLib.ProxiGraph">
+    <Position X="1.25" Y="0.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ABKkIqKk0SJAgQAEMJLAxAAYogAAQAAAEhgLAIBSCCg=</HashCode>
+      <FileName>ProxiGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="AuxStructureLib.AlgDelaunayType">
+    <Position X="8.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAABAAAAAAAAAAgIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DelaunayTin.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>
