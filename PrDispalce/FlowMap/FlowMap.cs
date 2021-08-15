@@ -48,7 +48,7 @@ namespace PrDispalce.FlowMap
         #endregion
 
         /// <summary>
-        /// 深拷贝
+        /// 深拷贝（通用）
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
