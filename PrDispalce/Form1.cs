@@ -28,7 +28,7 @@ namespace PrDispalce
             InitializeComponent();
         }
 
-        #region 参数
+        #region 参数(图层参数)
         ILayer pLayer;
         #endregion
 
