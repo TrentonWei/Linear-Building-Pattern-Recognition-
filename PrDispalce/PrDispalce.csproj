@@ -455,6 +455,7 @@
     <EmbeddedResource Include="模式识别\LinearPattern.resx">
       <DependentUpon>LinearPattern.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

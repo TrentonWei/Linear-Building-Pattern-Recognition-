@@ -2348,7 +2348,7 @@ namespace PrDispalce.FlowMap
             int rowNum = 0; int colNum = 0;
             double[] GridXY = new double[2];
             //GridXY[0] = 0.8; GridXY[1] = 0.8;
-            GridXY = Fs.GetXY(AllPoints, 2);
+            GridXY = Fs.GetXY(AllPoints, 2,0.05);
             double[] ExtendValue = FMU.GetExtend(pFeatureLayer);
             Dictionary<Tuple<int, int>, List<double>> Grids = Fs.GetGrid(ExtendValue, GridXY, ref colNum, ref rowNum);//构建格网     
             Dictionary<IPoint, Tuple<int, int>> NodeInGrid = Fs.GetNodeInGrid(Grids, AllPoints);//获取点对应的格网
@@ -2541,7 +2541,7 @@ namespace PrDispalce.FlowMap
             int rowNum = 0; int colNum = 0;
             double[] GridXY = new double[2];
             //GridXY[0] = 0.8; GridXY[1] = 0.8;
-            GridXY = Fs.GetXY(AllPoints, 2);
+            GridXY = Fs.GetXY(AllPoints, 2,0.05);
             double[] ExtendValue = FMU.GetExtend(pFeatureLayer);
 
             //List<IFeatureLayer> LayerList = new List<IFeatureLayer>();
@@ -2678,7 +2678,7 @@ namespace PrDispalce.FlowMap
             int rowNum = 0; int colNum = 0;
             double[] GridXY = new double[2];
             //GridXY[0] = 0.8; GridXY[1] = 0.8;
-            GridXY = Fs.GetXY(AllPoints, 2);
+            GridXY = Fs.GetXY(AllPoints, 2,0.06);
             double[] ExtendValue = FMU.GetExtend(pFeatureLayer);
             List<IFeatureLayer> LayerList = new List<IFeatureLayer>();
             LayerList.Add(CacheLayer);
@@ -2921,7 +2921,9 @@ namespace PrDispalce.FlowMap
             #region 可视化和输出
             FlowDraw FD2 = new FlowDraw(pMapControl, Grids, AllPoints, NodeInGrid, GridWithNode, OutFilePath);
             //FD2.SmoothFlowMap(cFM.SubPaths, 2, 2000, 20, 1, 0, 1, 1, 200);
+            FD2.SmoothFlowMap(cFM.SubPaths, 2, 2000, 20, 1, 1, 1, 0, 200);
             FD2.FlowMapDraw(cFM.SubPaths, 15, 2000, 20, 1, 1, 1);
+            FD2.FlowMapDraw(cFM.SubPaths, 15, 2000, 20, 1, 0, 1);
             #endregion
         }
 
@@ -2947,7 +2949,7 @@ namespace PrDispalce.FlowMap
             int rowNum = 0; int colNum = 0;
             double[] GridXY = new double[2];
             //GridXY[0] = 0.8; GridXY[1] = 0.8;
-            GridXY = Fs.GetXY(AllPoints, 2);
+            GridXY = Fs.GetXY(AllPoints, 2,0.06);
             double[] ExtendValue = FMU.GetExtend(pFeatureLayer);
             //List<IFeatureLayer> LayerList = new List<IFeatureLayer>();
             //LayerList.Add(CacheLayer);
@@ -2966,8 +2968,8 @@ namespace PrDispalce.FlowMap
             }
 
             cFlowMap cFM = new cFlowMap(sGrid, desGrids, PointFlow);
-            Dictionary<Tuple<int, int>, double> pWeighGrids = Fs.GetWeighGrid(Grids, GridWithNode, PointFlow, 4, 1);//确定整个Grids的权重(这里参数需要设置)
-            //Dictionary<Tuple<int, int>, double> pWeighGrids = Fs.GetWeighGrid(Grids, GridWithNode, PointFlow, 0, 1);//确定整个Grids的权重(这里参数需要设置)
+            //Dictionary<Tuple<int, int>, double> pWeighGrids = Fs.GetWeighGrid(Grids, GridWithNode, PointFlow, 4, 1);//确定整个Grids的权重(这里参数需要设置)
+            Dictionary<Tuple<int, int>, double> pWeighGrids = Fs.GetWeighGrid(Grids, GridWithNode, PointFlow, 8, 1);//确定整个Grids的权重(这里参数需要设置)
 
             ///加快搜索，提前将所有探索方向全部提前计算（实际上应该是需要时才计算，这里可能导致后续计算存在重叠问题，在计算过程中解决即可）
             Dictionary<Tuple<int, int>, Dictionary<int, PathTrace>> DesDirPt = FMU.GetDesDirPt(pWeighGrids, desGrids);//获取给定节点的方向探索路径
@@ -3007,7 +3009,7 @@ namespace PrDispalce.FlowMap
 
                         #region 不考虑方向限制
                         //List<int> DirList = new List<int>();
-                        
+
                         //DirList.Add(1);
                         //DirList.Add(2);
                         //DirList.Add(3);
@@ -3074,7 +3076,7 @@ namespace PrDispalce.FlowMap
                                         CacheShortPathLength = FMU.GetPathLength(CacheShortPath);
 
                                         #region 判段交叉
-                                        if (FMU.IntersectPath(CacheShortPath, cFM.PathGrids))
+                                        if (FMU.IntersectPathInt(CacheShortPath, cFM.PathGrids) == 2)
                                         {
                                             CacheShortPathLength = 1000000 + CacheShortPathLength;//交叉惩罚系数更高
                                         }
@@ -3087,11 +3089,11 @@ namespace PrDispalce.FlowMap
                                     #endregion
                                 }
 
-                                ///否则，加上一个极大值
-                                //else
-                                //{
-                                //    CacheShortPathLength = 100000 + CacheShortPathLength;
-                                //}
+                                //否则，加上一个极大值
+                                else
+                                {
+                                    CacheShortPathLength = 100000 + CacheShortPathLength;
+                                }
                             }
                             #endregion
 
@@ -3166,7 +3168,7 @@ namespace PrDispalce.FlowMap
                     #region 表示起点优先限制
                     if (Label == 1)
                     {
-                        //MinLength = MinLength + 10000;
+                        MinLength = MinLength + 10000;
                     }
                     #endregion
 
@@ -3211,8 +3213,9 @@ namespace PrDispalce.FlowMap
 
             #region 可视化和输出
             FlowDraw FD2 = new FlowDraw(pMapControl, Grids, AllPoints, NodeInGrid, GridWithNode, OutFilePath);
-            FD2.SmoothFlowMap(cFM.SubPaths, 2, 2000, 20, 1, 0, 1, 0, 200);
+            FD2.SmoothFlowMap(cFM.SubPaths, 2, 2000, 20, 1, 1, 1, 0, 200);
             FD2.FlowMapDraw(cFM.SubPaths, 15, 2000, 20, 1, 1, 1);
+            FD2.FlowMapDraw(cFM.SubPaths, 15, 2000, 20, 1, 0, 1);
             #endregion
         }
 
@@ -3238,7 +3241,7 @@ namespace PrDispalce.FlowMap
             int rowNum = 0; int colNum = 0;
             double[] GridXY = new double[2];
             //GridXY[0] = 0.8; GridXY[1] = 0.8;
-            GridXY = Fs.GetXY(AllPoints, 2);
+            GridXY = Fs.GetXY(AllPoints, 2,0.06);
             double[] ExtendValue = FMU.GetExtend(pFeatureLayer);
             List<IFeatureLayer> LayerList = new List<IFeatureLayer>();
             LayerList.Add(CacheLayer);
@@ -3291,148 +3294,148 @@ namespace PrDispalce.FlowMap
                     for (int j = 0; j < cFM.PathGrids.Count; j++)
                     {
                         #region 优化搜索速度（只搜索制定范围内的节点）
-                        if (FMU.RLJudgeGrid(desGrids[i], cFM.PathGrids[j], sGrid))
+                        //if (FMU.RLJudgeGrid(desGrids[i], cFM.PathGrids[j], sGrid))
+                        //{
+                        #region 获取终点到已有路径中某点的最短路径
+                        List<int> DirList = FMU.GetConDirR(cFM.PathGrids[j], desGrids[i]);//获取限制性约束的方向                   
+                        int DirID = FMU.GetNumber(DirList);
+
+                        #region 可能存在重合点的情况
+                        if (DirID == 0)
                         {
-                            #region 获取终点到已有路径中某点的最短路径
-                            List<int> DirList = FMU.GetConDirR(cFM.PathGrids[j], desGrids[i]);//获取限制性约束的方向                   
-                            int DirID = FMU.GetNumber(DirList);
+                            break;
+                        }
+                        #endregion
 
-                            #region 可能存在重合点的情况
-                            if (DirID == 0)
+                        List<Tuple<int, int>> CacheShortPath = DirPt[DirID].GetShortestPath(cFM.PathGrids[j], desGrids[i]);
+                        #endregion
+
+                        #region 需要考虑可能不存在路径的情况
+                        double CacheShortPathLength = 0;
+                        if (CacheShortPath != null)
+                        {
+                            CacheShortPathLength = FMU.GetPathLength(CacheShortPath);
+                        }
+                        else
+                        {
+                            CacheShortPathLength = 10000000;
+                        }
+                        #endregion
+
+                        #region 添加交叉约束
+                        if (CacheShortPath != null)
+                        {
+                            #region 存在交叉
+                            if (FMU.IntersectPathInt(CacheShortPath, cFM.PathGrids) == 2)
                             {
-                                break;
+                                CacheShortPathLength = 100000 + CacheShortPathLength;
                             }
                             #endregion
 
-                            List<Tuple<int, int>> CacheShortPath = DirPt[DirID].GetShortestPath(cFM.PathGrids[j], desGrids[i]);
-                            #endregion
-
-                            #region 需要考虑可能不存在路径的情况
-                            double CacheShortPathLength = 0;
-                            if (CacheShortPath != null)
+                            #region 存在重叠
+                            else if (FMU.IntersectPathInt(CacheShortPath, cFM.PathGrids) == 1)
                             {
-                                CacheShortPathLength = FMU.GetPathLength(CacheShortPath);
-                            }
-                            else
-                            {
-                                CacheShortPathLength = 10000000;
-                            }
-                            #endregion
-
-                            #region 添加交叉约束
-                            if (CacheShortPath != null)
-                            {
-                                #region 存在交叉
-                                if (FMU.IntersectPathInt(CacheShortPath, cFM.PathGrids) == 2)
+                                //if (MinDis < Math.Sqrt(1.9) && (CacheShortPathLength + cFM.GridForPaths[cFM.PathGrids[j]].Length * 0.65) > MaxDis)///如果长度小于该值才需要判断；否则无须判断
+                                if (MinDis < Math.Sqrt(1.9))
                                 {
-                                    CacheShortPathLength = 100000 + CacheShortPathLength;
-                                }
-                                #endregion
+                                    #region 考虑到搜索方向固定可能导致的重合
+                                    Dictionary<Tuple<int, int>, double> WeighGrids = Clone((object)pWeighGrids) as Dictionary<Tuple<int, int>, double>;//深拷贝
+                                    FMU.FlowCrosssingContraint(desGrids, WeighGrids, 0, desGrids[i], cFM.PathGrids[j], cFM.PathGrids);//Overlay约束
+                                    PathTrace Pt = new PathTrace();
+                                    List<Tuple<int, int>> JudgeList = new List<Tuple<int, int>>();
+                                    JudgeList.Add(desGrids[i]);//添加搜索的起点
+                                    Pt.MazeAlg(JudgeList, WeighGrids, 1, DirList);//备注：每次更新以后,WeightGrid会清零  
+                                    CacheShortPath = Pt.GetShortestPath(cFM.PathGrids[j], desGrids[i]);
 
-                                #region 存在重叠
-                                else if (FMU.IntersectPathInt(CacheShortPath, cFM.PathGrids) == 1)
-                                {
-                                    //if (MinDis < Math.Sqrt(1.9) && (CacheShortPathLength + cFM.GridForPaths[cFM.PathGrids[j]].Length * 0.65) > MaxDis)///如果长度小于该值才需要判断；否则无须判断
-                                    if (MinDis < Math.Sqrt(1.9))
+                                    if (CacheShortPath != null)
                                     {
-                                        #region 考虑到搜索方向固定可能导致的重合
-                                        Dictionary<Tuple<int, int>, double> WeighGrids = Clone((object)pWeighGrids) as Dictionary<Tuple<int, int>, double>;//深拷贝
-                                        FMU.FlowCrosssingContraint(desGrids, WeighGrids, 0, desGrids[i], cFM.PathGrids[j], cFM.PathGrids);//Overlay约束
-                                        PathTrace Pt = new PathTrace();
-                                        List<Tuple<int, int>> JudgeList = new List<Tuple<int, int>>();
-                                        JudgeList.Add(desGrids[i]);//添加搜索的起点
-                                        Pt.MazeAlg(JudgeList, WeighGrids, 1, DirList);//备注：每次更新以后,WeightGrid会清零  
-                                        CacheShortPath = Pt.GetShortestPath(cFM.PathGrids[j], desGrids[i]);
+                                        CacheShortPathLength = FMU.GetPathLength(CacheShortPath);
 
-                                        if (CacheShortPath != null)
+                                        #region 判段交叉
+                                        if (FMU.IntersectPathInt(CacheShortPath, cFM.PathGrids) == 2)
                                         {
-                                            CacheShortPathLength = FMU.GetPathLength(CacheShortPath);
-
-                                            #region 判段交叉
-                                            if (FMU.IntersectPath(CacheShortPath, cFM.PathGrids))
-                                            {
-                                                CacheShortPathLength = 100000 + CacheShortPathLength;
-                                            }
-                                            #endregion
-                                        }
-                                        else
-                                        {
-                                            CacheShortPathLength = 10000000;
+                                            CacheShortPathLength = 100000 + CacheShortPathLength;
                                         }
                                         #endregion
                                     }
-
-                                    ///否则，加上一个极大值
                                     else
                                     {
-                                        CacheShortPathLength = 100000 + CacheShortPathLength;
+                                        CacheShortPathLength = 10000000;
                                     }
-                                }
-                                #endregion
-
-                                //if (FMU.IntersectPath(CacheShortPath, cFM.PathGrids))
-                                //{
-                                //    CacheShortPathLength = 100000 + CacheShortPathLength;
-                                //}
-
-                                //if (FMU.LineIntersectPath(CacheShortPath, cFM.PathGrids, Grids))
-                                //{
-                                //    CacheShortPathLength = 1000000 + CacheShortPathLength;
-                                //}
-
-                                //if (FMU.obstacleIntersectPath(CacheShortPath, Features, Grids))
-                                //{
-                                //    CacheShortPathLength = 1000000 + CacheShortPathLength;
-                                //}
-
-                            }
-                            #endregion
-
-                            #region 添加角度约束限制
-                            if (CacheShortPath != null)
-                            {
-                                if (FMU.AngleContraint(CacheShortPath, cFM.GridForPaths[cFM.PathGrids[j]], Grids))
-                                {
-                                    CacheShortPathLength = 10 + CacheShortPathLength;
-                                }
-                            }
-                            #endregion
-
-                            #region 添加长度约束
-                            if (CacheShortPathLength < Math.Sqrt(1.9))
-                            {
-                                CacheShortPathLength = 10 + CacheShortPathLength;
-                            }
-                            #endregion
-
-                            double TotalLength = 0;
-                            TotalLength = CacheShortPathLength + cFM.GridForPaths[cFM.PathGrids[j]].Length * 0.65;
-
-                            #region 比较获取某给定节点到起点的最短路径
-                            if (TotalLength < MinLength)
-                            {
-                                if (cFM.GridForPaths[cFM.PathGrids[j]].Length == 0 && !cFM.PathGrids.Contains(CacheShortPath[1]))//消除某些点到起点的最短路径是经过已有路径的情况
-                                {
-                                    Label = 1;//标识最短路径终点是起点
+                                    #endregion
                                 }
 
+                                ///否则，加上一个极大值
                                 else
                                 {
-                                    Label = 0;//标识最短路径终点非起点
+                                    CacheShortPathLength = 100000 + CacheShortPathLength;
                                 }
-
-                                MinLength = TotalLength;
-                                List<Tuple<int, int>> pCachePath = cFM.GridForPaths[cFM.PathGrids[j]].ePath.ToList();
-                                CacheShortPath.RemoveAt(0);//移除第一个要素，避免存在重复元素
-
-                                pCachePath.AddRange(CacheShortPath);
-                                TargetPath = pCachePath;
-
-                                TestTargetPath = CacheShortPath;//测试用
-                                TestShort = CacheShortPathLength;//测试用
                             }
                             #endregion
+
+                            //if (FMU.IntersectPath(CacheShortPath, cFM.PathGrids))
+                            //{
+                            //    CacheShortPathLength = 100000 + CacheShortPathLength;
+                            //}
+
+                            //if (FMU.LineIntersectPath(CacheShortPath, cFM.PathGrids, Grids))
+                            //{
+                            //    CacheShortPathLength = 1000000 + CacheShortPathLength;
+                            //}
+
+                            //if (FMU.obstacleIntersectPath(CacheShortPath, Features, Grids))
+                            //{
+                            //    CacheShortPathLength = 1000000 + CacheShortPathLength;
+                            //}
+
                         }
+                        #endregion
+
+                        #region 添加角度约束限制
+                        if (CacheShortPath != null)
+                        {
+                            if (FMU.AngleContraint(CacheShortPath, cFM.GridForPaths[cFM.PathGrids[j]], Grids))
+                            {
+                                CacheShortPathLength = 100 + CacheShortPathLength;
+                            }
+                        }
+                        #endregion
+
+                        #region 添加长度约束
+                        if (CacheShortPathLength < Math.Sqrt(1.9))
+                        {
+                            CacheShortPathLength = 15 + CacheShortPathLength;
+                        }
+                        #endregion
+
+                        double TotalLength = 0;
+                        TotalLength = CacheShortPathLength + cFM.GridForPaths[cFM.PathGrids[j]].Length * 0.65;
+
+                        #region 比较获取某给定节点到起点的最短路径
+                        if (TotalLength < MinLength)
+                        {
+                            if (cFM.GridForPaths[cFM.PathGrids[j]].Length == 0 && !cFM.PathGrids.Contains(CacheShortPath[1]))//消除某些点到起点的最短路径是经过已有路径的情况
+                            {
+                                Label = 1;//标识最短路径终点是起点
+                            }
+
+                            else
+                            {
+                                Label = 0;//标识最短路径终点非起点
+                            }
+
+                            MinLength = TotalLength;
+                            List<Tuple<int, int>> pCachePath = cFM.GridForPaths[cFM.PathGrids[j]].ePath.ToList();
+                            CacheShortPath.RemoveAt(0);//移除第一个要素，避免存在重复元素
+
+                            pCachePath.AddRange(CacheShortPath);
+                            TargetPath = pCachePath;
+
+                            TestTargetPath = CacheShortPath;//测试用
+                            TestShort = CacheShortPathLength;//测试用
+                        }
+                        #endregion
+                        //}
                         #endregion
                     }
                     #endregion
@@ -3485,8 +3488,9 @@ namespace PrDispalce.FlowMap
 
             #region 可视化和输出
             FlowDraw FD2 = new FlowDraw(pMapControl, Grids, AllPoints, NodeInGrid, GridWithNode, OutFilePath);
-            //FD2.SmoothFlowMap(cFM.SubPaths, 2, 2000, 20, 1, 0, 1, 1, 200);
+            FD2.SmoothFlowMap(cFM.SubPaths, 2, 2000, 20, 1, 1, 1, 0, 200);
             FD2.FlowMapDraw(cFM.SubPaths, 15, 2000, 20, 1, 1, 1);
+            FD2.FlowMapDraw(cFM.SubPaths, 15, 2000, 20, 1, 0, 1);
             #endregion
         }
 
@@ -3512,7 +3516,7 @@ namespace PrDispalce.FlowMap
             int rowNum = 0; int colNum = 0;
             double[] GridXY = new double[2];
             //GridXY[0] = 0.8; GridXY[1] = 0.8;
-            GridXY = Fs.GetXY(AllPoints, 2);
+            GridXY = Fs.GetXY(AllPoints, 2,0.05);
             double[] ExtendValue = FMU.GetExtend(pFeatureLayer);
             List<IFeatureLayer> LayerList = new List<IFeatureLayer>();
             LayerList.Add(CacheLayer);

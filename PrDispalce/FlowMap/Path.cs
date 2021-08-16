@@ -9,7 +9,7 @@ namespace PrDispalce.FlowMap
     {
         public Tuple<int, int> startPoint;//起点
         public Tuple<int, int> endPoint;//终点
-        public List<Tuple<int, int>> ePath;//路径
+        public List<Tuple<int, int>> ePath;//路径(第一个点是终点；最后一个点是起点)
         public double Length = 0;//长度
         public double Volume = 0;//流量
 

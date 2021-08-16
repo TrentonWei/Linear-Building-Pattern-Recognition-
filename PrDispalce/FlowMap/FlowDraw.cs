@@ -298,6 +298,7 @@ namespace PrDispalce.FlowMap
         public void FlowMapDraw(List<Path> SubPaths, double MaxWidth, double MaxVolume, double MinVolume, int Type,int ODType,int OutType)
         {
             SMap OutMap = new SMap();
+            SMap OutEdgeMap = new SMap();
 
             foreach (Path Pa in SubPaths)
             {
@@ -323,15 +324,20 @@ namespace PrDispalce.FlowMap
                 #region 需要输出
                 if (OutType == 1)
                 {
-                    OutMap.PolylineList.Add(CacheLine);
+                    OutMap.PolylineList.Add(CacheLine);                  
                 }
                 #endregion
             }
 
             #region 需要输出
-            if (OutType == 1 && OutPath != null)
+            if (OutType == 1 && OutPath != null && ODType == 1)
             {
-                OutMap.WriteResult2Shp(OutPath, pMapControl.Map.SpatialReference,0);
+                OutMap.WriteResult2Shp(OutPath, pMapControl.Map.SpatialReference, 0);
+            }
+
+            if (OutType == 1 && OutPath != null && ODType == 0)
+            {
+                OutMap.WriteResult2Shp(OutPath, pMapControl.Map.SpatialReference, 2);               
             }
             #endregion
         }
@@ -351,6 +357,7 @@ namespace PrDispalce.FlowMap
         {
             BuildingSim.PublicUtil PU = new BuildingSim.PublicUtil();
             SMap OutMap = new SMap();
+            SMap OutEdgeMap = new SMap();
 
             foreach (Path Pa in SubPaths)
             {
@@ -397,7 +404,6 @@ namespace PrDispalce.FlowMap
 
                     ControlPoints.Add(sPoint);
 
-
                     #region 不考虑ODPoints
                     IPoint ePoint = new PointClass();
                     ePoint.X = (Grids[Pa.ePath[Pa.ePath.Count-1]][0] + Grids[Pa.ePath[Pa.ePath.Count-1]][2]) / 2;
@@ -405,10 +411,13 @@ namespace PrDispalce.FlowMap
                     #endregion
 
                     #region 考虑ODPoints
-                    if (GridWithNode.Keys.Contains(Pa.ePath[Pa.ePath.Count-1]))
+                    if (ODType == 1)
                     {
-                        ePoint.X = GridWithNode[Pa.ePath[Pa.ePath.Count-1]].X;
-                        ePoint.Y = GridWithNode[Pa.ePath[Pa.ePath.Count-1]].Y;
+                        if (GridWithNode.Keys.Contains(Pa.ePath[Pa.ePath.Count - 1]))
+                        {
+                            ePoint.X = GridWithNode[Pa.ePath[Pa.ePath.Count - 1]].X;
+                            ePoint.Y = GridWithNode[Pa.ePath[Pa.ePath.Count - 1]].Y;
+                        }
                     }
                     ControlPoints.Add(ePoint);
                     #endregion
@@ -448,10 +457,14 @@ namespace PrDispalce.FlowMap
                             #endregion
 
                             #region 考虑ODPoints
-                            if (GridWithNode.Keys.Contains(Pa.ePath[j + 1]))
+                            if (ODType == 1)
                             {
-                                ePoint.X = GridWithNode[Pa.ePath[j + 1]].X;
-                                ePoint.Y = GridWithNode[Pa.ePath[j + 1]].Y;
+                                if (GridWithNode.Keys.Contains(Pa.ePath[j + 1]))
+                                {
+                                    ePoint.X = GridWithNode[Pa.ePath[j + 1]].X;
+                                    ePoint.Y = GridWithNode[Pa.ePath[j + 1]].Y;
+
+                                }
                             }
                             ControlPoints.Add(ePoint);
                             #endregion
@@ -467,7 +480,7 @@ namespace PrDispalce.FlowMap
                     if (BeType == 0)
                     {
                         #region 若FlowInPath=0，且FlowOutPath不是直线
-                        bool OnLineLabel = false;
+                        bool OnLineLabel = false;//不共线
                         for (int i = 0; i < Pa.FlowOutPath.Count; i++)
                         {
                             if (Pa.FlowOutPath[i].ePath.Count > 1)
@@ -481,7 +494,7 @@ namespace PrDispalce.FlowMap
 
                                 if (Math.Abs(Angle - Math.PI) < 0.001)
                                 {
-                                    OnLineLabel = true;
+                                    OnLineLabel = true;//共线
                                 }
                             }
                         }
@@ -489,9 +502,45 @@ namespace PrDispalce.FlowMap
 
                         #region 贝塞尔曲线生成
                         if (Pa.FlowInPath.Count == 0 && !OnLineLabel)
+                        //if (Pa.FlowInPath.Count == 0)
                         {
+                            #region 计算角度
+                            FlowMapUtil FMU = new FlowMapUtil();
+                            double Angle = 0;
+                            if (Pa.FlowOutPath.Count > 0)
+                            {
+                                Angle = FMU.AnglePath(Pa.ePath, Pa.FlowOutPath[0], Grids);//计算角度
+                            }
 
-                            BC.CurveNGenerate(InsertPoint, 0.1);
+                            if (Angle <= 17 * Math.PI / 18)
+                            {
+                                if (ControlPoints[1].X >= ControlPoints[0].X && ControlPoints[1].Y >= ControlPoints[0].Y)
+                                {
+                                    BC.CurveNGenerate(InsertPoint, 0.1, 0);
+                                }
+
+                                else if (ControlPoints[1].X >= ControlPoints[0].X && ControlPoints[1].Y < ControlPoints[0].Y)
+                                {
+                                    BC.CurveNGenerate(InsertPoint, 0.1, 1);
+                                }
+
+                                else if (ControlPoints[1].X < ControlPoints[0].X && ControlPoints[1].Y > ControlPoints[0].Y)
+                                {
+                                    BC.CurveNGenerate(InsertPoint, 0.1, 2);
+                                }
+
+                                else if (ControlPoints[1].X < ControlPoints[0].X && ControlPoints[1].Y < ControlPoints[0].Y)
+                                {
+                                    BC.CurveNGenerate(InsertPoint, 0.1, 3);
+                                }
+                            }
+                            #endregion
+
+                            else
+                            {
+                                BC.CurveNGenerate(InsertPoint);
+                            }
+                            //BC.CurveNGenerate(InsertPoint, 0.1);
                         }
 
                         else
@@ -536,7 +585,13 @@ namespace PrDispalce.FlowMap
                     {
                         PolylineObject CacheLine = new PolylineObject(LinePoints);
                         CacheLine.Volume = Pa.Volume;
+                        CacheLine.SylWidth = CacheWidth;
                         OutMap.PolylineList.Add(CacheLine);
+
+                        if (Pa.FlowInPath.Count == 0)
+                        {
+                            OutEdgeMap.PolylineList.Add(CacheLine);
+                        }
                     }
                     #endregion
 
@@ -548,7 +603,8 @@ namespace PrDispalce.FlowMap
             #region 需要输出
             if (OutType == 1 && OutPath != null)
             {
-                OutMap.WriteResult2Shp(OutPath, pMapControl.Map.SpatialReference,1);
+                OutMap.WriteResult2Shp(OutPath, pMapControl.Map.SpatialReference, 1);
+                OutEdgeMap.WriteResult2Shp(OutPath, pMapControl.Map.SpatialReference, 3);
             }
             #endregion
         }

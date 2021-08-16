@@ -742,7 +742,7 @@ namespace PrDispalce.FlowMap
         /// Type=1,计算前5%距离值的一半
         /// Type=2，计算前5%距离值的1/4
         /// <returns></returns>
-        public double[] GetXY(List<IPoint> PointList, int Type)
+        public double[] GetXY(List<IPoint> PointList, int Type,double Percent)
         {
             double[] XYLength = new double[2];
 
@@ -766,7 +766,7 @@ namespace PrDispalce.FlowMap
             #region 获取前5%距离的平均值的一半
             if (Type == 1)
             {
-                List<double> largerList = DistanceList.Take(Convert.ToInt16(Math.Ceiling(DistanceList.Count * 0.05))).ToList<double>();
+                List<double> largerList = DistanceList.Take(Convert.ToInt16(Math.Ceiling(DistanceList.Count * Percent))).ToList<double>();
                 double PixelSize = largerList.Sum() / largerList.Count;
 
                 XYLength[0] = PixelSize / 2; XYLength[1] = PixelSize / 2;
@@ -776,7 +776,7 @@ namespace PrDispalce.FlowMap
             #region 获取前5%距离的平均值的四分之一
             if (Type == 2)
             {
-                List<double> largerList = DistanceList.Take(Convert.ToInt16(Math.Ceiling(DistanceList.Count * 0.05))).ToList<double>();
+                List<double> largerList = DistanceList.Take(Convert.ToInt16(Math.Ceiling(DistanceList.Count * Percent))).ToList<double>();
                 double PixelSize = largerList.Sum() / largerList.Count;
 
                 XYLength[0] = PixelSize / 4; XYLength[1] = PixelSize / 4;

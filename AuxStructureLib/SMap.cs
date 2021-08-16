@@ -1650,7 +1650,7 @@ namespace AuxStructureLib
         /// </summary>
         /// <param name="filePath">目录</param>
         /// <param name="prj">投影</param>
-        /// Type=0 非smooth；Type=1smooth
+        /// Type=0 非smooth；Type=1smooth Type=2 GridConn
         public void WriteResult2Shp(string filePath, ISpatialReference pSpatialReference,int Type)
         {
             if (this.TriNodeList != null && this.TriNodeList.Count > 0)
@@ -1663,11 +1663,19 @@ namespace AuxStructureLib
             }
             if (this.PolylineList != null&& Type==0)
             {
-                this.Create_WritePolylineObject2Shp(filePath, @"PolylineObjecrt", pSpatialReference);
+                this.Create_WritePolylineObject2Shp(filePath, @"PointPolylineObjecrt", pSpatialReference);
             }
             if (this.PolylineList != null && Type == 1)
             {
                 this.Create_WritePolylineObject2Shp(filePath, @"SmoothPolylineObjecrt", pSpatialReference);
+            }
+            if (this.PolylineList != null && Type == 2)
+            {
+                this.Create_WritePolylineObject2Shp(filePath, @"GridPolylineObjecrt", pSpatialReference);
+            }
+            if (this.PolylineList != null && Type == 3)
+            {
+                this.Create_WritePolylineObject2Shp(filePath, @"Edges", pSpatialReference);
             }
             if (this.PolygonList != null && this.PolygonList.Count > 0)
             {
@@ -2329,8 +2337,8 @@ namespace AuxStructureLib
             pField1 = new FieldClass();
             pFieldEdit1 = pField1 as IFieldEdit;
             pFieldEdit1.Length_2 = 30;//Length_2与Length的区别是一个是只读的，一个是可写的，以下Name_2,Type_2也是一样
-            pFieldEdit1.Name_2 = "ID";
-            pFieldEdit1.Type_2 = esriFieldType.esriFieldTypeInteger;
+            pFieldEdit1.Name_2 = "Width";
+            pFieldEdit1.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldsEdit.AddField(pField1);
 
             IField pField2;
@@ -2392,15 +2400,21 @@ namespace AuxStructureLib
                         continue;
                     int m = this.PolylineList[i].PointList.Count;
 
+                    Dictionary<Tuple<double, double>, int> PointDic = new Dictionary<Tuple<double, double>, int>();
                     for (int k = 0; k < m; k++)
                     {
                         curPoint = this.PolylineList[i].PointList[k];
-                        curResultPoint = new PointClass();
-                        curResultPoint.PutCoords(curPoint.X, curPoint.Y);
-                        pointSet.AddPoint(curResultPoint, ref missing1, ref missing2);
+
+                        Tuple<double, double> PointXY = new Tuple<double, double>(curPoint.X, curPoint.Y);
+                        if (!PointDic.ContainsKey(PointXY))
+                        {
+                            curResultPoint = new PointClass();
+                            curResultPoint.PutCoords(curPoint.X, curPoint.Y);
+                            pointSet.AddPoint(curResultPoint, ref missing1, ref missing2);
+                        }
                     }
                     feature.Shape = shp;
-                    feature.set_Value(2, this.PolylineList[i].ID);//编号 
+                    feature.set_Value(2, this.PolylineList[i].SylWidth);//编号 
                     feature.set_Value(3, this.PolylineList[i].Volume);//编号 
 
                     feature.Store();//保存IFeature对象  

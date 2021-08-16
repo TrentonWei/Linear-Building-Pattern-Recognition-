@@ -180,7 +180,7 @@ namespace PrDispalce.FlowMap
                 CacheAngle = Pu.GetAngle(MidPoint, ToPoint, FromPoint);
 
                 //if (CacheAngle > 3.1415927 / 3 && CacheAngle < 2 * 3.1415926 / 3)
-                if (CacheAngle < 2 * 3.1415926 / 3 && CacheAngle > 3.1415926 / 72)
+                if (CacheAngle < 2 * 3.1415926 / 3)
                 {
                     return true;
                 }
@@ -192,6 +192,47 @@ namespace PrDispalce.FlowMap
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 判断是否满足角度约束条件
+        /// </summary>
+        /// <param name="CacheShortPath"></param>待判断路径
+        /// <param name="Path"></param>路径连接的主流路径
+        /// <param name="Grids"></param>网格编码
+        /// <returns></returns>true表示不满足角度约束限制
+        /// false表示满足角度约束显示
+        public double AnglePath(List<Tuple<int, int>> CacheShortPath, Path Path, Dictionary<Tuple<int, int>, List<double>> Grids)
+        {
+            Tuple<int, int> FromGrid = null;
+            Tuple<int, int> MidGrid = null;
+            Tuple<int, int> ToGrid = null;
+            double CacheAngle = 0;
+            if (CacheShortPath != null && CacheShortPath.Count >= 2 && Path.ePath.Count >= 2)
+            {
+                FromGrid = CacheShortPath[1];
+                MidGrid = CacheShortPath[0];
+                ToGrid = Path.ePath[Path.ePath.Count - 2];
+
+                TriNode FromPoint = new TriNode();
+                TriNode MidPoint = new TriNode();
+                TriNode ToPoint = new TriNode();
+
+                FromPoint.X = (Grids[FromGrid][0] + Grids[FromGrid][2]) / 2;
+                FromPoint.Y = (Grids[FromGrid][1] + Grids[FromGrid][3]) / 2;
+
+                MidPoint.X = (Grids[MidGrid][0] + Grids[MidGrid][2]) / 2;
+                MidPoint.Y = (Grids[MidGrid][1] + Grids[MidGrid][3]) / 2;
+
+                ToPoint.X = (Grids[ToGrid][0] + Grids[ToGrid][2]) / 2;
+                ToPoint.Y = (Grids[ToGrid][1] + Grids[ToGrid][3]) / 2;
+
+                CacheAngle = Pu.GetAngle(MidPoint, ToPoint, FromPoint);          
+            }
+
+
+
+            return CacheAngle;
         }
 
         /// <summary>
@@ -290,7 +331,10 @@ namespace PrDispalce.FlowMap
             foreach (Tuple<int, int> Grid in desGrids)
             {
                 Dictionary<int, PathTrace> CacheDirPt = this.GetDirPt(pWeighGrids, Grid, desGrids, Grid);
-                DesDirPt.Add(Grid, CacheDirPt);
+                if (!DesDirPt.ContainsKey(Grid))
+                {
+                    DesDirPt.Add(Grid, CacheDirPt);
+                }
             }
 
 
