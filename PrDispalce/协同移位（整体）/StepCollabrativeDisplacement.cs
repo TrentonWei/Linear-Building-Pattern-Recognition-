@@ -110,6 +110,7 @@ namespace PrDispalce.协同移位_整体_
         #region 场移位+局部移位，解决原生冲突
         private void button2_Click(object sender, EventArgs e)
         {
+            // test
             AuxStructureLib.ConflictLib.ConflictDetector cd = new AuxStructureLib.ConflictLib.ConflictDetector();
 
             #region 获取图层
