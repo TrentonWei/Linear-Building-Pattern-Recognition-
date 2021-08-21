@@ -479,22 +479,27 @@ namespace PrDispalce.FlowMap
 
                     if (BeType == 0)
                     {
-                        #region 若FlowInPath=0，且FlowOutPath不是直线
+                        #region 若FlowInPath=0，且与FlowOutPath不是直线
                         bool OnLineLabel = false;//不共线
-                        for (int i = 0; i < Pa.FlowOutPath.Count; i++)
+                        if (ControlPoints.Count == 2)
                         {
-                            if (Pa.FlowOutPath[i].ePath.Count > 1)
+                            for (int i = 0; i < Pa.FlowOutPath.Count; i++)
                             {
-                                IPoint CachePoint = new PointClass();
-
-                                CachePoint.X = (Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][0] + Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][2]) / 2;
-                                CachePoint.Y = (Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][1] + Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][3]) / 2;
-
-                                double Angle = PU.GetAngle(ControlPoints[0], CachePoint, ControlPoints[1]);
-
-                                if (Math.Abs(Angle - Math.PI) < 0.001)
+                                if (Pa.FlowOutPath[i].ePath.Count > 1)
                                 {
-                                    OnLineLabel = true;//共线
+                                    IPoint CachePoint = new PointClass();
+
+                                    CachePoint.X = (Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][0] + Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][2]) / 2;
+                                    CachePoint.Y = (Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][1] + Grids[Pa.FlowOutPath[i].ePath[Pa.FlowOutPath[i].ePath.Count - 2]][3]) / 2;
+                                    //CachePoint.X = (Grids[Pa.FlowOutPath[i].ePath[1]][0] + Grids[Pa.FlowOutPath[i].ePath[1]][2]) / 2;
+                                    //CachePoint.Y = (Grids[Pa.FlowOutPath[i].ePath[1]][1] + Grids[Pa.FlowOutPath[i].ePath[1]][3]) / 2;
+
+                                    double Angle = PU.GetAngle(ControlPoints[0], CachePoint, ControlPoints[1]);
+
+                                    if (Math.Abs(Angle - Math.PI) < 0.001)
+                                    {
+                                        OnLineLabel = true;//共线
+                                    }
                                 }
                             }
                         }
@@ -627,7 +632,7 @@ namespace PrDispalce.FlowMap
                     int add21 = CachePath.ePath[i + 1].Item1 - CachePath.ePath[i + 2].Item1;
                     int add22 = CachePath.ePath[i + 1].Item2 - CachePath.ePath[i + 2].Item2;
 
-                    if (add11 != add21 || add12 != add22)
+                    if (add11 !=add21 || add12 != add22)
                     {
                         return false;
                     }
