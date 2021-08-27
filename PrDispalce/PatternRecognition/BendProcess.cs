@@ -532,7 +532,7 @@ namespace PrDispalce.PatternRecognition
         {
             List<Skeleton_Arc> OutSkeleton_Arcs = new List<Skeleton_Arc>();
 
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             TP.LabelInOutType(ske.CDT.DT.TriangleList, Po);//标记是内或外三角形
             TP.CommonEdgeTriangleLabel(ske.CDT.DT.TriangleList);//标记共边三角形
             TP.LabelBoundaryBuilding(ske.CDT.DT.TriangleList);//标记边缘三角形
@@ -559,7 +559,7 @@ namespace PrDispalce.PatternRecognition
         {
             List<Skeleton_Arc> InSkeleton_Arcs = new List<Skeleton_Arc>();
 
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             TP.LabelInOutType(ske.CDT.DT.TriangleList, Po);//标记是内或外三角形
             TP.CommonEdgeTriangleLabel(ske.CDT.DT.TriangleList);//标记共边三角形
             TP.LabelBoundaryBuilding(ske.CDT.DT.TriangleList);//标记边缘三角形

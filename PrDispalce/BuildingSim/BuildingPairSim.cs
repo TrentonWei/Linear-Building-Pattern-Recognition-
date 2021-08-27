@@ -28,7 +28,7 @@ namespace PrDispalce.BuildingSim
         BuildingMeasures BM = new BuildingMeasures();
         AxMapControl pMapControl = null;
         ComFunLib CFL = new ComFunLib();
-        PrDispalce.建筑物聚合.PolygonPreprocess PP = new 建筑物聚合.PolygonPreprocess();
+        PrDispalce.PatternRecognition.PolygonPreprocess PP = new PatternRecognition.PolygonPreprocess();
         PrDispalce.工具类.ParameterCompute PC = new 工具类.ParameterCompute();
         double PI = 3.1415926;
 

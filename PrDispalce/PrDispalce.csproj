@@ -121,29 +121,16 @@
     <Compile Include="BuildingSim\proPolygonCut.cs" />
     <Compile Include="BuildingSim\PublicUtil.cs" />
     <Compile Include="BuildingSim\ContextSim.cs" />
-    <Compile Include="FlowMap\BezierCurve.cs" />
-    <Compile Include="FlowMap\cFlowMap.cs" />
-    <Compile Include="FlowMap\FlowDraw.cs" />
-    <Compile Include="FlowMap\FlowMap.cs">
+    <Compile Include="MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FlowMap\FlowMap.Designer.cs">
-      <DependentUpon>FlowMap.cs</DependentUpon>
+    <Compile Include="MainFrm.Designer.cs">
+      <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlowMap\FlowMapUtil.cs" />
-    <Compile Include="FlowMap\FlowSup.cs" />
-    <Compile Include="FlowMap\Path.cs" />
-    <Compile Include="FlowMap\PathTrace.cs" />
-    <Compile Include="FlowMap\QuadNode.cs" />
-    <Compile Include="FlowMap\QuadTree.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
+    <Compile Include="PatternRecognition\BasicStruct.cs" />
     <Compile Include="PatternRecognition\ConcaveNodeSolve.cs" />
     <Compile Include="PatternRecognition\Cut.cs" />
+    <Compile Include="PatternRecognition\PolygonPreprocess.cs" />
     <Compile Include="PatternRecognition\PRForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,218 +139,46 @@
     </Compile>
     <Compile Include="PatternRecognition\PRUtil.cs" />
     <Compile Include="PatternRecognition\BendProcess.cs" />
+    <Compile Include="PatternRecognition\TriangleProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="典型化\ArbitrarilyMesh.cs">
+    <Compile Include="ToolFrm\MeasureComputation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="典型化\ArbitrarilyMesh.Designer.cs">
-      <DependentUpon>ArbitrarilyMesh.cs</DependentUpon>
+    <Compile Include="ToolFrm\MeasureComputation.Designer.cs">
+      <DependentUpon>MeasureComputation.cs</DependentUpon>
     </Compile>
-    <Compile Include="典型化\GroupMesh.cs">
+    <Compile Include="ToolFrm\ProximityGraphBuilder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="典型化\GroupMesh.Designer.cs">
-      <DependentUpon>GroupMesh.cs</DependentUpon>
-    </Compile>
-    <Compile Include="典型化\GroupMeshUtil.cs" />
-    <Compile Include="典型化\Line.cs" />
-    <Compile Include="典型化\LineProcess.cs" />
-    <Compile Include="典型化\LocAndRepNewbuilding.cs" />
-    <Compile Include="典型化\Measures.cs" />
-    <Compile Include="典型化\Pattern.cs" />
-    <Compile Include="典型化\PatternProcess.cs" />
-    <Compile Include="典型化\Point.cs" />
-    <Compile Include="典型化\SimilarityComputation.cs" />
-    <Compile Include="典型化\Symbolization.cs" />
-    <Compile Include="协同移位（整体）\CollaborativeDisplacement.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="协同移位（整体）\CollaborativeDisplacement.Designer.cs">
-      <DependentUpon>CollaborativeDisplacement.cs</DependentUpon>
-    </Compile>
-    <Compile Include="协同移位（整体）\ForceComputation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="协同移位（整体）\ForceComputation.Designer.cs">
-      <DependentUpon>ForceComputation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="协同移位（整体）\ProximityBuilder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="协同移位（整体）\ProximityBuilder.Designer.cs">
-      <DependentUpon>ProximityBuilder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="协同移位（整体）\ProximityGraphBuilder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="协同移位（整体）\ProximityGraphBuilder.Designer.cs">
+    <Compile Include="ToolFrm\ProximityGraphBuilder.Designer.cs">
       <DependentUpon>ProximityGraphBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="协同移位（整体）\StepCollabrativeDisplacement.cs">
+    <Compile Include="MapObjects\Dot.cs" />
+    <Compile Include="MapObjects\MapObjectLayer.cs" />
+    <Compile Include="MapObjects\MapObjects.cs" />
+    <Compile Include="MapObjects\MapReady.cs" />
+    <Compile Include="MapObjects\Triangle.cs" />
+    <Compile Include="MapObjects\TriDot.cs" />
+    <Compile Include="PuTools\BuildingGroupFeatureComputation.cs" />
+    <Compile Include="PuTools\Cluster.cs" />
+    <Compile Include="PuTools\FeatureHandle.cs" />
+    <Compile Include="PuTools\ParameterCompute.cs" />
+    <Compile Include="PuTools\ProximityFeatureComputation.cs" />
+    <Compile Include="PuTools\SaveNewObjects.cs" />
+    <Compile Include="PuTools\Symbolization.cs" />
+    <Compile Include="ToolFrm\TinUpdate.cs" />
+    <Compile Include="PatternRecognition\LinearPattern.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="协同移位（整体）\StepCollabrativeDisplacement.Designer.cs">
-      <DependentUpon>StepCollabrativeDisplacement.cs</DependentUpon>
-    </Compile>
-    <Compile Include="协同移位（整体）\WholeCollaborativeDisplacement.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="协同移位（整体）\WholeCollaborativeDisplacement.Designer.cs">
-      <DependentUpon>WholeCollaborativeDisplacement.cs</DependentUpon>
-    </Compile>
-    <Compile Include="地图要素\Dot.cs" />
-    <Compile Include="地图要素\MapObjectLayer.cs" />
-    <Compile Include="地图要素\MapObjects.cs" />
-    <Compile Include="地图要素\MapReady.cs" />
-    <Compile Include="地图要素\Triangle.cs" />
-    <Compile Include="地图要素\TriDot.cs" />
-    <Compile Include="工具窗体\CenterGet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\CenterGet.Designer.cs">
-      <DependentUpon>CenterGet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\ConflictDetect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\ConflictDetect.Designer.cs">
-      <DependentUpon>ConflictDetect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\ConflictDetect2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\ConflictDetect2.Designer.cs">
-      <DependentUpon>ConflictDetect2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\FeiBuildingDisplaceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\FeiBuildingDisplaceForm.Designer.cs">
-      <DependentUpon>FeiBuildingDisplaceForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="典型化\MeshSimplify.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="典型化\MeshSimplify.Designer.cs">
-      <DependentUpon>MeshSimplify.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\MSTCreate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\MSTCreate.Designer.cs">
-      <DependentUpon>MSTCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\MSTtoPP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\MSTtoPP.Designer.cs">
-      <DependentUpon>MSTtoPP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\pDisplace.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\pDisplace.Designer.cs">
-      <DependentUpon>pDisplace.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\pDisplaceTraditional.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\pDisplaceTraditional.Designer.cs">
-      <DependentUpon>pDisplaceTraditional.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\PolygonAggregation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\PolygonAggregation.Designer.cs">
-      <DependentUpon>PolygonAggregation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\ProximityCreate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\ProximityCreate.Designer.cs">
-      <DependentUpon>ProximityCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\ProximityDetect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\ProximityDetect.Designer.cs">
-      <DependentUpon>ProximityDetect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具窗体\VGraphfrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="工具窗体\VGraphfrm.designer.cs">
-      <DependentUpon>VGraphfrm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="工具类\BuildingGroupFeatureComputation.cs" />
-    <Compile Include="工具类\Cluster.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\CConflictDetector.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\Collabration.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\CommonTools.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\DisplacementEvaluation.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\Force.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\ForceComputation.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\GeneralizationOperator.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\TargetEdge.cs" />
-    <Compile Include="工具类\CollabrativeDisplacement\VertexForce.cs" />
-    <Compile Include="工具类\ConflictDetect.cs" />
-    <Compile Include="工具类\Displacement.cs" />
-    <Compile Include="工具类\FeatureHandle.cs" />
-    <Compile Include="工具类\FeiDisplace.cs" />
-    <Compile Include="工具类\GeoCalculation.cs" />
-    <Compile Include="工具类\ParameterCompute.cs" />
-    <Compile Include="工具类\patternrecognition\CurPattern.cs" />
-    <Compile Include="工具类\patternrecognition\LinearPattern.cs" />
-    <Compile Include="工具类\ProximityFeatureComputation.cs" />
-    <Compile Include="工具类\SaveNewObjects.cs" />
-    <Compile Include="工具类\Symbolization.cs" />
-    <Compile Include="建筑物群空间特征分析小工具\BuildingFeatureComputation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="建筑物群空间特征分析小工具\BuildingFeatureComputation.Designer.cs">
-      <DependentUpon>BuildingFeatureComputation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="建筑物群空间特征分析小工具\BuildingGet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="建筑物群空间特征分析小工具\BuildingGet.Designer.cs">
-      <DependentUpon>BuildingGet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="建筑物群空间特征分析小工具\BuildingRasterIndex.cs" />
-    <Compile Include="建筑物群空间特征分析小工具\GeneralizationOperatorInfer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="建筑物群空间特征分析小工具\GeneralizationOperatorInfer.Designer.cs">
-      <DependentUpon>GeneralizationOperatorInfer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="建筑物聚合\BasicStruct.cs" />
-    <Compile Include="建筑物聚合\ConnectAreaUtil.cs" />
-    <Compile Include="建筑物聚合\ConvexPolygonProcess.cs" />
-    <Compile Include="建筑物聚合\PolygonPreprocess.cs" />
-    <Compile Include="建筑物聚合\PolygonSimplify.cs" />
-    <Compile Include="建筑物聚合\ProgressiveAggregation.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="建筑物聚合\ProgressiveAggregation.Designer.cs">
-      <DependentUpon>ProgressiveAggregation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="协同移位（整体）\TinUpdate.cs" />
-    <Compile Include="建筑物聚合\TriangleProcess.cs" />
-    <Compile Include="模式识别\LinearPattern.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="模式识别\LinearPattern.Designer.cs">
+    <Compile Include="PatternRecognition\LinearPattern.Designer.cs">
       <DependentUpon>LinearPattern.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="BuildingSim\BuildingSimFrm.resx">
       <DependentUpon>BuildingSimFrm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FlowMap\FlowMap.resx">
-      <DependentUpon>FlowMap.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainFrm.resx">
+      <DependentUpon>MainFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PatternRecognition\PRForm.resx">
       <DependentUpon>PRForm.cs</DependentUpon>
@@ -377,82 +192,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="典型化\ArbitrarilyMesh.resx">
-      <DependentUpon>ArbitrarilyMesh.cs</DependentUpon>
+    <EmbeddedResource Include="ToolFrm\MeasureComputation.resx">
+      <DependentUpon>MeasureComputation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="典型化\GroupMesh.resx">
-      <DependentUpon>GroupMesh.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="协同移位（整体）\CollaborativeDisplacement.resx">
-      <DependentUpon>CollaborativeDisplacement.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="协同移位（整体）\ForceComputation.resx">
-      <DependentUpon>ForceComputation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="协同移位（整体）\ProximityBuilder.resx">
-      <DependentUpon>ProximityBuilder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="协同移位（整体）\ProximityGraphBuilder.resx">
+    <EmbeddedResource Include="ToolFrm\ProximityGraphBuilder.resx">
       <DependentUpon>ProximityGraphBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="协同移位（整体）\StepCollabrativeDisplacement.resx">
-      <DependentUpon>StepCollabrativeDisplacement.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="协同移位（整体）\WholeCollaborativeDisplacement.resx">
-      <DependentUpon>WholeCollaborativeDisplacement.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\CenterGet.resx">
-      <DependentUpon>CenterGet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\ConflictDetect.resx">
-      <DependentUpon>ConflictDetect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\ConflictDetect2.resx">
-      <DependentUpon>ConflictDetect2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\FeiBuildingDisplaceForm.resx">
-      <DependentUpon>FeiBuildingDisplaceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="典型化\MeshSimplify.resx">
-      <DependentUpon>MeshSimplify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\MSTCreate.resx">
-      <DependentUpon>MSTCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\MSTtoPP.resx">
-      <DependentUpon>MSTtoPP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\pDisplace.resx">
-      <DependentUpon>pDisplace.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\pDisplaceTraditional.resx">
-      <DependentUpon>pDisplaceTraditional.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\PolygonAggregation.resx">
-      <DependentUpon>PolygonAggregation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\ProximityCreate.resx">
-      <DependentUpon>ProximityCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\ProximityDetect.resx">
-      <DependentUpon>ProximityDetect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="工具窗体\VGraphfrm.resx">
-      <DependentUpon>VGraphfrm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="建筑物群空间特征分析小工具\BuildingFeatureComputation.resx">
-      <DependentUpon>BuildingFeatureComputation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="建筑物群空间特征分析小工具\BuildingGet.resx">
-      <DependentUpon>BuildingGet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="建筑物群空间特征分析小工具\GeneralizationOperatorInfer.resx">
-      <DependentUpon>GeneralizationOperatorInfer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="建筑物聚合\ProgressiveAggregation.resx">
-      <DependentUpon>ProgressiveAggregation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="模式识别\LinearPattern.resx">
+    <EmbeddedResource Include="PatternRecognition\LinearPattern.resx">
       <DependentUpon>LinearPattern.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
@@ -663,6 +409,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

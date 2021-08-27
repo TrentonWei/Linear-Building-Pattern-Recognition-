@@ -26,7 +26,7 @@ namespace PrDispalce.PatternRecognition
         #region 属性
         AxMapControl pMapControl = null;
         ComFunLib CFL = new ComFunLib();
-        PrDispalce.建筑物聚合.PolygonPreprocess PP = new 建筑物聚合.PolygonPreprocess();
+        PrDispalce.PatternRecognition.PolygonPreprocess PP = new PolygonPreprocess();
         #endregion
 
         #region 构造函数

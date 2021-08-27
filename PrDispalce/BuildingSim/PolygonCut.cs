@@ -46,7 +46,7 @@ namespace PrDispalce.BuildingSim
 
             #region 处理类
             PrDispalce.PatternRecognition.BendProcess BP = new PatternRecognition.BendProcess();//弯曲处理类
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//三角形处理类
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             PrDispalce.PatternRecognition.ConcaveNodeSolve CNS = new PatternRecognition.ConcaveNodeSolve();//凹点处理类
             #endregion
 

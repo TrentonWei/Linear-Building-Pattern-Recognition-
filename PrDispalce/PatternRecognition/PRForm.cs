@@ -204,7 +204,7 @@ namespace PrDispalce.PatternRecognition
         private void button3_Click(object sender, EventArgs e)
         {
             BendProcess BP = new BendProcess();
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//TriangleProcess
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             ConcaveNodeSolve CNS=new ConcaveNodeSolve(pMapControl);
             
             #region 获取图层
@@ -320,7 +320,7 @@ namespace PrDispalce.PatternRecognition
         private void button5_Click(object sender, EventArgs e)
         {
             BendProcess BP = new BendProcess();
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//TriangleProcess
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
 
             #region 获取图层
             List<IFeatureLayer> list = new List<IFeatureLayer>();
@@ -435,7 +435,7 @@ namespace PrDispalce.PatternRecognition
         private void button6_Click(object sender, EventArgs e)
         {
             BendProcess BP = new BendProcess();
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//TriangleProcess
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             ConcaveNodeSolve CNS = new ConcaveNodeSolve(pMapControl);
 
             #region 获取图层
@@ -520,7 +520,7 @@ namespace PrDispalce.PatternRecognition
         {
             #region 处理类
             BendProcess BP = new BendProcess();//弯曲处理类
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//三角形处理类
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             ConcaveNodeSolve CNS = new ConcaveNodeSolve(pMapControl);//凹点处理类
             List<Polygon> FinalCuttedPolygons = new List<Polygon>();//最终分割获取的建筑物
             #endregion
@@ -664,7 +664,7 @@ namespace PrDispalce.PatternRecognition
         {
             #region 处理类
             BendProcess BP = new BendProcess();//弯曲处理类
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//三角形处理类
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             ConcaveNodeSolve CNS = new ConcaveNodeSolve(pMapControl);//凹点处理类
             List<Polygon> FinalCuttedPolygons = new List<Polygon>();//最终分割获取的建筑物
             #endregion
@@ -819,7 +819,7 @@ namespace PrDispalce.PatternRecognition
         {
             #region 处理类
             BendProcess BP = new BendProcess();//弯曲处理类
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//三角形处理类
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             ConcaveNodeSolve CNS = new ConcaveNodeSolve(pMapControl);//凹点处理类
             List<Polygon> FinalCuttedPolygons = new List<Polygon>();//最终分割获取的建筑物
             #endregion
@@ -1156,7 +1156,7 @@ namespace PrDispalce.PatternRecognition
         {
             #region 处理类
             BendProcess BP = new BendProcess();//弯曲处理类
-            PrDispalce.建筑物聚合.TriangleProcess TP = new 建筑物聚合.TriangleProcess();//三角形处理类
+            PrDispalce.PatternRecognition.TriangleProcess TP = new TriangleProcess();//TriangleProcess
             ConcaveNodeSolve CNS = new ConcaveNodeSolve(pMapControl);//凹点处理类
             List<Polygon> FinalCuttedPolygons = new List<Polygon>();//最终分割获取的建筑物
             #endregion
