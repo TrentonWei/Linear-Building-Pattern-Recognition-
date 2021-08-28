@@ -11,7 +11,7 @@ namespace AuxStructureLib
         [Serializable]
     public abstract class Node
     {
-        public double X;        //坐标
+        public double X;        //坐标(测试)
         public double Y;        //坐标
         public int ID;          //编号
         public int SomeValue=-1;
