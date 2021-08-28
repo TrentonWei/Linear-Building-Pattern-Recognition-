@@ -110,6 +110,16 @@ namespace PrDispalce.ToolFrm
                 pFH.AddField(PerimeterFeatureClass, "LChord", esriFieldType.esriFieldTypeDouble);
             }
 
+            if (checkBox6.Checked)
+            {
+                pFH.AddField(PerimeterFeatureClass, "MWO", esriFieldType.esriFieldTypeDouble);
+            }
+
+            if (checkBox7.Checked)
+            {
+                pFH.AddField(PerimeterFeatureClass, "SWWO", esriFieldType.esriFieldTypeDouble);
+            }
+
             if (checkBox8.Checked)
             {
                 pFH.AddField(PerimeterFeatureClass, "MBRO", esriFieldType.esriFieldTypeDouble);
@@ -117,7 +127,7 @@ namespace PrDispalce.ToolFrm
 
              if (checkBox9.Checked)
             {
-                pFH.AddField(PerimeterFeatureClass, "EC", esriFieldType.esriFieldTypeDouble);
+                pFH.AddField(PerimeterFeatureClass, "EC", esriFieldType.esriFieldTypeInteger);
             }
 
              if (checkBox10.Checked)
@@ -132,12 +142,12 @@ namespace PrDispalce.ToolFrm
 
              if (checkBox12.Checked)
              {
-                 pFH.AddField(PerimeterFeatureClass, "RCom", esriFieldType.esriFieldTypeDouble);
+                 pFH.AddField(PerimeterFeatureClass, "SI", esriFieldType.esriFieldTypeDouble);
              }
 
              if (checkBox13.Checked)
              {
-                 pFH.AddField(PerimeterFeatureClass, "RicCom", esriFieldType.esriFieldTypeDouble);
+                 pFH.AddField(PerimeterFeatureClass, "RCom", esriFieldType.esriFieldTypeDouble);
              }
 
              if (checkBox14.Checked)
@@ -218,46 +228,98 @@ namespace PrDispalce.ToolFrm
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "LChord", area1);
                 }
 
-                if (checkBox8.Checked)//Area
+                if (checkBox6.Checked)//MBRO
+                {
+                    double area1 = PC.GetMWOrientation((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "MWO", area1);
+                }
+
+                if (checkBox7.Checked)//MBRO
+                {
+                    double area1 = PC.GetSWWOrientation((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "SWWO", area1);
+                }
+
+                if (checkBox8.Checked)//MBRO
                 {
                     double area1 = PC.GetSMBROrientation((IPolygon)pFeature.Shape);
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "MBRO", area1);
                 }
 
-                if (checkBox9.Checked)//Area
+                if (checkBox9.Checked)//EdgeCount
                 {
-                    double area1 = PC.GetArea((IPolygon)pFeature.Shape);
-                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Area", area1);
+                    int area1 = PC.GetEdgeCount((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "EC", area1);
                 }
 
-                if (checkBox10.Checked)//Area
+                if (checkBox10.Checked)//IPQ
                 {
-                    double area1 = PC.GetArea((IPolygon)pFeature.Shape);
-                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Area", area1);
+                    double area1 = PC.GetIPQCom((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "IPQ", area1);
                 }
 
-                if (checkBox11.Checked)//Area
+                if (checkBox11.Checked)//Cv
                 {
-                    double area1 = PC.GetArea((IPolygon)pFeature.Shape);
-                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Area", area1);
+                    double area1 = PC.GetCv((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Cv", area1);
                 }
 
-                if (checkBox12.Checked)//Area
+                if (checkBox12.Checked)//ShapeIndex
                 {
-                    double area1 = PC.GetArea((IPolygon)pFeature.Shape);
-                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Area", area1);
+                    double area1 = PC.GetShapeIndex((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "SI", area1);
                 }
 
-                if (checkBox13.Checked)//Area
+                if (checkBox13.Checked)//RCom
                 {
-                    double area1 = PC.GetArea((IPolygon)pFeature.Shape);
-                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Area", area1);
+                    double area1 = PC.GetRCom((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "RCom", area1);
                 }
 
-                if (checkBox14.Checked)//Area
+                if (checkBox14.Checked)//GibCom
                 {
-                    double area1 = PC.GetArea((IPolygon)pFeature.Shape);
-                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Area", area1);
+                    double area1 = PC.GetGibCom((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "GibCom", area1);
+                }
+
+                if (checkBox15.Checked)//DCMCom
+                {
+                    double area1 = PC.GetDCMCom((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "DCMCom", area1);
+                }
+
+                if (checkBox16.Checked)//BotCom
+                {
+                    double area1 = PC.GetBotCom((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "BotCom", area1);
+                }
+
+                if (checkBox17.Checked)//BoyCom
+                {
+                    double area1 = PC.GetBoyCom((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "BoyCom", area1);
+                }
+                if (checkBox18.Checked)//ELL
+                {
+                    double area1 = PC.GetELL((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "ELL", area1);
+                }
+
+                if (checkBox19.Checked)//Fd
+                {
+                    double area1 = PC.GetFd((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Fd", area1);
+                }
+                if (checkBox20.Checked)//BotCom
+                {
+                    double area1 = PC.GetCompl((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "Compl", area1);
+                }
+
+                if (checkBox21.Checked)//BoyCom
+                {
+                    double area1 = PC.GetNCSP((IPolygon)pFeature.Shape);
+                    pFH.DataStore(PerimeterFeatureClass, pFeature, "NCSP", area1);
                 }
                 #endregion
 

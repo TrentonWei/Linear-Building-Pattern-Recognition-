@@ -98,6 +98,62 @@ namespace PrDispalce.工具类
         }
 
         /// <summary>
+        /// 计算ShapeIndex
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetShapeIndex(IPolygon pPolygon)
+        {
+            double length1 = pPolygon.Length;
+
+            IArea pArea = (IArea)pPolygon;
+            double area1 = pArea.Area;
+
+            double MillerMeasure = length1 / (2 * Math.Sqrt(pi * area1));
+
+            return MillerMeasure;
+        }
+
+        /// <summary>
+        /// 计算RCom
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetRCom(IPolygon pPolygon)
+        {
+            double length1 = pPolygon.Length;
+
+            IArea pArea = (IArea)pPolygon;
+            double area1 = pArea.Area;
+
+            double MillerMeasure = length1 / area1;
+
+            return MillerMeasure;
+        }
+
+        /// <summary>
+        /// 计算GibCom
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetGibCom(IPolygon pPolygon)
+        {
+            IArea pArea = (IArea)pPolygon;
+            double area1 = pArea.Area;
+
+            ILine TheLongestChord = this.GetThelongestChord(pPolygon);
+            double Length = TheLongestChord.Length;
+
+            IPolyline gLine = new PolylineClass();
+            gLine.FromPoint = TheLongestChord.FromPoint;
+            gLine.ToPoint = TheLongestChord.ToPoint;
+
+            double GibbsMeasure = 4 * area1 / (Length * Length);
+
+            return GibbsMeasure;
+        }
+
+        /// <summary>
         /// 计算IPQCom
         /// </summary>
         /// <param name="pPolygon"></param>
@@ -501,7 +557,6 @@ namespace PrDispalce.工具类
         }
         #endregion
 
-        #region 计算多边形最小外接圆用
         #region 计算多边形相距最远的两个顶点
         public ILine GetTheLongesLine(IFeature pFeature)
         {
@@ -556,42 +611,54 @@ namespace PrDispalce.工具类
         }
         #endregion
 
-        /*#region 比较得到距直径最远的点
-        public IPoint GetTheFarestPoint(IFeature Feature,ILine Line)
+        #region 比较得到距长轴中点最远的点
+        public IPoint GetTheFarestPoint1(IFeature Feature, ILine Line)
         {
             IPointArray PointArray = GetPoints(Feature);
-            IPoint Point=new PointClass();
-            //IPoint Point1 = Line.FromPoint;
-            //IPoint Point2 = Line.ToPoint;
+            IPoint Point = new PointClass();
+            IPoint Point1 = Line.FromPoint;
+            IPoint Point2 = Line.ToPoint;
 
-            //IPoint MidPoint = new PointClass();
+            IPoint MidPoint = new PointClass();
 
-            //MidPoint.X = (Point1.X + Point2.X) / 2;
-            //MidPoint.Y = (Point1.Y + Point2.Y) / 2;
+            MidPoint.X = (Point1.X + Point2.X) / 2;
+            MidPoint.Y = (Point1.Y + Point2.Y) / 2;
 
             int PointCount = PointArray.Count;
             double MaxDistance = 0;
 
             for (int i = 0; i < PointCount; i++)
             {
-                IPoint Point1=PointArray.get_Element(i);
-                double distance = GetTheDistanceFromPointToLine(Point1,Line);
+                IPoint pPoint1 = PointArray.get_Element(i);
+
+                double distance = DistanceCompute(pPoint1, MidPoint);
+
+                if (pPoint1.X == Point1.X && pPoint1.Y == Point1.Y)
+                {
+                    distance = 0;
+                }
+
+                if (pPoint1.X == Point2.X && pPoint1.Y == Point2.Y)
+                {
+                    distance = 0;
+                }
+
 
                 if (MaxDistance < distance)
                 {
                     MaxDistance = distance;
-                    Point = Point1;
+                    Point = pPoint1;
                 }
             }
 
             return Point;
         }
-        #endregion*/
+        #endregion
 
         #region 比较得到距长轴中点最远的点
-        public IPoint GetTheFarestPoint1(IFeature Feature, ILine Line)
+        public IPoint GetTheFarestPoint1(IPolygon pPolygon, ILine Line)
         {
-            IPointArray PointArray = GetPoints(Feature);
+            IPointArray PointArray = GetPoints(pPolygon);
             IPoint Point = new PointClass();
             IPoint Point1 = Line.FromPoint;
             IPoint Point2 = Line.ToPoint;
@@ -722,6 +789,33 @@ namespace PrDispalce.工具类
         }
         #endregion
 
+        #region 比较得到距圆心最远的点
+        public IPoint GetTheFarestPointToTheCenter(Circle circle1, IPolygon pPolygon)
+        {
+            IPointArray PointArray = GetPoints(pPolygon);
+            IPoint Center = circle1.Center;
+            int PointCount = PointArray.Count;
+
+            IPoint FarestPoint = new PointClass();
+            double MaxDistance = 0;
+
+            for (int i = 0; i < PointCount; i++)
+            {
+                IPoint Point1 = PointArray.get_Element(i);
+
+                double distance = DistanceCompute(Center, Point1);
+
+                if (MaxDistance < distance)
+                {
+                    MaxDistance = distance;
+                    FarestPoint = Point1;
+                }
+            }
+
+            return FarestPoint;
+        }
+        #endregion
+
         #region 获得距离三角形顶点最近的顶点
         public IPointArray GetTheClosePoint(IPoint Point, IPoint Point1, IPoint Point2, IPoint Point3)
         {
@@ -769,9 +863,7 @@ namespace PrDispalce.工具类
             return PointArray;
         }
         #endregion
-        #endregion
 
-        #region 计算boyceClarkMeasure
         #region 知道一点和斜率，计算直线
         public IPolyline LineCompute(IPoint Point, double Angle)
         {
@@ -819,6 +911,8 @@ namespace PrDispalce.工具类
         #region 公式计算
         public double GetTheBoyceClarkMeasure(List<IPolyline> PolylineList)
         {
+
+
             int PolyLineListCount = PolylineList.Count;
             double SumofRadius = 0;
 
@@ -841,7 +935,6 @@ namespace PrDispalce.工具类
             double BoyceClarkMeasure = 1 - mSum / 200;
             return BoyceClarkMeasure;
         }
-        #endregion
         #endregion
 
         /// <summary>
@@ -890,6 +983,111 @@ namespace PrDispalce.工具类
         }
 
         /// <summary>
+        /// 计算MWO（0,180）
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetMWOrientation(IPolygon pPolygon)
+        {
+            IPolygon Polygon = pPolygon;
+
+            IPointArray PolygonPoints = GetPoints(Polygon);
+            int PolygonPointsNum = PolygonPoints.Count;
+            ILine tline = new LineClass();
+            double cLength = -1;
+
+            for (int j = 0; j < PolygonPointsNum - 1; j++)
+            {
+                ILine pline = new LineClass();
+                IPoint Point1 = PolygonPoints.get_Element(j);
+                IPoint Point2 = PolygonPoints.get_Element(j + 1);
+
+                pline.FromPoint = Point1;
+                pline.ToPoint = Point2;
+                double Length = pline.Length;
+
+                if (Length > cLength)
+                {
+                    cLength = Length;
+                    tline = pline;
+                }
+            }
+
+            double Angle = tline.Angle;
+            if (Angle < 0)
+            {
+                Angle = Angle + 3.1415926;
+            }
+
+            double eAngle = Angle / 3.1415926 * 180;
+
+            return eAngle;
+        }
+
+        /// <summary>
+        /// 计算SWWO（0,180）
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetSWWOrientation(IPolygon pPolygon)
+        {
+            IPolygon Polygon = pPolygon;
+
+            IPointArray PolygonPoints = GetPoints(Polygon);
+            int PolygonPointsCount = PolygonPoints.Count;
+            double LengthSum1 = 0;
+            double LengthSum2 = 0;
+            double alSum1 = 0;
+            double alSum2 = 0;
+
+
+            for (int j = 0; j < PolygonPointsCount - 1; j++)
+            {
+                ILine pline = new LineClass();
+                IPoint Point1 = PolygonPoints.get_Element(j);
+                IPoint Point2 = PolygonPoints.get_Element(j + 1);
+
+                pline.FromPoint = Point1;
+                pline.ToPoint = Point2;
+
+                double Angle = pline.Angle;
+
+                if (Angle < 0)
+                {
+                    Angle = Angle + 3.1415926;
+                }
+
+                double eAngle = Angle / 3.1415926 * 180;
+                double Length = pline.Length;
+
+                if (eAngle < 135 && eAngle > 45)
+                {
+                    LengthSum1 = LengthSum1 + Length;
+                    alSum1 = alSum1 + eAngle * Length;
+                }
+
+                else
+                {
+                    LengthSum2 = LengthSum2 + Length;
+                    alSum2 = alSum2 + eAngle * Length;
+                }
+            }
+
+            double tAngle = 0;
+            if (LengthSum1 > LengthSum2)
+            {
+                tAngle = alSum1 / LengthSum1;
+            }
+
+            else
+            {
+                tAngle = alSum2 / LengthSum2;
+            }
+
+            return tAngle;
+        }
+
+        /// <summary>
         /// 获取SArea
         /// </summary>
         /// <param name="pPolygon"></param>
@@ -901,6 +1099,384 @@ namespace PrDispalce.工具类
 
             double smbrarea = sArea.Area;
             return smbrarea;
+        }
+
+        /// <summary>
+        /// 计算边数
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public int GetEdgeCount(IPolygon pPolygon)
+        {
+            IPointArray PointArray = pPolygon as IPointArray;
+            int EdgeCount = PointArray.Count;
+
+            return EdgeCount;
+        }
+
+        /// <summary>
+        /// 计算Cv
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetCv(IPolygon pPolygon)
+        {
+            IArea pArea = (IArea)pPolygon;
+            double area1 = pArea.Area * 1000000;
+
+            IPolygon cPolygon = this.GetConvexHull(pPolygon);
+            IArea cArea = cPolygon as IArea;
+            double carea = cArea.Area * 1000000;
+
+            double Concavity = area1 / carea;
+            return Concavity;
+        }
+
+
+        /// <summary>
+        /// 计算BotCom
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetBotCom(IPolygon pPolygon)
+        {          
+            ITopologicalOperator cTopo = pPolygon as ITopologicalOperator;
+
+            IArea pArea = (IArea)pPolygon;
+            double area1 = pArea.Area;
+            IPoint Center = pArea.Centroid;
+
+            IPolygon AreaCircle = this.AreaToCircle(area1, Center, false);
+
+            IGeometry gTheIntersectPart = cTopo.Intersect(AreaCircle, esriGeometryDimension.esriGeometry2Dimension);
+
+            IPolygon iTheIntersectPart = gTheIntersectPart as IPolygon;
+            IArea iArea = (IArea)iTheIntersectPart;
+            double area2 = iArea.Area;
+
+            double BottemMeasure = 1 - area2 / area1;
+            return BottemMeasure;
+        }
+
+        /// <summary>
+        /// 计算BoyCom
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetBoyCom(IPolygon pPolygon)
+        {
+            List<IPolyline> LineofRadius = new List<IPolyline>();
+            IArea pArea = (IArea)pPolygon;
+            IPoint Center = pArea.Centroid;
+
+            for (int j = 0; j < 30; j++)
+            {
+                double Angle = j * 3.1415926 / 30;
+                IPolyline Polyline = this.LineCompute(Center, Angle);
+                ITopologicalOperator pTopo = Polyline as ITopologicalOperator;
+
+                List<ILine> LineofPolygon = this.GetTheLinesOfPolygon(pPolygon);
+                List<IPoint> PointList = new List<IPoint>();
+                int LineofPolygonCount = LineofPolygon.Count;
+
+                for (int k = 0; k < LineofPolygonCount; k++)
+                {
+                    IPolyline tPolyline = new PolylineClass();
+                    ILine tLine = new LineClass();
+
+                    tLine = (ILine)LineofPolygon[k];
+
+                    tPolyline.FromPoint = tLine.FromPoint;
+                    tPolyline.ToPoint = tLine.ToPoint;
+
+                    IGeometry intPoint = pTopo.Intersect(tPolyline, esriGeometryDimension.esriGeometry0Dimension);
+
+                    if (!intPoint.IsEmpty)
+                    {
+                        IPointCollection PC = intPoint as IPointCollection;
+                        IPoint tPoint = PC.get_Point(0);
+                        PointList.Add(tPoint);
+                    }
+                }
+
+                IPolyline Line1 = new PolylineClass();
+                IPolyline Line2 = new PolylineClass();
+
+                int PointListCount = PointList.Count;
+                if (PointListCount > 0)
+                {
+                    Line1.FromPoint = Center; Line1.ToPoint = (IPoint)PointList[0]; LineofRadius.Add(Line1);
+                    Line2.FromPoint = Center; Line2.ToPoint = (IPoint)PointList[PointListCount - 1]; LineofRadius.Add(Line2);
+                }
+            }
+
+            double BoyceClarkMeasure = this.GetTheBoyceClarkMeasure(LineofRadius);
+            return BoyceClarkMeasure;
+        }
+
+        /// <summary>
+        /// 计算ELL
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetELL(IPolygon pPolygon)
+        {
+            IPolygon SMBR = (IPolygon)this.GetSMBR(pPolygon);
+
+            IPointArray PointArray = this.GetPoints(SMBR);
+
+            IPoint Point1 = PointArray.get_Element(0);
+            IPoint Point2 = PointArray.get_Element(1);
+            IPoint Point3 = PointArray.get_Element(2);
+            IPoint Point4 = PointArray.get_Element(3);
+            IPoint Point5 = PointArray.get_Element(0);
+
+            IPolyline Line1 = new PolylineClass();
+            IPolyline Line2 = new PolylineClass();
+
+
+            Line1.FromPoint = Point1; Line1.ToPoint = Point2;
+            Line2.FromPoint = Point2; Line2.ToPoint = Point3;
+
+
+            double Length1 = Line1.Length;
+            double Length2 = Line2.Length;
+
+            double SMBRAxis = Length1 / Length2;
+            return SMBRAxis;
+        }
+
+        /// <summary>
+        /// 计算Fd
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetFd(IPolygon pPolygon)
+        {
+            double length1 = pPolygon.Length;
+            IArea pArea = (IArea)pPolygon;
+            double area1 = pArea.Area;
+
+            double FDimension = 2 * Math.Log(length1) / Math.Log(area1);
+            return FDimension;
+        }
+
+        /// <summary>
+        /// 计算Compl
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetCompl(IPolygon pPolygon)
+        {
+            IPointCollection pPointCollection = pPolygon as IPointCollection;
+            ITopologicalOperator cTopo = pPolygon as ITopologicalOperator;
+            IGeometry pConvexHull = cTopo.ConvexHull();
+            IRelationalOperator ConvexHullRelationalOperator = pConvexHull as IRelationalOperator;
+
+            double pLength = pPolygon.Length;
+            IPolygon cPolygon = pConvexHull as IPolygon;
+            double cLength = cPolygon.Length;
+            double Ampl = (pLength - cLength) / pLength;
+
+            IArea pArea = pPolygon as IArea;
+            double pdArea = pArea.Area;
+            IArea cArea = pConvexHull as IArea;
+            double cdArea = cArea.Area;
+            double Conv = (cdArea - pdArea) / cdArea;
+
+            int NotchsNum = 0;
+            for (int j = 0; j < pPointCollection.PointCount - 1; j++)
+            {
+                IPoint pPoint = pPointCollection.get_Point(j);
+                if (ConvexHullRelationalOperator.Contains(pPoint))
+                {
+                    NotchsNum = NotchsNum + 1;
+                }
+            }
+
+            double c = pPointCollection.PointCount - 4;
+            double pNotch = NotchsNum / c;
+            double FinalNotch = 16 * (pNotch - 0.5) * (pNotch - 0.5) * (pNotch - 0.5) * (pNotch - 0.5) - 8 * (pNotch - 0.5) * (pNotch - 0.5) + 1;
+
+            double MixCom = 0.8 * FinalNotch * Ampl + 0.2 * Conv;
+            return MixCom;
+        }
+
+        /// <summary>
+        /// 计算NCSP
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetNCSP(IPolygon pPolygon)
+        {
+            IPointCollection pPointCollection = pPolygon as IPointCollection;
+            int pNum = 0;
+            for (int j = 0; j < pPointCollection.PointCount - 1; j++)
+            {
+                #region 当j=0
+                if (j == 0)
+                {
+                    IPoint Point1 = pPointCollection.get_Point(pPointCollection.PointCount - 1);
+                    IPoint Point2 = pPointCollection.get_Point(j);
+                    IPoint Point3 = pPointCollection.get_Point(j + 1);
+
+                    ILine Line1 = new LineClass();
+                    ILine Line2 = new LineClass();
+                    Line1.FromPoint = Point2;
+                    Line1.ToPoint = Point1;
+
+                    Line2.FromPoint = Point2;
+                    Line2.ToPoint = Point3;
+
+                    double angle1 = Line1.Angle;
+                    double angle2 = Line2.Angle;
+
+                    #region 将angle装换到0-180
+                    double Pi = 4 * Math.Atan(1);
+                    double dAngle1Degree = (180 * angle1) / Pi;
+                    double dAngle2Degree = (180 * angle2) / Pi;
+
+                    if (dAngle1Degree < 0)
+                    {
+                        dAngle1Degree = dAngle1Degree + 180;
+                    }
+
+                    if (dAngle2Degree < 0)
+                    {
+                        dAngle2Degree = dAngle2Degree + 180;
+                    }
+
+                    bool label = false;
+                    if (Math.Abs(dAngle1Degree - dAngle2Degree) > 160 && Math.Abs(dAngle1Degree - dAngle2Degree) < 200)
+                    {
+                        label = true;
+                    }
+                    #endregion
+
+                    if (label)
+                    {
+                        pNum = pNum + 1;
+                    }
+                }
+                #endregion
+
+                #region 当j不等于0
+                else
+                {
+                    IPoint Point1 = pPointCollection.get_Point(j - 1);
+                    IPoint Point2 = pPointCollection.get_Point(j);
+                    IPoint Point3 = pPointCollection.get_Point(j + 1);
+
+                    ILine Line1 = new LineClass();
+                    ILine Line2 = new LineClass();
+                    Line1.FromPoint = Point1;
+                    Line1.ToPoint = Point2;
+
+                    Line2.FromPoint = Point2;
+                    Line2.ToPoint = Point3;
+
+                    double angle1 = Line1.Angle;
+                    double angle2 = Line2.Angle;
+
+                    #region 将angle装换到0-180
+                    double Pi = 4 * Math.Atan(1);
+                    double dAngle1Degree = (180 * angle1) / Pi;
+                    double dAngle2Degree = (180 * angle2) / Pi;
+
+                    if (dAngle1Degree < 0)
+                    {
+                        dAngle1Degree = dAngle1Degree + 180;
+                    }
+
+                    if (dAngle2Degree < 0)
+                    {
+                        dAngle2Degree = dAngle2Degree + 180;
+                    }
+
+                    bool label = false;
+                    if (Math.Abs(dAngle1Degree - dAngle2Degree) < 90 && Math.Abs(dAngle1Degree - dAngle2Degree) < 20)
+                    {
+                        label = true;
+                    }
+
+                    if (Math.Abs(dAngle1Degree - dAngle2Degree) > 90 && Math.Abs(180 - Math.Abs(dAngle1Degree - dAngle2Degree)) < 20)
+                    {
+                        label = true;
+                    }
+                    #endregion
+
+                    if (label)
+                    {
+                        pNum = pNum + 1;
+                    }
+                }
+                #endregion
+            }
+
+            double c = pPointCollection.PointCount - 1;
+            double ncsp = 1 - pNum / c;
+            return ncsp;
+        }
+
+        /// <summary>
+        /// 计算DCMCom
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public double GetDCMCom(IPolygon pPolygon)
+        {
+            IArea pArea = (IArea)pPolygon;
+            double area1 = pArea.Area;
+
+            ILine LongestLine = this.GetThelongestChord(pPolygon);
+            IPoint Point1 = this.GetTheFarestPoint1(pPolygon, LongestLine);
+            IPoint fPoint1 = LongestLine.FromPoint;
+            IPoint fPoint2 = LongestLine.ToPoint;
+
+            double distance, r;
+
+            Circle PossibleCircle = this.GetTheSmallestCircumcircleOfTriangle(Point1, fPoint1, fPoint2);
+            IPoint CenterPoint = PossibleCircle.Center;
+            /*#region 圆验证
+            IPolygon Polygon = PossibleCircle.Polygon;
+            object PolygonSymbol = Symbol.PolygonSymbolization(3, 100, 100, 100, 0, 0, 20, 20);
+            axMapControl1.DrawShape(Polygon, ref PolygonSymbol);
+
+
+            object cPointSymbol = Symbol.PointSymbolization(20, 200, 150);
+            axMapControl1.DrawShape(CenterPoint, ref cPointSymbol);
+            #endregion*/
+
+            IPoint Point2 = this.GetTheFarestPointToTheCenter(PossibleCircle, pPolygon);
+
+            distance = this.DistanceCompute(Point2, CenterPoint);
+            r = PossibleCircle.r;
+
+            while (distance < r)
+            {
+                IPointArray PointArray = this.GetTheClosePoint(Point2, Point1, fPoint1, fPoint2);
+
+                Point1 = PointArray.get_Element(0);
+                fPoint1 = PointArray.get_Element(1);
+                fPoint2 = PointArray.get_Element(2);
+
+                PossibleCircle = this.GetTheSmallestCircumcircleOfTriangle(Point1, fPoint1, fPoint2);
+
+                Point2 = this.GetTheFarestPointToTheCenter(PossibleCircle, pPolygon);
+
+                CenterPoint = PossibleCircle.Center;
+
+                distance = this.DistanceCompute(Point2, CenterPoint);
+                r = PossibleCircle.r;
+            }
+
+            IPolygon Polygon = PossibleCircle.Polygon;
+            IArea Area = (IArea)Polygon;
+            double area2 = Area.Area;
+
+            double ColeMeasure = area1 / area2 * (-1);
+
+            return ColeMeasure;
         }
 
         /// <summary>

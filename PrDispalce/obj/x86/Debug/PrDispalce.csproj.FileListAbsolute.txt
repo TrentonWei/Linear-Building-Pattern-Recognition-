@@ -424,3 +424,4 @@ C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\bin\Debug\PrDispalce.pdb
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\bin\Debug\AuxStructureLib.dll
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\bin\Debug\AuxStructureLib.pdb
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.MainFrm.resources
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.ToolFrm.MeasureComputation.resources
