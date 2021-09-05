@@ -1,6 +1,6 @@
 # FlowMap
 # this is a readme
-#The Code is developed to git@github.com:TrentonWei/Linear-Building-Pattern-Recognition-.gitsupport the findings of our submitted paper entitled “Linear building pattern recognition in topographical maps using convex polygon decomposition"
+#The Code is developed to support the findings of our submitted paper entitled “Linear building pattern recognition in topographical maps using convex polygon decomposition"
 #The tools were implemented in C# on ArcGIS 10.2 software (ESRI, USA), each tool has a separate form to set the input, output and parameters for the algorithms.
 # The tool for linear pattern recognition, and 4 tools are included:
 1) Tool for proximity graph generation based on CDT and skeletons considering roads, including CDT, DT like proximity graph, GG, RNG, MST and NNG. 
