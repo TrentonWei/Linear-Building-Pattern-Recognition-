@@ -2382,7 +2382,7 @@ namespace AuxStructureLib
                             PolygonObject Po3 = map.GetObjectbyID(VisitedNode3.TagID, FeatureType.PolygonType) as PolygonObject;
                             PolygonObject Po4 = map.GetObjectbyID(VisitedNode4.TagID, FeatureType.PolygonType) as PolygonObject;
 
-                            bool SimLabelP = this.Sim(Po1, Po2, SizeConstraint, ShapeConstraint, OriConstraint);
+                            bool SimLabelP = this.Sim(Po3, Po4, SizeConstraint, ShapeConstraint, OriConstraint);
                             bool DistanceAccept = DistanceConstrain(VisitedEdge, EdgeList2[j], DistanceConstraint, shortestDis);
                             bool OrientationAccept = OrientationConstrain(VisitedEdge, EdgeList2[j], AngleConstraint);
 
@@ -2475,6 +2475,70 @@ namespace AuxStructureLib
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 判断P1是否是P2的子集
+        /// </summary>
+        /// <param name="P1"></param>
+        /// <param name="P2"></param>
+        /// <returns></returns>
+        bool SubSet2(List<ProxiEdge> P1, List<ProxiEdge> P2)
+        {
+            IPointCollection PL1 = new PolylineClass();
+            IPointCollection PL2 = new PolylineClass();
+
+            #region PL1
+            for (int i = 0; i < P1.Count; i++)
+            {
+                if (i == 0)
+                {
+                    IPoint Pn1 = new PointClass();
+                    Pn1.X = P1[i].Node1.X;
+                    Pn1.Y = P1[i].Node1.Y;
+                    PL1.AddPoint(Pn1);
+                }
+
+                IPoint Pn2 = new PointClass();
+                Pn2.X = P1[i].Node2.X;
+                Pn2.Y = P1[i].Node2.Y;
+
+                PL1.AddPoint(Pn2);
+            }
+            #endregion
+
+            #region PL2
+            for (int i = 0; i < P2.Count; i++)
+            {
+                if (i == 0)
+                {
+                    IPoint Pn1 = new PointClass();
+                    Pn1.X = P2[i].Node1.X;
+                    Pn1.Y = P2[i].Node1.Y;
+                    PL2.AddPoint(Pn1);
+                }
+
+                IPoint Pn2 = new PointClass();
+                Pn2.X = P2[i].Node2.X;
+                Pn2.Y = P2[i].Node2.Y;
+
+                PL2.AddPoint(Pn2);
+            }
+            #endregion
+
+            IPolyline ipL1 = PL1 as IPolyline;
+            IPolyline ipL2 = PL2 as IPolyline;
+
+            IRelationalOperator iRO = ipL2 as IRelationalOperator;
+            if (iRO.Contains(ipL1 as IGeometry)||iRO.Equals(ipL1 as IGeometry))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         /// <summary>
