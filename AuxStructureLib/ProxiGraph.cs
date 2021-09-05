@@ -14,6 +14,7 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.Controls;
 
+
 namespace AuxStructureLib
 {
     /// <summary>
@@ -28,6 +29,9 @@ namespace AuxStructureLib
 
         //AlphaShape的边
         public List<ProxiEdge> AlphaShapeEdge = new List<ProxiEdge>();
+
+        //表示LinearPattern
+        public List<ProxiEdge> LinearEdges = new List<ProxiEdge>();
 
         //refinement pattern边
         public List<ProxiEdge> PgforRefineBuildingPatternList = new List<ProxiEdge>();
@@ -2330,7 +2334,149 @@ namespace AuxStructureLib
 
             return PatternEdgeList;
         }
-      
+
+        /// 直线模式探测 根据关系确定边
+        /// </summary>
+        /// <param name="PeList"></param>边集合
+        /// <param name="PnList"></param>点集合
+        /// <param name="DistanceConstraint"></param>距离约束
+        /// <param name="AngleConstraint"></param>方向约束
+        /// <param name="OrientationConstraint"></param>方向约束
+        /// <param name="OrientationConstraint"></param>方向约束
+        /// <param name="OrientationConstraint"></param>方向约束
+        public List<List<ProxiEdge>> LinearPatternDetected3(SMap map,List<ProxiEdge> PeList, List<ProxiNode> PnList, double DistanceConstraint, double AngleConstraint, double shortestDis, double SizeConstraint, double OriConstraint, double ShapeConstraint)
+        {
+            List<List<ProxiEdge>> PatternEdgeList = new List<List<ProxiEdge>>();
+
+            #region pattern detection
+            for (int i = 0; i < PeList.Count; i++)
+            {
+                List<ProxiEdge> PatternEdge = new List<ProxiEdge>();
+                ProxiEdge OriginalEdge = PeList[i];//探测的初始边
+                PatternEdge.Add(OriginalEdge);
+
+                ProxiEdge VisitedEdge = OriginalEdge;//当前被访问的边
+                ProxiNode VisitedNode1 = VisitedEdge.Node1; ProxiNode VisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
+
+                #region 判断两个建筑物是否相似
+                PolygonObject Po1 = map.GetObjectbyID(VisitedNode1.TagID, FeatureType.PolygonType) as PolygonObject;
+                PolygonObject Po2 = map.GetObjectbyID(VisitedNode2.TagID, FeatureType.PolygonType) as PolygonObject;
+                bool SimLabel = this.Sim(Po1, Po2, SizeConstraint, ShapeConstraint, OriConstraint);
+                #endregion
+
+                #region 沿Node2方向探索
+                if (SimLabel)
+                {
+                    VisitedEdge = OriginalEdge;
+                    bool Node2DetectLabel = false;
+                    do
+                    {
+                        Node2DetectLabel = false;
+                        List<ProxiEdge> EdgeList2 = ReturnEdgeList(PeList, VisitedNode2);
+                        EdgeList2.Remove(VisitedEdge);//移除当前访问的边
+
+                        for (int j = 0; j < EdgeList2.Count; j++)
+                        {
+                            ProxiNode VisitedNode3 = EdgeList2[j].Node1; ProxiNode VisitedNode4 = EdgeList2[j].Node2;//当前被访问的节点
+
+                            PolygonObject Po3 = map.GetObjectbyID(VisitedNode3.TagID, FeatureType.PolygonType) as PolygonObject;
+                            PolygonObject Po4 = map.GetObjectbyID(VisitedNode4.TagID, FeatureType.PolygonType) as PolygonObject;
+
+                            bool SimLabelP = this.Sim(Po1, Po2, SizeConstraint, ShapeConstraint, OriConstraint);
+                            bool DistanceAccept = DistanceConstrain(VisitedEdge, EdgeList2[j], DistanceConstraint, shortestDis);
+                            bool OrientationAccept = OrientationConstrain(VisitedEdge, EdgeList2[j], AngleConstraint);
+
+                            if (DistanceAccept && OrientationAccept && SimLabelP)
+                            {
+                                VisitedEdge = EdgeList2[j];
+                                if (!PatternEdge.Contains(VisitedEdge))
+                                {
+                                    //把新加入的边作为访问边
+                                    PatternEdge.Add(VisitedEdge);
+
+                                    #region 把新加入的点作为访问点
+                                    if (VisitedNode2 == EdgeList2[j].Node1)
+                                    {
+                                        VisitedNode2 = EdgeList2[j].Node2;
+                                    }
+
+                                    else if (VisitedNode2 == EdgeList2[j].Node2)
+                                    {
+                                        VisitedNode2 = EdgeList2[j].Node1;
+                                    }
+                                    #endregion
+
+                                    Node2DetectLabel = true;
+                                    break;
+                                }
+                            }
+                        }
+                    } while (Node2DetectLabel);
+                }
+                #endregion
+
+                PatternEdgeList.Add(PatternEdge);
+            }
+            #endregion
+
+            #region Post-Process：删除重复的集合
+            bool Stop=false;
+            do
+            {
+                Stop=false;
+                foreach(List<ProxiEdge> Pattern in PatternEdgeList)
+                {
+                    if (Pattern.Count <= 1)
+                    {
+                        PatternEdgeList.Remove(Pattern);
+                        Stop = true;
+                        break;
+                    }
+
+                    foreach(List<ProxiEdge> CachePattern in PatternEdgeList)
+                    {
+                        if (Pattern != CachePattern)
+                        {
+                            if (this.SubSet(Pattern, CachePattern))
+                            {
+                                PatternEdgeList.Remove(Pattern);
+                                Stop = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (Stop)
+                    {
+                        break;
+                    }
+                }
+
+            }while(Stop);
+            #endregion
+
+            return PatternEdgeList;
+        }
+
+        /// <summary>
+        /// 判断P1是否是P2的子集
+        /// </summary>
+        /// <param name="P1"></param>
+        /// <param name="P2"></param>
+        /// <returns></returns>
+        bool SubSet(List<ProxiEdge> P1, List<ProxiEdge> P2)
+        {
+            foreach (ProxiEdge Pe in P1)
+            {
+                if (!P2.Contains(Pe))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// 直线模式refinement 不全局调整（输入为pattern中的边）
         /// 1、首先保持最长的边
@@ -2594,6 +2740,21 @@ namespace AuxStructureLib
                             this.PgforRefineSimilarBuildingPatternList.Add(PgforBuildingPatternList[j]);
                         }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        ///获取按顺序排列的点边，并存储 
+        /// </summary>
+        /// <param name="PatternNodeList"></param>
+        public void EdgeforPattern(List<List<ProxiEdge>> LinearPatternEdge)
+        {
+            for (int i = 0; i < LinearPatternEdge.Count; i++)
+            {
+                for (int m = 0; m < LinearPatternEdge[i].Count; m++)
+                {
+                    this.LinearEdges.Add(LinearPatternEdge[i][m]);
                 }
             }
         }
@@ -2915,17 +3076,14 @@ namespace AuxStructureLib
                 Length2 = shortestDis;
             }
 
-            if (Length1 > Length2 && Length1 / Length2 < DistanceConstraint)
+            double MaxLength = Math.Max(Length1, Length2);
+            double MinLength = Math.Min(Length1, Length2);
+            double LengthRate = MaxLength / MinLength;
+
+            if (LengthRate < DistanceConstraint)
             {
                 label = true;
             }
-
-            if (Length1 < Length2 && Length2 / Length1 < DistanceConstraint)
-            {
-                label = true;
-            }
-
-            
 
             return label;
         }
@@ -2982,6 +3140,154 @@ namespace AuxStructureLib
             }
 
             return label;
+        }
+
+        /// <summary>
+        /// 计算两个建筑物是否满足size约束
+        /// </summary>
+        /// <param name="Po1"></param>
+        /// <param name="Po2"></param>
+        /// <returns></returns>
+        public bool SizeConstrain(PolygonObject Po1, PolygonObject Po2, double SizeConstraint)
+        {
+            double Area1 = Po1.tArea;
+            double Area2 = Po2.tArea;
+
+            double MaxArea = Math.Max(Area1, Area2);
+            double MinArea = Math.Min(Area1, Area2);
+
+            double AreaRate = MaxArea / MinArea;
+
+            if (AreaRate > SizeConstraint)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 计算两个建筑物是否满足Shape约束
+        /// </summary>
+        /// <param name="Po1"></param>
+        /// <param name="Po2"></param>
+        /// <param name="SizeConstraint"></param>
+        /// <returns></returns>
+        public bool ShapeConstrain(PolygonObject Po1, PolygonObject Po2, double ShapeConstraint)
+        {
+            double Ed1 = Po1.EdgeCount;
+            double Ed2 = Po2.EdgeCount;
+
+            double MaxEd = Math.Max(Ed1, Ed2);
+            double MinEd = Math.Min(Ed1, Ed2);
+
+            double EdRate = MaxEd / MinEd;
+
+            if (EdRate > ShapeConstraint)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 计算两个建筑物是否满足ori约束
+        /// </summary>
+        /// <param name="Po1"></param>
+        /// <param name="Po2"></param>
+        /// <param name="SizeConstraint"></param>
+        /// <returns></returns>
+        public bool OriConstrain(PolygonObject Po1, PolygonObject Po2, double OriConstraint)
+        {
+            double Ori1 = Po1.MBRO;
+            double Ori2 = Po2.MBRO;
+
+            double AddOri = Math.Abs(Ori1 - Ori2);
+            if (AddOri > 90)
+            {
+                AddOri = 180 - AddOri;
+            }
+
+            if (AddOri < OriConstraint)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断两个建筑物是否相似
+        /// </summary>
+        /// <param name="Po1"></param>
+        /// <param name="Po2"></param>
+        /// <param name="SizeConstraint"></param>
+        /// <param name="ShapeConstraint"></param>
+        /// <param name="OriConstraint"></param>
+        /// <returns></returns>
+        public bool Sim(PolygonObject Po1, PolygonObject Po2, double SizeConstraint, double ShapeConstraint, double OriConstraint)
+        {
+            if (this.SizeConstrain(Po1, Po2, SizeConstraint) && this.ShapeConstrain(Po1, Po2, ShapeConstraint) && this.OriConstrain(Po1, Po2, OriConstraint))
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断PathAngle是否一致
+        /// </summary>
+        /// <param name="Po1"></param>
+        /// <param name="Po2"></param>
+        /// <param name="alignAngleConstraint"></param>
+        /// <returns></returns>
+        public bool alignAngleConstrain(PolygonObject Po1, PolygonObject Po2,ProxiEdge Pe, double alignAngleConstraint)
+        {
+            double Ori1 = Po1.MBRO;
+            double Ori2 = Po2.MBRO;
+
+            #region 边方向计算
+            ILine pline1 = new LineClass();
+            IPoint Point11 = new PointClass(); IPoint Point12 = new PointClass();
+            Point11.X = Pe.Node1.X; Point11.Y = Pe.Node1.Y;
+            Point12.X = Pe.Node2.X; Point12.Y = Pe.Node2.Y;
+            pline1.FromPoint = Point11; pline1.ToPoint = Point12;
+            double angle1 = pline1.Angle;
+            #endregion
+
+            #region 判断过程
+            double AddOri1 = Math.Abs(Ori1 - angle1);
+            if (AddOri1 > 90)
+            {
+                AddOri1 = 180 - AddOri1;
+            }
+
+            double AddOri2 = Math.Abs(Ori2 - angle1);
+            if (AddOri2 > 90)
+            {
+                AddOri2 = 180 - AddOri2;
+            }
+
+            if (AddOri1 < alignAngleConstraint && AddOri2 < alignAngleConstraint)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            #endregion
         }
 
         /// <summary>

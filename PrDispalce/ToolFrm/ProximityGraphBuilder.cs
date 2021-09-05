@@ -176,12 +176,7 @@ namespace PrDispalce.协同移位_整体_
 
             //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "删除长边", pMap.SpatialReference, pg.PgwithoutLongEdgesNodesList, pg.PgwithouLongEdgesEdgesList); }
             //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "删除穿过边", pMap.SpatialReference, pg.PgwithoutAcrossEdgesNodesList, pg.PgwithoutAcorssEdgesEdgesList); }
-            //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "邻近图", pMap.SpatialReference, pg.NodeList, pg.EdgeList); }
-           
-            
-
-           
-
+            //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "邻近图", pMap.SpatialReference, pg.NodeList, pg.EdgeList); }                           
             //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "AlphaShapeEdge", pMap.SpatialReference,pg.PgforBuildingNodesList, pg.AlphaShapeEdge); }
             //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "GGGravity", pMap.SpatialReference, pg.GGBuildingNodesListGravityDistance, pg.GGBuildingEdgesListGravityDistance); }
             //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "GGShortest", pMap.SpatialReference, pg.GGBuildingNodesListShortestDistance, pg.GGBuildingEdgesListShortestDistance); }

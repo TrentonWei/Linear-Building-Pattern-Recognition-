@@ -18,6 +18,11 @@ namespace AuxStructureLib
         public NearestEdge NearestEdge;
         public double NearestDistance;
 
+        public double SizeR;
+        public double OriR;
+        public double ShapeR;
+        public double FR;
+
         public double Weight=-1;
         public double W_EdgeN_Simi = -1;
         public double W_A_Simi = -1;

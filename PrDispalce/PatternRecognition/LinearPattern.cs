@@ -36,6 +36,7 @@ namespace PrDispalce.模式识别
         IMap pMap;
         string OutPath;
         PrDispalce.工具类.FeatureHandle pFeatureHandle = new 工具类.FeatureHandle();
+        PrDispalce.工具类.ParameterCompute PC = new 工具类.ParameterCompute();
         #endregion
 
         #region Pattern探测按钮
@@ -59,6 +60,13 @@ namespace PrDispalce.模式识别
             #region 数据读取并内插
             SMap map = new SMap(list);
             map.ReadDateFrmEsriLyrsForEnrichNetWork();
+            foreach (PolygonObject Po in map.PolygonList)
+            {
+                Po.MBRO = PC.GetSMBROrientation(PC.ObjectConvert(Po));
+                Po.tArea = PC.GetArea(PC.ObjectConvert(Po));
+                Po.EdgeCount = Po.PointList.Count;
+            }
+
             map.InterpretatePoint(2);
             #endregion
 
@@ -93,27 +101,29 @@ namespace PrDispalce.模式识别
             //pg.DeleteRepeatedEdge(pg.RNGBuildingEdgesListShortestDistance);
 
             //pg.LinearPatternDetected1(pg.RNGBuildingEdgesListShortestDistance, pg.RNGBuildingNodesListShortestDistance, double.Parse(this.textBox2.Text.ToString()), double.Parse(this.textBox1.Text.ToString()),double.Parse(this.textBox3.Text.ToString()));
-            List<List<ProxiEdge>> PatternEdgeList = pg.LinearPatternDetected2(pg.PgforBuildingEdgesList, pg.PgforBuildingNodesList, double.Parse(this.textBox2.Text.ToString()), double.Parse(this.textBox1.Text.ToString()), double.Parse(this.textBox3.Text.ToString()));
-            
+            List<List<ProxiEdge>> PatternEdgeList = pg.LinearPatternDetected3(map, pg.PgforBuildingEdgesList, pg.PgforBuildingNodesList, double.Parse(this.textBox2.Text.ToString()), double.Parse(this.textBox1.Text.ToString()), double.Parse(this.textBox3.Text.ToString()), double.Parse(this.textBox4.Text.ToString()), double.Parse(this.textBox6.Text.ToString()), double.Parse(this.textBox5.Text.ToString()));
+            pg.EdgeforPattern(PatternEdgeList);
+
             //裁剪pattern
             //List<List<ProxiNode>> PatternNodes = pg.LinearPatternRefinement1(PatternEdgeList);
             //pg.NodesforPattern(PatternNodes);
             
             //相似建筑物pattern
-            List<List<ProxiNode>> PatternNodes = pg.LinearPatternRefinement2(PatternEdgeList, map);
-            List<List<ProxiNode>> rPatternNodes = pg.LinearPatternRefinement1(PatternNodes);
-            pg.EdgeforPattern(rPatternNodes);
+            //List<List<ProxiNode>> PatternNodes = pg.LinearPatternRefinement2(PatternEdgeList, map);
+            //List<List<ProxiNode>> rPatternNodes = pg.LinearPatternRefinement1(PatternNodes);
+            //pg.EdgeforPattern(rPatternNodes);
 
             //pg.LinearPatternDetected(pg.PgforBuildingEdgesList, pg.PgforBuildingNodesList, double.Parse(this.textBox2.Text.ToString()), double.Parse(this.textBox1.Text.ToString()), double.Parse(this.textBox3.Text.ToString()));
             #endregion
 
-            if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "MSTShortest", pMap.SpatialReference, pg.MSTBuildingNodesListShortestDistance, pg.MSTBuildingEdgesListShortestDistance); }
-            if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "RNGShortest", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.RNGBuildingEdgesListShortestDistance); }
-            if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "LinearPattern", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.PgforBuildingPatternList); }
+            if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "LinearPattern", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.LinearEdges); }
+            //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "MSTShortest", pMap.SpatialReference, pg.MSTBuildingNodesListShortestDistance, pg.MSTBuildingEdgesListShortestDistance); }
+            //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "RNGShortest", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.RNGBuildingEdgesListShortestDistance); }
+            //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "LinearPattern", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.PgforBuildingPatternList); }
             //裁剪pattern输出
             //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "rLinearPattern", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.PgforRefineBuildingPatternList); }
             //相似pattern输出
-            if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "rLinearPattern", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.PgforRefineSimilarBuildingPatternList); }
+            //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "rLinearPattern", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.PgforRefineSimilarBuildingPatternList); }
             if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "邻近图", pMap.SpatialReference, pg.PgforBuildingNodesList, pg.PgforBuildingEdgesList); }
             //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "邻近图", pMap.SpatialReference, pg.NodeList, pg.EdgeList); }
         }

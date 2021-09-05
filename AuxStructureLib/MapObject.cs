@@ -343,6 +343,10 @@ namespace AuxStructureLib
         public double AveIPQComDiff = 0;//均值偏差
         public double RatioAverage = 0;//邻近正对面积的平均值
 
+        public double MBRO = 0;//标识建筑物得最小绑定矩形方向
+        public int EdgeCount=0;
+        public double tArea = 0;
+
         public int InOut;//表示建筑物图形是环状，0表示外环；>0表示Holes
         public int BuildingID = -1;//表示建筑物所在ID
 

@@ -14,7 +14,7 @@ namespace PrDispalce.工具类
         BuildingGroupFeatureComputation BGFC = new BuildingGroupFeatureComputation();
 
         /// <summary>
-        /// 大小关系计算(小面积与大面积的比值                                                                                            )
+        /// 大小关系计算(大面积与小面积的比值                                                                                            )
         /// </summary>
         /// <param name="Po1"></param>
         /// <param name="Po2"></param>
@@ -38,7 +38,7 @@ namespace PrDispalce.工具类
                 MinArea = Area1;
             }
 
-            sizer = MinArea / MaxArea;
+            sizer = MaxArea / MinArea;
 
             return sizer;
         }
@@ -56,6 +56,11 @@ namespace PrDispalce.工具类
             double OriPo1 = PC.GetSMBROrientation(Po1);//(0,360)
             double OriPo2 = PC.GetSMBROrientation(Po2);//(0,360)
             Orir = Math.Abs(OriPo1 - OriPo2);
+
+            if (Orir > 90)
+            {
+                Orir = 180 - Orir;
+            }
 
             return Orir;
         }
@@ -78,7 +83,7 @@ namespace PrDispalce.工具类
         }
 
         /// <summary>
-        /// EdgeCount计算
+        /// EdgeCount计算（大边比小边）
         /// </summary>
         /// <param name="Po1"></param>
         /// <param name="Po2"></param>
@@ -90,20 +95,10 @@ namespace PrDispalce.工具类
             double EdgeCount1 = Po1.PointList.Count;
             double EdgeCount2 = Po2.PointList.Count;
 
-            double MaxEdgeCount = 0; double MinEdgeCount = 0;
-            if (EdgeCount1 > EdgeCount2)
-            {
-                MaxEdgeCount = EdgeCount1;
-                MinEdgeCount = EdgeCount2;
-            }
-
-            else
-            {
-                MaxEdgeCount = EdgeCount2;
-                MinEdgeCount = EdgeCount1;
-            }
-
-            Edger = MinEdgeCount / MaxEdgeCount;
+            double MaxEdgeCount = Math.Max(EdgeCount1, EdgeCount2);
+            double MinEdgeCount = Math.Min(EdgeCount1, EdgeCount2);
+          
+            Edger = MaxEdgeCount / MinEdgeCount;
             return Edger;
         }
 
