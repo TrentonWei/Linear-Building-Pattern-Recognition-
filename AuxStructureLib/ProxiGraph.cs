@@ -2351,12 +2351,22 @@ namespace AuxStructureLib
             #region pattern detection
             for (int i = 0; i < PeList.Count; i++)
             {
-                List<ProxiEdge> PatternEdge = new List<ProxiEdge>();
+
+                #region Node2为起点
+                List<ProxiEdge> PatternEdge = new List<ProxiEdge>();//Node2为起点的Pattern
                 ProxiEdge OriginalEdge = PeList[i];//探测的初始边
                 PatternEdge.Add(OriginalEdge);
 
                 ProxiEdge VisitedEdge = OriginalEdge;//当前被访问的边
                 ProxiNode VisitedNode1 = VisitedEdge.Node1; ProxiNode VisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
+                #endregion
+
+                #region Node1为起点
+                List<ProxiEdge> tPatternEdge = new List<ProxiEdge>();//Node2为起点的Pattern
+                tPatternEdge.Add(OriginalEdge);
+                ProxiEdge tVisitedEdge = OriginalEdge;//当前被访问的边
+                ProxiNode tVisitedNode1 = VisitedEdge.Node1; ProxiNode tVisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
+                #endregion
 
                 #region 判断两个建筑物是否相似
                 PolygonObject Po1 = map.GetObjectbyID(VisitedNode1.TagID, FeatureType.PolygonType) as PolygonObject;
@@ -2415,7 +2425,59 @@ namespace AuxStructureLib
                 }
                 #endregion
 
+                #region 沿Node1方向探索
+                if (SimLabel)
+                {
+                    tVisitedEdge = OriginalEdge;
+                    bool Node2DetectLabel = false;
+                    do
+                    {
+                        Node2DetectLabel = false;
+                        List<ProxiEdge> EdgeList2 = ReturnEdgeList(PeList, tVisitedNode1);
+                        EdgeList2.Remove(tVisitedEdge);//移除当前访问的边
+
+                        for (int j = 0; j < EdgeList2.Count; j++)
+                        {
+                            ProxiNode VisitedNode3 = EdgeList2[j].Node1; ProxiNode VisitedNode4 = EdgeList2[j].Node2;//当前被访问的节点
+
+                            PolygonObject Po3 = map.GetObjectbyID(VisitedNode3.TagID, FeatureType.PolygonType) as PolygonObject;
+                            PolygonObject Po4 = map.GetObjectbyID(VisitedNode4.TagID, FeatureType.PolygonType) as PolygonObject;
+
+                            bool SimLabelP = this.Sim(Po3, Po4, SizeConstraint, ShapeConstraint, OriConstraint);
+                            bool DistanceAccept = DistanceConstrain(tVisitedEdge, EdgeList2[j], DistanceConstraint, shortestDis);
+                            bool OrientationAccept = OrientationConstrain(tVisitedEdge, EdgeList2[j], AngleConstraint);
+
+                            if (DistanceAccept && OrientationAccept && SimLabelP)
+                            {
+                                tVisitedEdge = EdgeList2[j];
+                                if (!PatternEdge.Contains(tVisitedEdge))
+                                {
+                                    //把新加入的边作为访问边
+                                    tPatternEdge.Add(tVisitedEdge);
+
+                                    #region 把新加入的点作为访问点
+                                    if (tVisitedNode1 == EdgeList2[j].Node1)
+                                    {
+                                        tVisitedNode1 = EdgeList2[j].Node2;
+                                    }
+
+                                    else if (tVisitedNode1 == EdgeList2[j].Node2)
+                                    {
+                                        tVisitedNode1 = EdgeList2[j].Node1;
+                                    }
+                                    #endregion
+
+                                    Node2DetectLabel = true;
+                                    break;
+                                }
+                            }
+                        }
+                    } while (Node2DetectLabel);
+                }
+                #endregion
+
                 PatternEdgeList.Add(PatternEdge);
+                PatternEdgeList.Add(tPatternEdge);
             }
             #endregion
 
@@ -2453,6 +2515,192 @@ namespace AuxStructureLib
                 }
 
             }while(Stop);
+            #endregion
+
+            return PatternEdgeList;
+        }
+
+        /// 直线模式探测 根据关系确定边
+        /// </summary>
+        /// <param name="PeList"></param>边集合
+        /// <param name="PnList"></param>点集合
+        /// <param name="DistanceConstraint"></param>距离约束
+        /// <param name="AngleConstraint"></param>方向约束
+        /// <param name="OrientationConstraint"></param>方向约束
+        /// <param name="OrientationConstraint"></param>方向约束
+        /// <param name="OrientationConstraint"></param>方向约束
+        public List<List<ProxiEdge>> LinearPatternDetected4(SMap map, List<ProxiEdge> PeList, List<ProxiNode> PnList, double DistanceConstraint, double AngleConstraint, double shortestDis, double SizeConstraint, double OriConstraint, double ShapeConstraint, double alignConstraint)
+        {            
+            List<List<ProxiEdge>> PatternEdgeList = new List<List<ProxiEdge>>();
+
+            #region pattern detection
+            for (int i = 0; i < PeList.Count; i++)
+            {
+
+                #region Node2为起点
+                List<ProxiEdge> PatternEdge = new List<ProxiEdge>();//Node2为起点的Pattern
+                ProxiEdge OriginalEdge = PeList[i];//探测的初始边
+                PatternEdge.Add(OriginalEdge);
+
+                ProxiEdge VisitedEdge = OriginalEdge;//当前被访问的边
+                ProxiNode VisitedNode1 = VisitedEdge.Node1; ProxiNode VisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
+                #endregion
+
+                #region Node1为起点
+                List<ProxiEdge> tPatternEdge = new List<ProxiEdge>();//Node2为起点的Pattern
+                tPatternEdge.Add(OriginalEdge);
+                ProxiEdge tVisitedEdge = OriginalEdge;//当前被访问的边
+                ProxiNode tVisitedNode1 = VisitedEdge.Node1; ProxiNode tVisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
+                #endregion
+
+                #region 判断两个建筑物是否相似
+                PolygonObject Po1 = map.GetObjectbyID(VisitedNode1.TagID, FeatureType.PolygonType) as PolygonObject;
+                PolygonObject Po2 = map.GetObjectbyID(VisitedNode2.TagID, FeatureType.PolygonType) as PolygonObject;
+                bool SimLabel = this.Sim(Po1, Po2, SizeConstraint, ShapeConstraint, OriConstraint);
+                #endregion
+
+                #region 沿Node2方向探索
+                if (SimLabel)
+                {
+                    VisitedEdge = OriginalEdge;
+                    bool Node2DetectLabel = false;
+                    do
+                    {
+                        Node2DetectLabel = false;
+                        List<ProxiEdge> EdgeList2 = ReturnEdgeList(PeList, VisitedNode2);
+                        EdgeList2.Remove(VisitedEdge);//移除当前访问的边
+
+                        for (int j = 0; j < EdgeList2.Count; j++)
+                        {
+                            ProxiNode VisitedNode3 = EdgeList2[j].Node1; ProxiNode VisitedNode4 = EdgeList2[j].Node2;//当前被访问的节点
+
+                            PolygonObject Po3 = map.GetObjectbyID(VisitedNode3.TagID, FeatureType.PolygonType) as PolygonObject;
+                            PolygonObject Po4 = map.GetObjectbyID(VisitedNode4.TagID, FeatureType.PolygonType) as PolygonObject;
+
+                            bool SimLabelP = this.Sim(Po3, Po4, SizeConstraint, ShapeConstraint, OriConstraint);
+                            bool DistanceAccept = DistanceConstrain(VisitedEdge, EdgeList2[j], DistanceConstraint, shortestDis);
+                            bool alignAngle2 = this.alignAngleConstrain(Po3, Po4, EdgeList2[j], alignConstraint);
+                            bool OrientationAccept = OrientationConstrain(VisitedEdge, EdgeList2[j], AngleConstraint);
+
+                            if (DistanceAccept && OrientationAccept && SimLabelP)
+                            {
+                                VisitedEdge = EdgeList2[j];
+                                if (!PatternEdge.Contains(VisitedEdge))
+                                {
+                                    //把新加入的边作为访问边
+                                    PatternEdge.Add(VisitedEdge);
+
+                                    #region 把新加入的点作为访问点
+                                    if (VisitedNode2 == EdgeList2[j].Node1)
+                                    {
+                                        VisitedNode2 = EdgeList2[j].Node2;
+                                    }
+
+                                    else if (VisitedNode2 == EdgeList2[j].Node2)
+                                    {
+                                        VisitedNode2 = EdgeList2[j].Node1;
+                                    }
+                                    #endregion
+
+                                    Node2DetectLabel = true;
+                                    break;
+                                }
+                            }
+                        }
+                    } while (Node2DetectLabel);
+                }
+                #endregion
+
+                #region 沿Node1方向探索
+                if (SimLabel)
+                {
+                    tVisitedEdge = OriginalEdge;
+                    bool Node2DetectLabel = false;
+                    do
+                    {
+                        Node2DetectLabel = false;
+                        List<ProxiEdge> EdgeList2 = ReturnEdgeList(PeList, tVisitedNode1);
+                        EdgeList2.Remove(tVisitedEdge);//移除当前访问的边
+
+                        for (int j = 0; j < EdgeList2.Count; j++)
+                        {
+                            ProxiNode VisitedNode3 = EdgeList2[j].Node1; ProxiNode VisitedNode4 = EdgeList2[j].Node2;//当前被访问的节点
+
+                            PolygonObject Po3 = map.GetObjectbyID(VisitedNode3.TagID, FeatureType.PolygonType) as PolygonObject;
+                            PolygonObject Po4 = map.GetObjectbyID(VisitedNode4.TagID, FeatureType.PolygonType) as PolygonObject;
+
+                            bool SimLabelP = this.Sim(Po3, Po4, SizeConstraint, ShapeConstraint, OriConstraint);
+                            bool DistanceAccept = DistanceConstrain(tVisitedEdge, EdgeList2[j], DistanceConstraint, shortestDis);
+                            bool OrientationAccept = OrientationConstrain(tVisitedEdge, EdgeList2[j], AngleConstraint);
+
+                            if (DistanceAccept && OrientationAccept && SimLabelP)
+                            {
+                                tVisitedEdge = EdgeList2[j];
+                                if (!PatternEdge.Contains(tVisitedEdge))
+                                {
+                                    //把新加入的边作为访问边
+                                    tPatternEdge.Add(tVisitedEdge);
+
+                                    #region 把新加入的点作为访问点
+                                    if (tVisitedNode1 == EdgeList2[j].Node1)
+                                    {
+                                        tVisitedNode1 = EdgeList2[j].Node2;
+                                    }
+
+                                    else if (tVisitedNode1 == EdgeList2[j].Node2)
+                                    {
+                                        tVisitedNode1 = EdgeList2[j].Node1;
+                                    }
+                                    #endregion
+
+                                    Node2DetectLabel = true;
+                                    break;
+                                }
+                            }
+                        }
+                    } while (Node2DetectLabel);
+                }
+                #endregion
+
+                PatternEdgeList.Add(PatternEdge);
+                PatternEdgeList.Add(tPatternEdge);
+            }
+            #endregion
+
+            #region Post-Process：删除重复的集合
+            bool Stop = false;
+            do
+            {
+                Stop = false;
+                foreach (List<ProxiEdge> Pattern in PatternEdgeList)
+                {
+                    if (Pattern.Count <= 1)
+                    {
+                        PatternEdgeList.Remove(Pattern);
+                        Stop = true;
+                        break;
+                    }
+
+                    foreach (List<ProxiEdge> CachePattern in PatternEdgeList)
+                    {
+                        if (Pattern != CachePattern)
+                        {
+                            if (this.SubSet(Pattern, CachePattern))
+                            {
+                                PatternEdgeList.Remove(Pattern);
+                                Stop = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (Stop)
+                    {
+                        break;
+                    }
+                }
+
+            } while (Stop);
             #endregion
 
             return PatternEdgeList;
@@ -3153,6 +3401,44 @@ namespace AuxStructureLib
         }
 
         /// <summary>
+        /// 计算是否满足alignAngle约束
+        /// </summary>
+        /// <param name="pline1"></param>
+        /// <param name="pline2"></param>
+        /// <returns></returns>
+        public bool alignAngleConstrain2(PolygonObject Po1,PolygonObject Po2,ProxiEdge Pe, double alignAngleConstraint)
+        {
+            #region 计算Pe角度
+            ILine pline1 = new LineClass(); 
+            IPoint Point11 = new PointClass(); IPoint Point12 = new PointClass();
+            Point11.X = Pe.Node1.X; Point11.Y = Pe.Node1.Y;
+            Point12.X = Pe.Node2.X; Point12.Y = Pe.Node2.Y;
+            pline1.FromPoint = Point11; pline1.ToPoint = Point12;
+            double angle1 = pline1.Angle;
+            double dAngle1Degree = (180 * angle1) / Math.PI;
+            
+            if (dAngle1Degree < 0)
+            {
+                dAngle1Degree = dAngle1Degree + 180;
+            }
+            #endregion
+
+
+            double Angle1 = Math.Abs(Po1.MBRO - dAngle1Degree);
+            double Angle2 = Math.Abs(Po2.MBRO - dAngle1Degree);
+
+            if (Angle1 <= alignAngleConstraint && Angle2 <= alignAngleConstraint)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 计算两条直线是否满足局部方向差异
         /// </summary>
         /// <param name="Pline1"></param>
@@ -3160,50 +3446,146 @@ namespace AuxStructureLib
         /// <returns></returns>
         public bool OrientationConstrain(ProxiEdge Pline1, ProxiEdge Pline2,double OrientationConstraint)
         {
-            bool label = false;
+            #region Constraint 1
+            //bool label = false;
 
-            ILine pline1 = new LineClass(); ILine pline2 = new LineClass();
-            IPoint Point11 = new PointClass(); IPoint Point12 = new PointClass();
-            IPoint Point21 = new PointClass(); IPoint Point22 = new PointClass();
+            //ILine pline1 = new LineClass(); ILine pline2 = new LineClass();
+            //IPoint Point11 = new PointClass(); IPoint Point12 = new PointClass();
+            //IPoint Point21 = new PointClass(); IPoint Point22 = new PointClass();
 
-            Point11.X = Pline1.Node1.X; Point11.Y = Pline1.Node1.Y;
-            Point12.X = Pline1.Node2.X; Point12.Y = Pline1.Node2.Y;
-            Point21.X = Pline2.Node1.X; Point21.Y = Pline2.Node1.Y;
-            Point22.X = Pline2.Node2.X; Point22.Y = Pline2.Node2.Y;
+            //Point11.X = Pline1.Node1.X; Point11.Y = Pline1.Node1.Y;
+            //Point12.X = Pline1.Node2.X; Point12.Y = Pline1.Node2.Y;
+            //Point21.X = Pline2.Node1.X; Point21.Y = Pline2.Node1.Y;
+            //Point22.X = Pline2.Node2.X; Point22.Y = Pline2.Node2.Y;
 
-            pline1.FromPoint = Point11; pline1.ToPoint = Point12;
-            pline2.FromPoint = Point21; pline2.ToPoint = Point22;
+            //pline1.FromPoint = Point11; pline1.ToPoint = Point12;
+            //pline2.FromPoint = Point21; pline2.ToPoint = Point22;
 
-            double angle1 = pline1.Angle;
-            double angle2 = pline2.Angle;
+            //double angle1 = pline1.Angle;
+            //double angle2 = pline2.Angle;
 
-            #region 将angle装换到0-180
-            double Pi = 4 * Math.Atan(1);
-            double dAngle1Degree = (180 * angle1) / Pi;
-            double dAngle2Degree = (180 * angle2) / Pi;
+            //#region 将angle装换到0-180
+            //double Pi = 4 * Math.Atan(1);
+            //double dAngle1Degree = (180 * angle1) / Pi;
+            //double dAngle2Degree = (180 * angle2) / Pi;
 
-            if (dAngle1Degree < 0)
+            //if (dAngle1Degree < 0)
+            //{
+            //    dAngle1Degree = dAngle1Degree + 180;
+            //}
+
+            //if (dAngle2Degree < 0)
+            //{
+            //    dAngle2Degree = dAngle2Degree + 180;
+            //}
+            //#endregion
+
+            //if (Math.Abs(dAngle1Degree - dAngle2Degree) < 90 && Math.Abs(dAngle1Degree - dAngle2Degree) < OrientationConstraint)
+            //{
+            //    label = true;
+            //}
+
+            //if (Math.Abs(dAngle1Degree - dAngle2Degree) > 90 && Math.Abs(180 - Math.Abs(dAngle1Degree - dAngle2Degree)) < OrientationConstraint)
+            //{
+            //    label = true;
+            //}
+            #endregion
+
+            #region Constraint 2
+            #region 后点是前点 (pline1 Node2;pLine 2 Node1)
+            if (Pline1.Node2.X == Pline2.Node1.X && Pline1.Node2.Y == Pline2.Node1.Y)
             {
-                dAngle1Degree = dAngle1Degree + 180;
-            }
+                double a = Math.Sqrt((Pline1.Node2.X - Pline2.Node2.X) * (Pline1.Node2.X - Pline2.Node2.X) + (Pline1.Node2.Y - Pline2.Node2.Y) * (Pline1.Node2.Y - Pline2.Node2.Y));
+                double b = Math.Sqrt((Pline1.Node2.X - Pline1.Node1.X) * (Pline1.Node2.X - Pline1.Node1.X) + (Pline1.Node2.Y - Pline1.Node1.Y) * (Pline1.Node2.Y - Pline1.Node1.Y));
+                double c = Math.Sqrt((Pline2.Node2.X - Pline1.Node1.X) * (Pline2.Node2.X - Pline1.Node1.X) + (Pline2.Node2.Y - Pline1.Node1.Y) * (Pline2.Node2.Y - Pline1.Node1.Y));
 
-            if (dAngle2Degree < 0)
-            {
-                dAngle2Degree = dAngle2Degree + 180;
+                double CosCur = (a * a + b * b - c * c) / (2 * a * b);
+                double Angle = Math.Acos(CosCur);
+                Angle = (180 * Angle) / Math.PI;
+
+                if (Angle >= 180 - OrientationConstraint || Angle == 0)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
             }
             #endregion
 
-            if (Math.Abs(dAngle1Degree - dAngle2Degree) < 90 && Math.Abs(dAngle1Degree - dAngle2Degree) < OrientationConstraint)
+            #region 后点是前点 (pline1 Node2;pLine2 Node2)
+            else if (Pline1.Node2.X == Pline2.Node2.X && Pline1.Node2.Y == Pline2.Node2.Y)
             {
-                label = true;
-            }
+                double a = Math.Sqrt((Pline1.Node2.X - Pline2.Node1.X) * (Pline1.Node2.X - Pline2.Node1.X) + (Pline1.Node2.Y - Pline2.Node1.Y) * (Pline1.Node2.Y - Pline2.Node1.Y));
+                double b = Math.Sqrt((Pline1.Node2.X - Pline1.Node1.X) * (Pline1.Node2.X - Pline1.Node1.X) + (Pline1.Node2.Y - Pline1.Node1.Y) * (Pline1.Node2.Y - Pline1.Node1.Y));
+                double c = Math.Sqrt((Pline2.Node1.X - Pline1.Node1.X) * (Pline2.Node1.X - Pline1.Node1.X) + (Pline2.Node1.Y - Pline1.Node1.Y) * (Pline2.Node1.Y - Pline1.Node1.Y));
 
-            if (Math.Abs(dAngle1Degree - dAngle2Degree) > 90 && Math.Abs(180 - Math.Abs(dAngle1Degree - dAngle2Degree)) < OrientationConstraint)
+                double CosCur = (a * a + b * b - c * c) / (2 * a * b);
+                double Angle = Math.Acos(CosCur);
+                Angle = (180 * Angle) / Math.PI;
+
+                if (Angle >= 180 - OrientationConstraint || Angle == 0)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region 第三种情况 (pline1 Node1;pLine 2 Node2)
+            else if (Pline1.Node1.X == Pline2.Node2.X && Pline1.Node1.Y == Pline2.Node2.Y)
             {
-                label = true;
-            }
+                double a = Math.Sqrt((Pline1.Node1.X - Pline2.Node1.X) * (Pline1.Node1.X - Pline2.Node1.X) + (Pline1.Node1.Y - Pline2.Node1.Y) * (Pline1.Node1.Y - Pline2.Node1.Y));
+                double b = Math.Sqrt((Pline1.Node1.X - Pline1.Node2.X) * (Pline1.Node1.X - Pline1.Node2.X) + (Pline1.Node1.Y - Pline1.Node2.Y) * (Pline1.Node1.Y - Pline1.Node2.Y));
+                double c = Math.Sqrt((Pline2.Node1.X - Pline1.Node2.X) * (Pline2.Node1.X - Pline1.Node2.X) + (Pline2.Node1.Y - Pline1.Node2.Y) * (Pline2.Node1.Y - Pline1.Node2.Y));
 
-            return label;
+                double CosCur = (a * a + b * b - c * c) / (2 * a * b);
+                double Angle = Math.Acos(CosCur);
+                Angle = (180 * Angle) / Math.PI;
+
+                if (Angle >= 180 - OrientationConstraint || Angle == 0)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+            #endregion
+
+            #region (pline1 Node1;pLine2 Node1)
+            else
+            {
+                double a = Math.Sqrt((Pline1.Node1.X - Pline2.Node2.X) * (Pline1.Node1.X - Pline2.Node2.X) + (Pline1.Node1.Y - Pline2.Node2.Y) * (Pline1.Node1.Y - Pline2.Node2.Y));
+                double b = Math.Sqrt((Pline1.Node1.X - Pline1.Node2.X) * (Pline1.Node1.X - Pline1.Node2.X) + (Pline1.Node1.Y - Pline1.Node2.Y) * (Pline1.Node1.Y - Pline1.Node2.Y));
+                double c = Math.Sqrt((Pline2.Node2.X - Pline1.Node2.X) * (Pline2.Node2.X - Pline1.Node2.X) + (Pline2.Node2.Y - Pline1.Node2.Y) * (Pline2.Node2.Y - Pline1.Node2.Y));
+
+                double CosCur = (a * a + b * b - c * c) / (2 * a * b);
+                double Angle = Math.Acos(CosCur);
+                Angle = (180 * Angle) / Math.PI;
+
+                if (Angle >= 180 - OrientationConstraint || Angle == 0)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+            #endregion
+            #endregion
+
+            //return label;
         }
 
         /// <summary>
@@ -3343,7 +3725,7 @@ namespace AuxStructureLib
                 AddOri2 = 180 - AddOri2;
             }
 
-            if (AddOri1 < alignAngleConstraint && AddOri2 < alignAngleConstraint)
+            if (AddOri1 <= alignAngleConstraint && AddOri2 <= alignAngleConstraint)
             {
                 return true;
             }

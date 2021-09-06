@@ -1,4 +1,4 @@
-# FlowMap
+# Linear pattern recognition
 # this is a readme
 #The Code is developed to support the findings of our submitted paper entitled “Linear building pattern recognition in topographical maps using convex polygon decomposition"
 #The tools were implemented in C# on ArcGIS 10.2 software (ESRI, USA), each tool has a separate form to set the input, output and parameters for the algorithms.
