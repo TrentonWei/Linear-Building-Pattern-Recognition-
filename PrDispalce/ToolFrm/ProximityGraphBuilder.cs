@@ -206,17 +206,17 @@ namespace PrDispalce.协同移位_整体_
             if (checkBox4.Checked)
             {
                 pg.CreateRNGForBuildingsShortestDistance(pg.PgforBuildingNodesList, pg.PgforBuildingEdgesList);
-                pg.CreateRNGForBuildingsGravityDistance(pg.PgforBuildingNodesList, pg.PgforBuildingEdgesList);
+                //pg.CreateRNGForBuildingsGravityDistance(pg.PgforBuildingNodesList, pg.PgforBuildingEdgesList);
 
-                if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "RNGGravity", pMap.SpatialReference, pg.RNGBuildingNodesListGravityDistance, pg.RNGBuildingEdgesListGravityDistance); }
+                //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "RNGGravity", pMap.SpatialReference, pg.RNGBuildingNodesListGravityDistance, pg.RNGBuildingEdgesListGravityDistance); }
                 if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "RNGShortest", pMap.SpatialReference, pg.RNGBuildingNodesListShortestDistance, pg.RNGBuildingEdgesListShortestDistance); }
             }
 
             if (checkBox5.Checked)
             {
-                pg.CreateMSTForBuildingsGravityDistance(pg.PgforBuildingNodesList, pg.PgforBuildingEdgesList);
+                //pg.CreateMSTForBuildingsGravityDistance(pg.PgforBuildingNodesList, pg.PgforBuildingEdgesList);
                 pg.CreateMSTForBuildingsShortestDistance(pg.PgforBuildingNodesList, pg.PgforBuildingEdgesList);
-                if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "MSTGravity", pMap.SpatialReference, pg.MSTBuildingNodesListGravityDistance, pg.MSTBuildingEdgesListGravityDistance); }
+                //if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "MSTGravity", pMap.SpatialReference, pg.MSTBuildingNodesListGravityDistance, pg.MSTBuildingEdgesListGravityDistance); }
                 if (OutPath != null) { pg.WriteProxiGraph2Shp(OutPath, "MSTShortest", pMap.SpatialReference, pg.MSTBuildingNodesListShortestDistance, pg.MSTBuildingEdgesListShortestDistance); }
             }
 
