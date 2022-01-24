@@ -1668,17 +1668,10 @@ namespace AuxStructureLib
         /// </summary>
         public void CreateRNGForBuildingsShortestDistance(List<ProxiNode> PnList,List<ProxiEdge> PeList)
         {
-            #region RNG的潜在所有边
-            for (int i = 0; i < PeList.Count; i++)
-            {
-                this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
-            }
-            #endregion
-
             #region 找到潜在RNG对应的每条边，判断是否是邻近图中三角形对应的最长边，如果是，删除
-            for (int i = 0; i<this.RNGBuildingEdgesListShortestDistance.Count; i++)
+            for (int i = 0; i<PeList.Count; i++)
             {
-                ProxiEdge TinLine = this.RNGBuildingEdgesListShortestDistance[i];
+                ProxiEdge TinLine = PeList[i];
 
                 #region 获取边的属性，即节点和对应的最短距离
                 ProxiNode Pn1 = TinLine.Node1;
@@ -1716,9 +1709,9 @@ namespace AuxStructureLib
 
                     if (Label1 && Label2)
                     {
-                        if (Distance > Distance1 && Distance > Distance2)
+                        if (Distance < Distance1 || Distance < Distance2)
                         {
-                            this.RNGBuildingEdgesListShortestDistance.Remove(TinLine);
+                            this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
                             break;
                         }
                     }
