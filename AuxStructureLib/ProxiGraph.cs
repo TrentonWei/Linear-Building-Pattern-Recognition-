@@ -1715,6 +1715,24 @@ namespace AuxStructureLib
                             break;
                         }
                     }
+
+                    if (Label1 && !Label2)
+                    {
+                        if (Distance < Distance1)
+                        {
+                            this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
+                            break;
+                        }
+                    }
+
+                    if (!Label1 && Label2)
+                    {
+                        if (Distance < Distance2)
+                        {
+                            this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
+                            break;
+                        }
+                    }
                 }
                 #endregion
             }
