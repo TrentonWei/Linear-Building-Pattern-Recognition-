@@ -1680,6 +1680,7 @@ namespace AuxStructureLib
                 #endregion
 
                 #region 判断边是否为三角形对应的最长边
+                bool SingleEdgeLabel=false;
                 for (int j = 0; j < PnList.Count; j++)
                 {
                     bool Label1 = false; bool Label2 = false;
@@ -1707,32 +1708,22 @@ namespace AuxStructureLib
                         }
                     }
 
+                    #region 存在三角形
                     if (Label1 && Label2)
                     {
+                        SingleEdgeLabel = true;
                         if (Distance < Distance1 || Distance < Distance2)
                         {
                             this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
                             break;
                         }
                     }
+                    #endregion
+                }
 
-                    if (Label1 && !Label2)
-                    {
-                        if (Distance < Distance1)
-                        {
-                            this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
-                            break;
-                        }
-                    }
-
-                    if (!Label1 && Label2)
-                    {
-                        if (Distance < Distance2)
-                        {
-                            this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
-                            break;
-                        }
-                    }
+                if (!SingleEdgeLabel)
+                {
+                    this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
                 }
                 #endregion
             }
