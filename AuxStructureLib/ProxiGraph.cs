@@ -1712,7 +1712,7 @@ namespace AuxStructureLib
                     if (Label1 && Label2)
                     {
                         SingleEdgeLabel = true;
-                        if (Distance < Distance1 || Distance < Distance2)
+                        if (Distance <= Distance1 || Distance <= Distance2)
                         {
                             this.RNGBuildingEdgesListShortestDistance.Add(PeList[i]);
                             break;

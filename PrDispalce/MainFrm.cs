@@ -214,7 +214,8 @@ namespace PrDispalce
         /// <param name="e"></param>
         private void 建筑物特征计算ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            PrDispalce.ToolFrm.MeasureComputation MCFrm = new ToolFrm.MeasureComputation(this.axMapControl1.Map);
+            MCFrm.Show();
         }
 
         /// <summary>

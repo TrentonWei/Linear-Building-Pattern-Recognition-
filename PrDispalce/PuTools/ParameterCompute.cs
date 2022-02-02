@@ -77,7 +77,7 @@ namespace PrDispalce.工具类
         public double GetArea(IPolygon pPolygon)
         {
             IArea pArea = (IArea)pPolygon;
-            double area1 = pArea.Area;
+            double area1 = pArea.Area * 1000000;
             return area1;
         }
 
@@ -1108,8 +1108,8 @@ namespace PrDispalce.工具类
         /// <returns></returns>
         public int GetEdgeCount(IPolygon pPolygon)
         {
-            IPointArray PointArray = pPolygon as IPointArray;
-            int EdgeCount = PointArray.Count;
+            IPointCollection PointArray = pPolygon as IPointCollection;
+            int EdgeCount = PointArray.PointCount - 1;
 
             return EdgeCount;
         }

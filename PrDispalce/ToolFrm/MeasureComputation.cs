@@ -228,13 +228,13 @@ namespace PrDispalce.ToolFrm
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "LChord", area1);
                 }
 
-                if (checkBox6.Checked)//MBRO
+                if (checkBox6.Checked)//MWO
                 {
                     double area1 = PC.GetMWOrientation((IPolygon)pFeature.Shape);
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "MWO", area1);
                 }
 
-                if (checkBox7.Checked)//MBRO
+                if (checkBox7.Checked)//SWWO
                 {
                     double area1 = PC.GetSWWOrientation((IPolygon)pFeature.Shape);
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "SWWO", area1);
@@ -310,13 +310,13 @@ namespace PrDispalce.ToolFrm
                     double area1 = PC.GetFd((IPolygon)pFeature.Shape);
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "Fd", area1);
                 }
-                if (checkBox20.Checked)//BotCom
+                if (checkBox20.Checked)//Comp1
                 {
                     double area1 = PC.GetCompl((IPolygon)pFeature.Shape);
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "Compl", area1);
                 }
 
-                if (checkBox21.Checked)//BoyCom
+                if (checkBox21.Checked)//NCSP
                 {
                     double area1 = PC.GetNCSP((IPolygon)pFeature.Shape);
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "NCSP", area1);
