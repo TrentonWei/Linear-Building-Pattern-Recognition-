@@ -243,14 +243,14 @@ namespace PrDispalce.工具类
         #region 将数据存储到字段下
         public void DataStore(IFeatureClass pFeatureClass, IFeature pFeature, string s, double t)
         {
-            IDataset dataset = pFeatureClass as IDataset;
-            IWorkspace workspace = dataset.Workspace;
-            IWorkspaceEdit wse = workspace as IWorkspaceEdit;
+            //IDataset dataset = pFeatureClass as IDataset;
+            //IWorkspace workspace = dataset.Workspace;
+            //IWorkspaceEdit wse = workspace as IWorkspaceEdit;
 
             IFields pFields = pFeature.Fields;
 
-            wse.StartEditing(false);
-            wse.StartEditOperation();
+            //wse.StartEditing(false);
+            //wse.StartEditOperation();
 
             int fnum;
             fnum = pFields.FieldCount;
@@ -261,12 +261,12 @@ namespace PrDispalce.工具类
                 {
                     int field1 = pFields.FindField(s);
                     pFeature.set_Value(field1, t);
-                    pFeature.Store();
+                    //pFeature.Store();
                 }
             }
 
-            wse.StopEditOperation();
-            wse.StopEditing(true);
+            //wse.StopEditOperation();
+            //wse.StopEditing(true);
         }
         #endregion
 

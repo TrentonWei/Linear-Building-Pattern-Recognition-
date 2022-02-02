@@ -409,19 +409,19 @@ C:\WorkFiles\06 代码集合\PrDispalce\PrDispalce\obj\x86\Debug\PrDispalce.工�
 C:\WorkFiles\06 代码集合\PrDispalce - 副本\PrDispalce\obj\x86\Debug\PrDispalce.csproj.ResolveComReference.cache
 C:\WorkFiles\06 代码集合\PrDispalce - 副本\PrDispalce\obj\x86\Debug\PrDispalce.exe
 C:\WorkFiles\06 代码集合\PrDispalce - 副本\PrDispalce\obj\x86\Debug\PrDispalce.pdb
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csproj.ResolveComReference.cache
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.exe
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.pdb
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csprojResolveAssemblyReference.cache
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.BuildingSim.BuildingSimFrm.resources
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.PatternRecognition.PRForm.resources
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.Properties.Resources.resources
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.协同移位_整体_.ProximityGraphBuilder.resources
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.模式识别.LinearPattern.resources
-C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csproj.GenerateResource.Cache
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\bin\Debug\PrDispalce.exe
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\bin\Debug\PrDispalce.pdb
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\bin\Debug\AuxStructureLib.dll
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\bin\Debug\AuxStructureLib.pdb
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csprojResolveAssemblyReference.cache
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csproj.ResolveComReference.cache
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.BuildingSim.BuildingSimFrm.resources
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.MainFrm.resources
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.PatternRecognition.PRForm.resources
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.Properties.Resources.resources
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.ToolFrm.MeasureComputation.resources
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.协同移位_整体_.ProximityGraphBuilder.resources
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.模式识别.LinearPattern.resources
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csproj.GenerateResource.Cache
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.exe
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.pdb
