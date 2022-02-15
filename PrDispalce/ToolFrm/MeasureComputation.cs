@@ -433,7 +433,7 @@ namespace PrDispalce.ToolFrm
                 IFeature pFeature = pFeatureCursor.NextFeature();
                 while (pFeature != null && Testint <= PerimeterFeatureClass.FeatureCount(null))
                 {
-                    Testint++:
+                    Testint++;
                     double NCSP = PC.GetNCSP((IPolygon)pFeature.Shape);
                     pFH.DataStore(PerimeterFeatureClass, pFeature, "NCSP", NCSP);
                 }

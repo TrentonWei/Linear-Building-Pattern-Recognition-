@@ -77,7 +77,7 @@ namespace PrDispalce.工具类
         public double GetArea(IPolygon pPolygon)
         {
             IArea pArea = (IArea)pPolygon;
-            double area1 = pArea.Area * 1000000;
+            double area1 = pArea.Area * 111200 * 111200;
             return area1;
         }
 

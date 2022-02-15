@@ -417,6 +417,7 @@ C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.c
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csproj.ResolveComReference.cache
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.BuildingSim.BuildingSimFrm.resources
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.MainFrm.resources
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.PatternRecognition.KGSupportfrm.resources
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.PatternRecognition.PRForm.resources
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.Properties.Resources.resources
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.ToolFrm.MeasureComputation.resources

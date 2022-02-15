@@ -22,6 +22,7 @@ namespace AuxStructureLib
         public double OriR;
         public double ShapeR;
         public double FR;
+        public bool SimR;
 
         public double Weight=-1;
         public double W_EdgeN_Simi = -1;
@@ -31,6 +32,7 @@ namespace AuxStructureLib
 
         public Skeleton_Arc Ske_Arc = null;
         public bool intersectedConflict = false;
+        public bool KGVisit = false;
 
         //Hashtable WFields = new Hashtable();
         /// <summary>

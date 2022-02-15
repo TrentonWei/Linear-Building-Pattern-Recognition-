@@ -239,5 +239,11 @@ namespace PrDispalce
             PrDispalce.模式识别.LinearPattern LinearPatterfrm = new 模式识别.LinearPattern(this.axMapControl1.Map);
             LinearPatterfrm.Show();
         }
+
+        private void knowledgegraphSupportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PrDispalce.PatternRecognition.KGSupportfrm kgSupportfrm = new PatternRecognition.KGSupportfrm(this.axMapControl1.Map);
+            kgSupportfrm.Show();
+        }
     }
 }

@@ -31,16 +31,17 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.建筑物特征计算ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.协同移位整体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.图形剖分ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.直线模式识别ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.移除图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
-            this.图形剖分ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.建筑物特征计算ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.直线模式识别ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.knowledgegraphSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
@@ -55,7 +56,8 @@
             this.建筑物特征计算ToolStripMenuItem,
             this.协同移位整体ToolStripMenuItem,
             this.图形剖分ToolStripMenuItem,
-            this.直线模式识别ToolStripMenuItem});
+            this.直线模式识别ToolStripMenuItem,
+            this.knowledgegraphSupportToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
@@ -63,12 +65,33 @@
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // 建筑物特征计算ToolStripMenuItem
+            // 
+            this.建筑物特征计算ToolStripMenuItem.Name = "建筑物特征计算ToolStripMenuItem";
+            this.建筑物特征计算ToolStripMenuItem.Size = new System.Drawing.Size(176, 28);
+            this.建筑物特征计算ToolStripMenuItem.Text = "BuildingMeasures";
+            this.建筑物特征计算ToolStripMenuItem.Click += new System.EventHandler(this.建筑物特征计算ToolStripMenuItem_Click);
+            // 
             // 协同移位整体ToolStripMenuItem
             // 
             this.协同移位整体ToolStripMenuItem.Name = "协同移位整体ToolStripMenuItem";
             this.协同移位整体ToolStripMenuItem.Size = new System.Drawing.Size(157, 28);
             this.协同移位整体ToolStripMenuItem.Text = "ProximityGraph";
             this.协同移位整体ToolStripMenuItem.Click += new System.EventHandler(this.协同移位整体ToolStripMenuItem_Click);
+            // 
+            // 图形剖分ToolStripMenuItem
+            // 
+            this.图形剖分ToolStripMenuItem.Name = "图形剖分ToolStripMenuItem";
+            this.图形剖分ToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.图形剖分ToolStripMenuItem.Text = "PolygonDecomposition";
+            this.图形剖分ToolStripMenuItem.Click += new System.EventHandler(this.图形剖分ToolStripMenuItem_Click);
+            // 
+            // 直线模式识别ToolStripMenuItem
+            // 
+            this.直线模式识别ToolStripMenuItem.Name = "直线模式识别ToolStripMenuItem";
+            this.直线模式识别ToolStripMenuItem.Size = new System.Drawing.Size(241, 28);
+            this.直线模式识别ToolStripMenuItem.Text = "LinearPatternRecognition";
+            this.直线模式识别ToolStripMenuItem.Click += new System.EventHandler(this.直线模式识别ToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
             // 
@@ -125,28 +148,14 @@
             this.axToolbarControl1.Size = new System.Drawing.Size(1924, 28);
             this.axToolbarControl1.TabIndex = 6;
             // 
-            // 图形剖分ToolStripMenuItem
+            // knowledgegraphSupportToolStripMenuItem
             // 
-            this.图形剖分ToolStripMenuItem.Name = "图形剖分ToolStripMenuItem";
-            this.图形剖分ToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
-            this.图形剖分ToolStripMenuItem.Text = "PolygonDecomposition";
-            this.图形剖分ToolStripMenuItem.Click += new System.EventHandler(this.图形剖分ToolStripMenuItem_Click);
+            this.knowledgegraphSupportToolStripMenuItem.Name = "knowledgegraphSupportToolStripMenuItem";
+            this.knowledgegraphSupportToolStripMenuItem.Size = new System.Drawing.Size(249, 28);
+            this.knowledgegraphSupportToolStripMenuItem.Text = "KnowledgeGraph-Support";
+            this.knowledgegraphSupportToolStripMenuItem.Click += new System.EventHandler(this.knowledgegraphSupportToolStripMenuItem_Click);
             // 
-            // 建筑物特征计算ToolStripMenuItem
-            // 
-            this.建筑物特征计算ToolStripMenuItem.Name = "建筑物特征计算ToolStripMenuItem";
-            this.建筑物特征计算ToolStripMenuItem.Size = new System.Drawing.Size(176, 28);
-            this.建筑物特征计算ToolStripMenuItem.Text = "BuildingMeasures";
-            this.建筑物特征计算ToolStripMenuItem.Click += new System.EventHandler(this.建筑物特征计算ToolStripMenuItem_Click);
-            // 
-            // 直线模式识别ToolStripMenuItem
-            // 
-            this.直线模式识别ToolStripMenuItem.Name = "直线模式识别ToolStripMenuItem";
-            this.直线模式识别ToolStripMenuItem.Size = new System.Drawing.Size(241, 28);
-            this.直线模式识别ToolStripMenuItem.Text = "LinearPatternRecognition";
-            this.直线模式识别ToolStripMenuItem.Click += new System.EventHandler(this.直线模式识别ToolStripMenuItem_Click);
-            // 
-            // Form1
+            // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -158,7 +167,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Form1";
+            this.Name = "MainFrm";
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -185,6 +194,7 @@
         private System.Windows.Forms.ToolStripMenuItem 图形剖分ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 建筑物特征计算ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 直线模式识别ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem knowledgegraphSupportToolStripMenuItem;
     }
 }
 

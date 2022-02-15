@@ -75,6 +75,9 @@ namespace AuxStructureLib
         public List<ProxiNode> GGBuildingNodesListShortestDistance = new List<ProxiNode>();
         public List<ProxiEdge> GGBuildingEdgesListShortestDistance = new List<ProxiEdge>();
 
+        //ForKG
+        public List<ProxiNode> KGNodesList = new List<ProxiNode>();
+        public List<ProxiEdge> KGEdgesList = new List<ProxiEdge>();
         /// <summary>
         /// 点列表
         /// </summary>
@@ -1178,6 +1181,9 @@ namespace AuxStructureLib
                     PgforBuildingEdgesList.Add(Pe);
                 }
             }
+
+            this.KGNodesList = PgforBuildingNodesList;
+            this.KGEdgesList = PgforBuildingEdgesList;
         }
         
         /// <summary>
@@ -1287,7 +1293,10 @@ namespace AuxStructureLib
                 }
 
                 this.NNGforBuilding.Add(ShortestLine);
-            }          
+            }
+
+            this.KGNodesList = this.PgforBuildingNodesList;
+            this.KGEdgesList = this.NNGforBuilding;
         }
 
         /// <summary>
@@ -1610,6 +1619,9 @@ namespace AuxStructureLib
             #endregion
 
             this.MSTBuildingNodesListShortestDistance = PnList;
+
+            this.KGNodesList = this.MSTBuildingNodesListShortestDistance;
+            this.KGEdgesList = this.MSTBuildingEdgesListShortestDistance;
             #endregion
         }
 
@@ -1730,6 +1742,9 @@ namespace AuxStructureLib
             #endregion
 
             this.RNGBuildingNodesListShortestDistance = PnList;
+
+            this.KGNodesList = this.RNGBuildingNodesListShortestDistance;
+            this.KGEdgesList = this.RNGBuildingEdgesListShortestDistance;
         }
 
         /// <summary>
