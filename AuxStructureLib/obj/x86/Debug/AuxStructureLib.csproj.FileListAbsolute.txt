@@ -151,3 +151,4 @@ C:\WorkFiles\06 代码集合\LinearPattern\AuxStructureLib\obj\x86\Debug\AuxStru
 C:\WorkFiles\06 代码集合\LinearPattern\AuxStructureLib\obj\x86\Debug\AuxStructureLib.csproj.GenerateResource.Cache
 C:\WorkFiles\06 代码集合\LinearPattern\AuxStructureLib\obj\x86\Debug\AuxStructureLib.dll
 C:\WorkFiles\06 代码集合\LinearPattern\AuxStructureLib\obj\x86\Debug\AuxStructureLib.pdb
+C:\WorkFiles\06 代码集合\LinearPattern\AuxStructureLib\obj\x86\Debug\AuxStructureLib.csprojResolveAssemblyReference.cache
