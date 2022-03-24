@@ -334,13 +334,50 @@ namespace PrDispalce.BuildingSim
 
             double k = (ParaNode2.Y - ParaNode1.Y) / (ParaNode2.X - ParaNode1.X);
 
-            if (ParaNode2.X - ParaNode1.X != 0)
+            if ((ParaNode2.X - ParaNode1.X) != 0)
             {
                 double x1 = CurPoint.X - 1000; double y1 = CurPoint.Y - 1000 * k;
                 double x2 = CurPoint.X + 1000; double y2 = CurPoint.Y + 1000 * k;
                 IPoint FromPoint = new PointClass(); FromPoint.X = x1; FromPoint.Y = y1;
                 IPoint ToPoint = new PointClass(); ToPoint.X = x2; ToPoint.Y = y2;
                 ParaLine.FromPoint = FromPoint; ParaLine.ToPoint = ToPoint;
+            }
+
+            else
+            {
+                double x1 = CurPoint.X; double y1 = CurPoint.Y - 1000;
+                double x2 = CurPoint.X; double y2 = CurPoint.Y + 1000;
+                IPoint FromPoint = new PointClass(); FromPoint.X = x1; FromPoint.Y = y1;
+                IPoint ToPoint = new PointClass(); ToPoint.X = x2; ToPoint.Y = y2;
+                ParaLine.FromPoint = FromPoint; ParaLine.ToPoint = ToPoint;
+            }
+
+            return ParaLine;
+        }
+
+        /// <summary>
+        /// 给定直线上两点，获取从给定点出发与该直线平行的平行线
+        /// </summary>
+        /// <param name="CurPoint"></param>
+        /// <param name="ParaNode1"></param>
+        /// <param name="ParaNode2"></param>
+        /// <returns></returns>
+        public IPolyline GetParaLine(IPoint CurPoint, IPoint ParaNode1, IPoint ParaNode2)
+        {
+            IPolyline ParaLine = new PolylineClass();
+
+            double k = (ParaNode2.Y - ParaNode1.Y) / (ParaNode2.X - ParaNode1.X);
+
+            if ((ParaNode2.X - ParaNode1.X) != 0)
+            {
+                double x1 = CurPoint.X - 1000; double y1 = CurPoint.Y - 1000 * k;
+                double x2 = CurPoint.X + 1000; double y2 = CurPoint.Y + 1000 * k;
+                IPoint FromPoint = new PointClass(); FromPoint.X = x1; FromPoint.Y = y1;
+                IPoint ToPoint = new PointClass(); ToPoint.X = x2; ToPoint.Y = y2;
+                ParaLine.FromPoint = FromPoint; ParaLine.ToPoint = ToPoint;
+
+                //double Cachek = (FromPoint.Y - ToPoint.Y) / (FromPoint.X - ToPoint.X);
+                //int testloc = 0;
             }
 
             else

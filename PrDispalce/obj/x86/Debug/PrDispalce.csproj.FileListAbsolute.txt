@@ -426,3 +426,4 @@ C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.�
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.csproj.GenerateResource.Cache
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.exe
 C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.pdb
+C:\WorkFiles\06 代码集合\LinearPattern\PrDispalce\obj\x86\Debug\PrDispalce.PatternRecognition.RelationComputationFrm.resources

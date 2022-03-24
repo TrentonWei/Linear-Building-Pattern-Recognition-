@@ -212,7 +212,7 @@ namespace PrDispalce.PatternRecognition
             }
             #endregion
 
-            #region LinearArrange关系计算
+            #region SLinearArrange关系计算
             double DistanceConstraint = 100000000000; double MinDis = 0; double AngleConstraint = 180;
             List<Tuple<ProxiEdge,ProxiEdge>> TripleList = new List<Tuple<ProxiEdge, ProxiEdge>>();
             if (this.checkBox4.Checked)
@@ -252,8 +252,32 @@ namespace PrDispalce.PatternRecognition
             }
             #endregion
 
+            #region CurLinearArrange关系计算
+
+            #endregion
+
             #region 结果输出
             #endregion
+        }
+
+        /// <summary>
+        /// OutPut FilePath
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fdialog = new FolderBrowserDialog();
+            string outfilepath = null;
+
+            if (fdialog.ShowDialog() == DialogResult.OK)
+            {
+                string Path = fdialog.SelectedPath;
+                outfilepath = Path;
+            }
+
+            OutPath = outfilepath;
+            this.comboBox3.Text = OutPath;
         }
     }
 }

@@ -145,6 +145,12 @@
     </Compile>
     <Compile Include="PatternRecognition\PRUtil.cs" />
     <Compile Include="PatternRecognition\BendProcess.cs" />
+    <Compile Include="PatternRecognition\RelationComputationFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatternRecognition\RelationComputationFrm.Designer.cs">
+      <DependentUpon>RelationComputationFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PatternRecognition\TriangleProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -191,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PatternRecognition\PRForm.resx">
       <DependentUpon>PRForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PatternRecognition\RelationComputationFrm.resx">
+      <DependentUpon>RelationComputationFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

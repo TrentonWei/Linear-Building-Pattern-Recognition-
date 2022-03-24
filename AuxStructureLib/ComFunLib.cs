@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Geometry;
 
 namespace AuxStructureLib
 {
@@ -216,6 +217,44 @@ namespace AuxStructureLib
                 y = (k * p.X - k * s.X + s.Y + k * k * p.Y) / (1 + k * k);
             }
             return new TriNode(x, y);
+        }
+
+        /// <summary>
+        /// 求垂足
+        /// </summary>
+        /// <param name="s">起点</param>
+        /// <param name="e">终点</param>
+        /// <param name="p">线段外的点</param>
+        /// <returns>垂足</returns>
+        public IPoint ComChuizu(IPoint s, IPoint e, IPoint p)
+        {
+            double x = 0, y = 0;
+            if ((e.X - s.X) == 0 && (e.Y - s.Y) != 0)//平行于y轴
+            {
+                x = e.X;
+                y = p.Y;
+            }
+            else if ((e.Y - s.Y) == 0 && (e.X - s.X) != 0)//平行于X轴
+            {
+                x = p.X;
+                y = e.Y;
+            }
+            else if ((e.Y - s.Y) == 0 && (e.X - s.X) == 0)
+            {
+                x = e.X;
+                y = e.Y;
+            }
+            else if ((e.Y - s.Y) != 0 && (e.X - s.X) != 0)
+            {
+                double k = (e.Y - s.Y) / (e.X - s.X);
+                x = (k * p.Y - k * s.Y + p.X + k * k * s.X) / (1 + k * k);
+                y = (k * p.X - k * s.X + s.Y + k * k * p.Y) / (1 + k * k);
+            }
+
+            IPoint resPoint = new PointClass();
+            resPoint.X = x;
+            resPoint.Y = y;
+            return resPoint;
         }
 
         /// <summary>

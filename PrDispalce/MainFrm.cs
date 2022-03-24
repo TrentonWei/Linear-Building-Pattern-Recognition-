@@ -245,5 +245,16 @@ namespace PrDispalce
             PrDispalce.PatternRecognition.KGSupportfrm kgSupportfrm = new PatternRecognition.KGSupportfrm(this.axMapControl1.Map);
             kgSupportfrm.Show();
         }
+
+        /// <summary>
+        /// RelationComputation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void relationComputationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PrDispalce.PatternRecognition.RelationComputationFrm RCfrm = new PatternRecognition.RelationComputationFrm(this.axMapControl1);
+            RCfrm.Show();
+        }
     }
 }

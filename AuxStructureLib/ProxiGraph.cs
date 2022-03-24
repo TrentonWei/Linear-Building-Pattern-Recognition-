@@ -2598,7 +2598,7 @@ namespace AuxStructureLib
                             bool alignAngle2 = this.alignAngleConstrain(Po3, Po4, EdgeList2[j], alignConstraint);
                             bool OrientationAccept = OrientationConstrain(VisitedEdge, EdgeList2[j], AngleConstraint);
 
-                            if (DistanceAccept && OrientationAccept && SimLabelP)
+                            if (DistanceAccept && OrientationAccept && SimLabelP && alignAngle2)
                             {
                                 VisitedEdge = EdgeList2[j];
                                 if (!PatternEdge.Contains(VisitedEdge))
@@ -2647,9 +2647,10 @@ namespace AuxStructureLib
 
                             bool SimLabelP = this.Sim(Po3, Po4, SizeConstraint, ShapeConstraint, OriConstraint);
                             bool DistanceAccept = DistanceConstrain(tVisitedEdge, EdgeList2[j], DistanceConstraint, shortestDis);
+                            bool alignAngle2 = this.alignAngleConstrain(Po3, Po4, EdgeList2[j], alignConstraint);
                             bool OrientationAccept = OrientationConstrain(tVisitedEdge, EdgeList2[j], AngleConstraint);
 
-                            if (DistanceAccept && OrientationAccept && SimLabelP)
+                            if (DistanceAccept && OrientationAccept && SimLabelP && alignAngle2)
                             {
                                 tVisitedEdge = EdgeList2[j];
                                 if (!PatternEdge.Contains(tVisitedEdge))
