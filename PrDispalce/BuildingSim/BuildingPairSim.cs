@@ -254,180 +254,29 @@ namespace PrDispalce.BuildingSim
         /// <returns></returns>
         public double FRCompute(PolygonObject pObject1, PolygonObject pObject2)
         {
-            #region 获取最小绑定矩形以及轴线
-            IPolygon SMBR1 = PC.GetSMBR(PC.ObjectConvert(pObject1));
-            IPointArray SMBRPoints1 = PC.GetPoints(SMBR1);
-            IPoint Point11 = SMBRPoints1.get_Element(1);
-            IPoint Point12 = SMBRPoints1.get_Element(2);
-            IPoint Point13 = SMBRPoints1.get_Element(3);
+            IPolygon Po1 = this.PolygonObjectConvert(pObject1);
+            IPolygon Po2 = this.PolygonObjectConvert(pObject2);
 
-            IPolygon SMBR2 = PC.GetSMBR(PC.ObjectConvert(pObject1));
-            IPointArray SMBRPoints2 = PC.GetPoints(SMBR2);
-            IPoint Point21 = SMBRPoints1.get_Element(1);
-            IPoint Point22 = SMBRPoints1.get_Element(2);
-            IPoint Point23 = SMBRPoints1.get_Element(3);
-            #endregion
+            return FRCompute(Po1, Po2);
+        }
 
-            List<Double> FRList = new List<double>();
-
-            #region 轴线1面积比
-            IPolyline Line11 = Pu.GetParaLine(Point11, Point11, Point12);//Polygon_1的轴线1 (轴线 Point11 Point12)
-
-            ILine Line_11_12=new LineClass();Line_11_12.FromPoint=Point11;Line_11_12.ToPoint=Point12;
-            ITopologicalOperator Line_11_12_Top=Line_11_12 as ITopologicalOperator;
-            IPoint tPoint_Line11_Point21 = CFL.ComChuizu(Line11.FromPoint, Line11.ToPoint, Point21);
-            IPoint tPoint_Line11_Point22 = CFL.ComChuizu(Line11.FromPoint, Line11.ToPoint, Point22);
-            IPoint tPoint_Line11_Point23 = CFL.ComChuizu(Line11.FromPoint, Line11.ToPoint, Point23);
-
-            ILine Line11_Point21_22=new LineClass();Line11_Point21_22.FromPoint=tPoint_Line11_Point21;Line11_Point21_22.ToPoint=tPoint_Line11_Point22;
-            ILine Line11_Point22_23=new LineClass();Line11_Point22_23.FromPoint=tPoint_Line11_Point22;Line11_Point22_23.ToPoint=tPoint_Line11_Point23;
-
-            IGeometry GeoLine11_Inter_21_22=Line_11_12_Top.Intersect(Line11_Point21_22 as IGeometry,esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine11_Inter_21_22.IsEmpty)
+        /// <summary>
+        /// 是否满足正对面积约束
+        /// </summary>
+        /// <param name="pObject1"></param>
+        /// <param name="pObject2"></param>
+        /// <param name="FRThr"></param>
+        /// <returns></returns>
+        public bool FRConstraint(PolygonObject pObject1, PolygonObject pObject2, double FRThr)
+        {
+            if (this.FRCompute(pObject1, pObject2) >= FRThr)
             {
-                IGeometry GeoLine11_Combin_21_22 = Line_11_12_Top.Union(Line11_Point21_22 as IGeometry);
-
-                ILine CacheInterLine = GeoLine11_Inter_21_22 as ILine;
-                ILine CacheCombinLine = GeoLine11_Combin_21_22 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-
-            IGeometry GeoLine11_Inter_22_23 = Line_11_12_Top.Intersect(Line11_Point22_23 as IGeometry, esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine11_Inter_22_23.IsEmpty)
-            {
-                IGeometry GeoLine11_Combin_22_23 = Line_11_12_Top.Union(Line11_Point22_23 as IGeometry);
-
-                ILine CacheInterLine = GeoLine11_Inter_22_23 as ILine;
-                ILine CacheCombinLine = GeoLine11_Combin_22_23 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-            #endregion
-
-            #region 轴线2面积比
-            IPolyline Line12 = Pu.GetParaLine(Point12, Point12, Point13);//Polygon_1的轴线2 （轴线 Point_12 Point_13）
-
-            ILine Line_12_13 = new LineClass(); Line_12_13.FromPoint = Point12; Line_12_13.ToPoint = Point13;
-            ITopologicalOperator Line_12_13_Top = Line_12_13 as ITopologicalOperator;
-            IPoint tPoint_Line12_Point21 = CFL.ComChuizu(Line12.FromPoint, Line12.ToPoint, Point21);
-            IPoint tPoint_Line12_Point22 = CFL.ComChuizu(Line12.FromPoint, Line12.ToPoint, Point22);
-            IPoint tPoint_Line12_Point23 = CFL.ComChuizu(Line12.FromPoint, Line12.ToPoint, Point23);
-
-            ILine Line12_Point21_22 = new LineClass(); Line12_Point21_22.FromPoint = tPoint_Line12_Point21; Line12_Point21_22.ToPoint = tPoint_Line12_Point22;
-            ILine Line12_Point22_23 = new LineClass(); Line12_Point22_23.FromPoint = tPoint_Line12_Point22; Line12_Point22_23.ToPoint = tPoint_Line12_Point23;
-
-            IGeometry GeoLine12_Inter_21_22 = Line_12_13_Top.Intersect(Line12_Point21_22 as IGeometry, esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine12_Inter_21_22.IsEmpty)
-            {
-                IGeometry GeoLine12_Combin_21_22 = Line_12_13_Top.Union(Line12_Point21_22 as IGeometry);
-
-                ILine CacheInterLine = GeoLine12_Inter_21_22 as ILine;
-                ILine CacheCombinLine = GeoLine12_Combin_21_22 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-
-            IGeometry GeoLine12_Inter_22_23 = Line_12_13_Top.Intersect(Line12_Point22_23 as IGeometry, esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine12_Inter_22_23.IsEmpty)
-            {
-                IGeometry GeoLine12_Combin_22_23 = Line_12_13_Top.Union(Line12_Point22_23 as IGeometry);
-
-                ILine CacheInterLine = GeoLine12_Inter_22_23 as ILine;
-                ILine CacheCombinLine = GeoLine12_Combin_22_23 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-            #endregion
-
-            #region 轴线3面积比
-            IPolyline Line21 = Pu.GetParaLine(Point21, Point21, Point22);//Polygon_2的轴线1
-
-            ILine Line_21_22 = new LineClass(); Line_21_22.FromPoint = Point21; Line_21_22.ToPoint = Point22;
-            ITopologicalOperator Line_21_22_Top = Line_21_22 as ITopologicalOperator;
-            IPoint tPoint_Line21_Point11 = CFL.ComChuizu(Line21.FromPoint, Line21.ToPoint, Point11);
-            IPoint tPoint_Line21_Point12 = CFL.ComChuizu(Line21.FromPoint, Line21.ToPoint, Point12);
-            IPoint tPoint_Line21_Point13 = CFL.ComChuizu(Line21.FromPoint, Line21.ToPoint, Point13);
-
-            ILine Line21_Point11_12 = new LineClass(); Line21_Point11_12.FromPoint = tPoint_Line21_Point11; Line21_Point11_12.ToPoint = tPoint_Line21_Point12;
-            ILine Line21_Point12_13 = new LineClass(); Line21_Point12_13.FromPoint = tPoint_Line21_Point12; Line21_Point12_13.ToPoint = tPoint_Line21_Point13;
-
-            IGeometry GeoLine21_Inter_11_12 = Line_21_22_Top.Intersect(Line21_Point11_12 as IGeometry, esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine21_Inter_11_12.IsEmpty)
-            {
-                IGeometry GeoLine21_Combin_11_12 = Line_21_22_Top.Union(Line21_Point11_12 as IGeometry);
-
-                ILine CacheInterLine = GeoLine21_Inter_11_12 as ILine;
-                ILine CacheCombinLine = GeoLine21_Combin_11_12 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-
-            IGeometry GeoLine21_Inter_12_13 = Line_21_22_Top.Intersect(Line21_Point12_13 as IGeometry, esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine21_Inter_12_13.IsEmpty)
-            {
-                IGeometry GeoLine21_Combin_12_13 = Line_21_22_Top.Union(Line21_Point12_13 as IGeometry);
-
-                ILine CacheInterLine = GeoLine21_Inter_12_13 as ILine;
-                ILine CacheCombinLine = GeoLine21_Combin_12_13 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-            #endregion
-
-            #region 轴线4面积比
-            IPolyline Line22 = Pu.GetParaLine(Point21, Point21, Point23);//Polygon_2的轴线2
-
-            ILine Line_22_23 = new LineClass(); Line_22_23.FromPoint = Point22; Line_22_23.ToPoint = Point23;
-            ITopologicalOperator Line_22_23_Top = Line_22_23 as ITopologicalOperator;
-            IPoint tPoint_Line22_Point11 = CFL.ComChuizu(Line22.FromPoint, Line22.ToPoint, Point11);
-            IPoint tPoint_Line22_Point12 = CFL.ComChuizu(Line22.FromPoint, Line22.ToPoint, Point12);
-            IPoint tPoint_Line22_Point13 = CFL.ComChuizu(Line22.FromPoint, Line22.ToPoint, Point13);
-
-            ILine Line22_Point11_12 = new LineClass(); Line22_Point11_12.FromPoint = tPoint_Line22_Point11; Line22_Point11_12.ToPoint = tPoint_Line22_Point12;
-            ILine Line22_Point12_13 = new LineClass(); Line22_Point12_13.FromPoint = tPoint_Line22_Point12; Line22_Point12_13.ToPoint = tPoint_Line22_Point13;
-
-            IGeometry GeoLine22_Inter_11_12 = Line_22_23_Top.Intersect(Line22_Point11_12 as IGeometry, esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine22_Inter_11_12.IsEmpty)
-            {
-                IGeometry GeoLine22_Combin_11_12 = Line_22_23_Top.Union(Line22_Point11_12 as IGeometry);
-
-                ILine CacheInterLine = GeoLine22_Inter_11_12 as ILine;
-                ILine CacheCombinLine = GeoLine22_Combin_11_12 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-
-            IGeometry GeoLine22_Inter_12_13 = Line_22_23_Top.Intersect(Line22_Point12_13 as IGeometry, esriGeometryDimension.esriGeometry1Dimension);
-            if (!GeoLine22_Inter_12_13.IsEmpty)
-            {
-                IGeometry GeoLine22_Combin_12_13 = Line_22_23_Top.Union(Line22_Point12_13 as IGeometry);
-
-                ILine CacheInterLine = GeoLine22_Inter_12_13 as ILine;
-                ILine CacheCombinLine = GeoLine22_Combin_12_13 as ILine;
-
-                double CacheFR = CacheInterLine.Length / CacheCombinLine.Length;
-                FRList.Add(CacheFR);
-            }
-            #endregion
-
-            #region 输出结果
-            if (FRList.Count > 0)
-            {
-                return FRList.Max();
+                return true;
             }
             else
             {
-                return 0;
+                return false;
             }
-            #endregion
         }
 
         /// <summary>
@@ -1675,6 +1524,75 @@ namespace PrDispalce.BuildingSim
             }
 
             return MDSim;
+        }
+
+        /// <summary>
+        /// 将建筑物转化为IPolygon
+        /// </summary>
+        /// <param name="pPolygonObject"></param>
+        /// <returns></returns>
+        IPolygon PolygonObjectConvert(PolygonObject pPolygonObject)
+        {
+            Ring ring1 = new RingClass();
+            object missing = Type.Missing;
+
+            IPoint curResultPoint = new PointClass();
+            TriNode curPoint = null;
+            if (pPolygonObject != null)
+            {
+                for (int i = 0; i < pPolygonObject.PointList.Count; i++)
+                {
+                    curPoint = pPolygonObject.PointList[i];
+                    curResultPoint.PutCoords(curPoint.X, curPoint.Y);
+                    ring1.AddPoint(curResultPoint, ref missing, ref missing);
+                }
+            }
+
+            curPoint = pPolygonObject.PointList[0];
+            curResultPoint.PutCoords(curPoint.X, curPoint.Y);
+            ring1.AddPoint(curResultPoint, ref missing, ref missing);
+
+            IGeometryCollection pointPolygon = new PolygonClass();
+            pointPolygon.AddGeometry(ring1 as IGeometry, ref missing, ref missing);
+            IPolygon pPolygon = pointPolygon as IPolygon;
+
+            //PrDispalce.工具类.Symbolization Sb = new 工具类.Symbolization();
+            //object PolygonSymbol = Sb.PolygonSymbolization(1, 100, 100, 100, 0, 0, 20, 20);
+
+            //pMapControl.DrawShape(pPolygon, ref PolygonSymbol);
+            //pMapControl.Map.RecalcFullExtent();
+
+            pPolygon.SimplifyPreserveFromTo();
+            return pPolygon;
+        }
+
+        /// <summary>
+        /// polygon转换成polygonobject
+        /// </summary>
+        /// <param name="pPolygon"></param>
+        /// <returns></returns>
+        public PolygonObject PolygonConvert(IPolygon pPolygon)
+        {
+            int ppID = 0;//（polygonobject自己的编号，应该无用）
+            List<TriNode> trilist = new List<TriNode>();
+            //Polygon的点集
+            IPointCollection pointSet = pPolygon as IPointCollection;
+            int count = pointSet.PointCount;
+            double curX;
+            double curY;
+            //ArcGIS中，多边形的首尾点重复存储
+            for (int i = 0; i < count - 1; i++)
+            {
+                curX = pointSet.get_Point(i).X;
+                curY = pointSet.get_Point(i).Y;
+                //初始化每个点对象
+                TriNode tPoint = new TriNode(curX, curY, ppID, 1);
+                trilist.Add(tPoint);
+            }
+            //生成自己写的多边形
+            PolygonObject mPolygonObject = new PolygonObject(ppID, trilist);
+
+            return mPolygonObject;
         }
     }
 }

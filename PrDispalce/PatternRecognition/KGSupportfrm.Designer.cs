@@ -45,26 +45,23 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -154,11 +151,11 @@
             this.groupBox1.Controls.Add(this.checkBox3);
             this.groupBox1.Controls.Add(this.checkBox2);
             this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Location = new System.Drawing.Point(11, 132);
+            this.groupBox1.Location = new System.Drawing.Point(9, 235);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(220, 111);
+            this.groupBox1.Size = new System.Drawing.Size(223, 111);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Similarity";
@@ -193,6 +190,8 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox3.Location = new System.Drawing.Point(5, 80);
             this.checkBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox3.Name = "checkBox3";
@@ -204,6 +203,8 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Location = new System.Drawing.Point(6, 52);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox2.Name = "checkBox2";
@@ -215,6 +216,8 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(6, 23);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox1.Name = "checkBox1";
@@ -225,40 +228,20 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.textBox7);
-            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.textBox6);
             this.groupBox3.Controls.Add(this.textBox5);
             this.groupBox3.Controls.Add(this.textBox4);
             this.groupBox3.Controls.Add(this.checkBox6);
             this.groupBox3.Controls.Add(this.checkBox5);
             this.groupBox3.Controls.Add(this.checkBox4);
-            this.groupBox3.Location = new System.Drawing.Point(253, 132);
+            this.groupBox3.Location = new System.Drawing.Point(14, 350);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(311, 111);
+            this.groupBox3.Size = new System.Drawing.Size(218, 116);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Straight LinearArrange";
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(212, 56);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(89, 25);
-            this.textBox7.TabIndex = 7;
-            this.textBox7.Text = "0";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(152, 58);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 15);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "MinDis";
             // 
             // textBox6
             // 
@@ -285,11 +268,13 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(89, 25);
             this.textBox4.TabIndex = 3;
-            this.textBox4.Text = "165";
+            this.textBox4.Text = "15";
             // 
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
+            this.checkBox6.Checked = true;
+            this.checkBox6.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox6.Location = new System.Drawing.Point(5, 81);
             this.checkBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox6.Name = "checkBox6";
@@ -301,6 +286,8 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
+            this.checkBox5.Checked = true;
+            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox5.Location = new System.Drawing.Point(5, 52);
             this.checkBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox5.Name = "checkBox5";
@@ -312,6 +299,8 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = true;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox4.Location = new System.Drawing.Point(5, 27);
             this.checkBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox4.Name = "checkBox4";
@@ -319,6 +308,24 @@
             this.checkBox4.TabIndex = 0;
             this.checkBox4.Text = "DO";
             this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(128, 155);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(89, 25);
+            this.textBox7.TabIndex = 7;
+            this.textBox7.Text = "0";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(125, 138);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 15);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "MinDis";
             // 
             // checkedListBox1
             // 
@@ -329,7 +336,7 @@
             "RNG",
             "MST",
             "NNG"});
-            this.checkedListBox1.Location = new System.Drawing.Point(306, 22);
+            this.checkedListBox1.Location = new System.Drawing.Point(12, 138);
             this.checkedListBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(111, 84);
@@ -339,7 +346,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(306, 5);
+            this.label4.Location = new System.Drawing.Point(12, 121);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 15);
             this.label4.TabIndex = 12;
@@ -347,37 +354,18 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox11);
-            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.textBox10);
             this.groupBox2.Controls.Add(this.textBox9);
             this.groupBox2.Controls.Add(this.textBox8);
             this.groupBox2.Controls.Add(this.checkBox9);
             this.groupBox2.Controls.Add(this.checkBox8);
             this.groupBox2.Controls.Add(this.checkBox7);
-            this.groupBox2.Location = new System.Drawing.Point(17, 262);
+            this.groupBox2.Location = new System.Drawing.Point(12, 471);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(209, 147);
+            this.groupBox2.Size = new System.Drawing.Size(223, 117);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CurLinearArranged";
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(90, 113);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(100, 25);
-            this.textBox11.TabIndex = 7;
-            this.textBox11.Text = "0";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 116);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 15);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "MinDis";
             // 
             // textBox10
             // 
@@ -433,22 +421,14 @@
             this.checkBox7.Text = "DO";
             this.checkBox7.UseVisualStyleBackColor = true;
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Location = new System.Drawing.Point(253, 262);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(311, 124);
-            this.groupBox4.TabIndex = 14;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Road-AlignedArranged";
-            // 
             // KGSupportfrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 421);
-            this.Controls.Add(this.groupBox4);
+            this.ClientSize = new System.Drawing.Size(298, 463);
+            this.Controls.Add(this.textBox7);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.checkedListBox1);
@@ -505,14 +485,11 @@
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.Label label6;
     }
 }

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.IO;
 
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Controls;
@@ -117,6 +117,8 @@ namespace PrDispalce.PatternRecognition
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            BuildingSim.BuildingPairSim BPS = new BuildingSim.BuildingPairSim();
+
             #region 获取图层
             List<IFeatureLayer> list = new List<IFeatureLayer>();
             if (this.comboBox2.Text != null)
@@ -165,7 +167,8 @@ namespace PrDispalce.PatternRecognition
             ProxiGraph pg = new ProxiGraph();
             pg.CreateProxiGraphfrmSkeletonBuildings(map, ske);
             pg.DeleteRepeatedEdge(pg.EdgeList);
-            
+            pg.CreatePgForBuildings(pg.NodeList, pg.EdgeList);//构建建筑物间的邻近关系
+          
             if (this.checkedListBox1.SelectedItem.ToString() == "DT")
             {
                 pg.CreatePgForBuildings(pg.NodeList, pg.EdgeList);
@@ -183,7 +186,7 @@ namespace PrDispalce.PatternRecognition
                 pg.CreateNNGForBuildingShortestDistance();
             }
             #endregion
-            
+
             #region 邻近相似关系计算
             double SizeConstraint = 100000000000; double ShapeConstraint = 100000000000; double OriConstraint = 90;
             if (this.checkBox1.Checked)
@@ -196,7 +199,7 @@ namespace PrDispalce.PatternRecognition
             }
             if (this.checkBox3.Checked)
             {
-                ShapeConstraint=double.Parse(this.textBox3.Text.ToString());
+                ShapeConstraint = double.Parse(this.textBox3.Text.ToString());
             }
 
             for (int i = 0; i < pg.KGEdgesList.Count; i++)
@@ -213,8 +216,9 @@ namespace PrDispalce.PatternRecognition
             #endregion
 
             #region SLinearArrange关系计算
-            double DistanceConstraint = 100000000000; double MinDis = 0; double AngleConstraint = 180;
-            List<Tuple<ProxiEdge,ProxiEdge>> TripleList = new List<Tuple<ProxiEdge, ProxiEdge>>();
+            #region 获取线性关系
+            double DistanceConstraint = 100000000000; double MinDis = 0; double AngleConstraint = 180; double FRConstraint = 0;
+            List<Tuple<ProxiEdge, ProxiEdge>> TripleList = new List<Tuple<ProxiEdge, ProxiEdge>>();
             if (this.checkBox4.Checked)
             {
                 AngleConstraint = double.Parse(this.textBox4.Text.ToString());
@@ -224,26 +228,46 @@ namespace PrDispalce.PatternRecognition
                 DistanceConstraint = double.Parse(this.textBox5.Text.ToString());
                 MinDis = double.Parse(this.textBox7.Text.ToString());
             }
+            if (this.checkBox6.Checked)
+            {
+                FRConstraint = double.Parse(this.textBox6.Text.ToString());
+            }
+
             for (int i = 0; i < pg.KGEdgesList.Count; i++)
             {
                 ProxiEdge VisitedEdge = pg.KGEdgesList[i];//当前被访问的边
                 ProxiNode VisitedNode1 = VisitedEdge.Node1; ProxiNode VisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
 
-                List<ProxiEdge> EdgeList1 = pg.ReturnEdgeList(pg.KGEdgesList, VisitedNode1);//Node1关联的边
-                List<ProxiEdge> EdgeList2 = pg.ReturnEdgeList(pg.KGEdgesList, VisitedNode2);//Node2关联的边
-                List<ProxiEdge> MixedEgdeList = EdgeList1.Union(EdgeList2).ToList();
+                PolygonObject Po1 = map.GetObjectbyID(VisitedNode1.TagID, FeatureType.PolygonType) as PolygonObject;
+                PolygonObject Po2 = map.GetObjectbyID(VisitedNode2.TagID, FeatureType.PolygonType) as PolygonObject;
+                bool FRLabel = BPS.FRConstraint(Po1, Po2, FRConstraint);
 
-                for (int j = 0; j < MixedEgdeList.Count; j++)
+                if (FRLabel)
                 {
-                    if (!MixedEgdeList[j].KGVisit)
-                    {
-                        bool DistanceAccept = pg.DistanceConstrain(VisitedEdge, MixedEgdeList[j], DistanceConstraint, MinDis);
-                        bool OrientationAccept = pg.OrientationConstrain(VisitedEdge, MixedEgdeList[j], AngleConstraint);
+                    List<ProxiEdge> EdgeList1 = pg.ReturnEdgeList(pg.KGEdgesList, VisitedNode1);//Node1关联的边
+                    EdgeList1.Remove(VisitedEdge);
+                    List<ProxiEdge> EdgeList2 = pg.ReturnEdgeList(pg.KGEdgesList, VisitedNode2);//Node2关联的边
+                    EdgeList2.Remove(VisitedEdge);
+                    List<ProxiEdge> MixedEgdeList = EdgeList1.Union(EdgeList2).ToList();
 
-                        if (DistanceAccept && OrientationAccept)
+                    for (int j = 0; j < MixedEgdeList.Count; j++)
+                    {
+                        if (!MixedEgdeList[j].KGVisit && MixedEgdeList[j] != VisitedEdge)
                         {
-                            Tuple<ProxiEdge,ProxiEdge> Triple=new Tuple<ProxiEdge,ProxiEdge>(VisitedEdge,MixedEgdeList[j]);
-                            TripleList.Add(Triple);
+                            bool DistanceAccept = pg.DistanceConstrain(VisitedEdge, MixedEgdeList[j], DistanceConstraint, MinDis);
+                            bool OrientationAccept = pg.OrientationConstrain(VisitedEdge, MixedEgdeList[j], AngleConstraint);
+
+                            if (DistanceAccept && OrientationAccept)
+                            {
+                                PolygonObject CachePo1 = map.GetObjectbyID(MixedEgdeList[j].Node1.TagID, FeatureType.PolygonType) as PolygonObject;
+                                PolygonObject CachePo2 = map.GetObjectbyID(MixedEgdeList[j].Node1.TagID, FeatureType.PolygonType) as PolygonObject;
+                                bool CacheFRLabel = BPS.FRConstraint(CachePo1, CachePo2, FRConstraint);
+                                if (CacheFRLabel)
+                                {
+                                    Tuple<ProxiEdge, ProxiEdge> Triple = new Tuple<ProxiEdge, ProxiEdge>(VisitedEdge, MixedEgdeList[j]);
+                                    TripleList.Add(Triple);
+                                }
+                            }
                         }
                     }
                 }
@@ -252,11 +276,216 @@ namespace PrDispalce.PatternRecognition
             }
             #endregion
 
-            #region CurLinearArrange关系计算
+            #region 删除重复的集合
+            //bool Stop=false;
+            //do
+            //{
+            //    Stop=false;
+            //    foreach (Tuple<ProxiEdge, ProxiEdge> TriplePattern in TripleList)
+            //    {
+            //        #region IDList
+            //        List<int> TagIDList = new List<int>();
+            //        if (!TagIDList.Contains(TriplePattern.Item1.Node1.TagID))
+            //        {
+            //            TagIDList.Add(TriplePattern.Item1.Node1.TagID);
+            //        }
+            //        if (!TagIDList.Contains(TriplePattern.Item1.Node2.TagID))
+            //        {
+            //            TagIDList.Add(TriplePattern.Item1.Node2.TagID);
+            //        }
+            //        if (!TagIDList.Contains(TriplePattern.Item2.Node1.TagID))
+            //        {
+            //            TagIDList.Add(TriplePattern.Item2.Node1.TagID);
 
+            //        }
+            //        if (!TagIDList.Contains(TriplePattern.Item2.Node2.TagID))
+            //        {
+            //            TagIDList.Add(TriplePattern.Item2.Node2.TagID);
+            //        }
+            //        TagIDList.Sort();
+            //        #endregion
+
+            //        foreach (Tuple<ProxiEdge, ProxiEdge> CacheTriplePattern in TripleList)
+            //        {
+            //            if (CacheTriplePattern != TriplePattern)
+            //            {
+            //                if ((CacheTriplePattern.Item1 == TriplePattern.Item1 && CacheTriplePattern.Item2 == TriplePattern.Item2) ||
+            //                    (CacheTriplePattern.Item1 == TriplePattern.Item2 && CacheTriplePattern.Item2 == TriplePattern.Item1))
+            //                {
+            //                    TripleList.Remove(TriplePattern);
+            //                    Stop = true;
+            //                    break;
+            //                }
+
+            //                #region IDList
+            //                List<int> CacheTagIDList = new List<int>();
+            //                if (!CacheTagIDList.Contains(CacheTriplePattern.Item1.Node1.TagID))
+            //                {
+            //                    CacheTagIDList.Add(CacheTriplePattern.Item1.Node1.TagID);
+            //                }
+            //                if (!CacheTagIDList.Contains(CacheTriplePattern.Item1.Node2.TagID))
+            //                {
+            //                    CacheTagIDList.Add(CacheTriplePattern.Item1.Node2.TagID);
+            //                }
+            //                if (!CacheTagIDList.Contains(CacheTriplePattern.Item2.Node1.TagID))
+            //                {
+            //                    CacheTagIDList.Add(CacheTriplePattern.Item2.Node1.TagID);
+
+            //                }
+            //                if (!CacheTagIDList.Contains(CacheTriplePattern.Item2.Node2.TagID))
+            //                {
+            //                    CacheTagIDList.Add(CacheTriplePattern.Item2.Node2.TagID);
+            //                }
+            //                CacheTagIDList.Sort();
+            //                #endregion
+
+            //                if (TagIDList[0] == CacheTagIDList[0] && TagIDList[1] == CacheTagIDList[1] && TagIDList[2] == CacheTagIDList[2])
+            //                {
+            //                    TripleList.Remove(TriplePattern);
+            //                    Stop = true;
+            //                    break;
+            //                }
+
+            //            }
+            //        }
+
+            //        if (Stop)
+            //        {
+            //            break;
+            //        }
+            //    }
+            //} while (Stop);
+            #endregion
+
+            #region 获取每一个建筑物所处的三元组列表
+            for (int i = 0; i < TripleList.Count; i++)
+            {
+                Tuple<ProxiEdge, ProxiEdge> TriplePattern = TripleList[i];
+
+                ProxiEdge VisitedEdge_1 = TriplePattern.Item1;
+                ProxiEdge VisitedEdge_2 = TriplePattern.Item2;
+
+                ProxiNode VisitedNode11 = VisitedEdge_1.Node1; ProxiNode VisitedNode12 = VisitedEdge_1.Node2;//当前被访问的节点
+                ProxiNode VisitedNode21 = VisitedEdge_2.Node1; ProxiNode VisitedNode22 = VisitedEdge_2.Node2;//当前被访问的节点
+
+                PolygonObject Po11 = map.GetObjectbyID(VisitedNode11.TagID, FeatureType.PolygonType) as PolygonObject;
+                if (!Po11.PatternIDList.Contains(i))
+                {
+                    Po11.PatternIDList.Add(i);
+                }
+                PolygonObject Po12 = map.GetObjectbyID(VisitedNode12.TagID, FeatureType.PolygonType) as PolygonObject;
+                if (!Po12.PatternIDList.Contains(i))
+                {
+                    Po12.PatternIDList.Add(i);
+                }
+                PolygonObject Po21 = map.GetObjectbyID(VisitedNode21.TagID, FeatureType.PolygonType) as PolygonObject;
+                if (!Po21.PatternIDList.Contains(i))
+                {
+                    Po21.PatternIDList.Add(i);
+                }
+                PolygonObject Po22 = map.GetObjectbyID(VisitedNode22.TagID, FeatureType.PolygonType) as PolygonObject;
+                if (!Po22.PatternIDList.Contains(i))
+                {
+                    Po22.PatternIDList.Add(i);
+                }
+            }
+
+            foreach (PolygonObject Po in map.PolygonList)
+            {
+                Po.PatternIDList.Sort();//降序排列
+            }
+            #endregion
             #endregion
 
             #region 结果输出
+            #region 实体输出（包括该关系的ID和PIDList）
+            System.IO.FileStream SimTXT = new System.IO.FileStream(OutPath + @"\BuildingOutPut.txt", System.IO.FileMode.OpenOrCreate);
+            StreamWriter sw = new StreamWriter(SimTXT);
+
+            for (int i = 0; i < map.PolygonList.Count; i++)
+            {
+                sw.Write(map.PolygonList[i].ID);
+                sw.Write(",");
+
+                if (map.PolygonList[i].PatternIDList.Count == 0)
+                {
+                    sw.Write("null");
+                }
+                else
+                {
+                    for (int j = 0; j < map.PolygonList[i].PatternIDList.Count; j++)
+                    {
+                        sw.Write(map.PolygonList[i].PatternIDList[j]);
+                        if (j < map.PolygonList[i].PatternIDList.Count - 1)
+                        {
+                            sw.Write(";");
+                        }
+                    }
+                }
+
+                sw.Write("\r\n");
+            }
+
+            sw.Close();
+            SimTXT.Close();
+            #endregion
+
+            #region 邻近关系输出（该邻近关系存在属性角度！）
+            System.IO.FileStream SimTXT_Proxi = new System.IO.FileStream(OutPath + @"\ProxiOutPut.txt", System.IO.FileMode.OpenOrCreate);
+            StreamWriter sw_Proxi = new StreamWriter(SimTXT_Proxi);
+
+            for (int i = 0; i < pg.KGEdgesList.Count; i++)
+            {
+                ProxiEdge VisitedEdge = pg.KGEdgesList[i];//探测的初始边
+                ProxiNode VisitedNode1 = VisitedEdge.Node1; ProxiNode VisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
+
+                sw_Proxi.Write(VisitedNode1.TagID); sw_Proxi.Write(",");
+                sw_Proxi.Write("HAS_Proxi"); sw_Proxi.Write(",");
+                sw_Proxi.Write(VisitedNode2.TagID); sw_Proxi.Write(",");
+                ILine pline1 = new LineClass();
+                IPoint Point11 = new PointClass(); IPoint Point12 = new PointClass();
+
+                #region 边角度计算
+                Point11.X = VisitedNode1.X; Point11.Y = VisitedNode1.Y;
+                Point12.X = VisitedNode2.X; Point12.Y = VisitedNode2.Y;
+                pline1.FromPoint = Point11; pline1.ToPoint = Point12;
+                double angle1 = pline1.Angle;
+                double dAngle1Degree = (180 * angle1) / Math.PI;
+
+                if (dAngle1Degree < 0)
+                {
+                    dAngle1Degree = dAngle1Degree + 180;
+                }
+
+                sw_Proxi.Write(dAngle1Degree); sw_Proxi.Write("\r\n");
+                #endregion              
+            }
+
+            sw_Proxi.Close();
+            SimTXT_Proxi.Close();
+
+            #endregion
+
+            #region 相似关系输出
+            System.IO.FileStream SimTXT_Sim = new System.IO.FileStream(OutPath + @"\SimOutPut.txt", System.IO.FileMode.OpenOrCreate);
+            StreamWriter sw_Sim = new StreamWriter(SimTXT_Sim);
+
+            for (int i = 0; i < pg.KGEdgesList.Count; i++)
+            {
+                ProxiEdge VisitedEdge = pg.KGEdgesList[i];//探测的初始边
+                ProxiNode VisitedNode1 = VisitedEdge.Node1; ProxiNode VisitedNode2 = VisitedEdge.Node2;//当前被访问的节点
+
+                if (pg.KGEdgesList[i].SimR)
+                {
+                    sw_Sim.Write(VisitedNode1.TagID); sw_Sim.Write(",");
+                    sw_Sim.Write("HAS_Sim"); sw_Sim.Write(",");
+                    sw_Sim.Write(VisitedNode2.TagID); sw_Sim.Write("\r\n");
+                }
+            }
+
+            sw_Sim.Close();
+            SimTXT_Sim.Close();
+            #endregion
             #endregion
         }
 
